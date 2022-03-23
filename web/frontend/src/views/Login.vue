@@ -2,14 +2,17 @@
     <div id="login">
         <h1>Login</h1>
         <div class="form-inputs">
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" v-model="input.username" placeholder="Username" />
+            <n-input v-model:value="value" type="text" placeholder="Email" />
         </div>
         <div class="form-inputs">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" v-model="input.password" placeholder="Password" />
+            <n-input
+                type="password"
+                show-password-on="mousedown"
+                placeholder="Password"
+                :maxlength="64"
+            />
         </div>
-        <button type="button" v-on:click="login()">Login</button>
+        <n-button type="info" v-on:click="login()">Login</n-button>
     </div>
 </template>
 
