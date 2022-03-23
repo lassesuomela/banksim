@@ -6,12 +6,18 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta:{
+      title: "Home"
+    }
   },
   {
     path: '/about',
     name: 'about',
-    component: AboutView
+    component: AboutView,
+    meta:{
+      title: "About"
+    }
   }
 ]
 
@@ -19,5 +25,10 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to,from,next)=>{
+  document.title = `${to.meta.title}`;
+  next();
+});
 
 export default router
