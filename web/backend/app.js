@@ -14,7 +14,7 @@ const conn = mysql.createConnection({
 })
 
 const vue = express.static("../frontend/dist");
-var indexRouter = require('./routes/index');
+var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -28,15 +28,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(vue);
+//app.use(vue);
+
+app.use('/api', apiRouter);
+app.use('/users', usersRouter);
+
 app.use(history({
   index: "index.html"
 }));
-
 app.use(vue);
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
