@@ -3,8 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var history = require('connect-history-api-fallback');
+const mysql = require("mysql");
+require("dotenv").config();
+const conn = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_DB
+})
 
-var indexRouter = require('./routes/index');
+const vue = express.static("../frontend/dist");
+var apiRouter = require('./routes/api');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -18,10 +28,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//app.use(vue);
 
-app.use('/', indexRouter);
+app.use('/api', apiRouter);
 app.use('/users', usersRouter);
 
+app.use(history({
+  index: "index.html"
+}));
+app.use(vue);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
