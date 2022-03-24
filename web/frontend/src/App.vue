@@ -1,37 +1,12 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-      <router-link v-if="authenticated" to="/secure">Secure</router-link>
-      <router-link v-if="authenticated" to="/login" v-on:click.enter="logout()" replace>Logout</router-link>
-      <router-link v-else to="/login">Login</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </nav>
+    <router-view/>
+  </div>
 </template>
-
-<script>
-    export default {
-        name: 'App',
-        data() {
-            return {
-                authenticated: false,
-                // this is only for testing purposes no actual app will have this
-                // an api call will validate user credentials
-                mockAccount: {
-                    username: "testi",
-                    password: "ss",
-                }
-            }
-        },
-        methods: {
-            setAuthenticated(status) {
-                this.authenticated = status;
-            },
-            logout() {
-                this.authenticated = false;
-            }
-        }
-    }
-</script>
 
 <style>
 #app {
@@ -39,7 +14,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #303941;
+  color: #2c3e50;
 }
 
 nav {
@@ -48,10 +23,10 @@ nav {
 
 nav a {
   font-weight: bold;
-  color: #000000;
+  color: #2c3e50;
 }
 
 nav a.router-link-exact-active {
-  color: #049aff;
+  color: #42b983;
 }
 </style>
