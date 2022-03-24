@@ -31,7 +31,7 @@
                             color="blue accent-3"
                           />
                         </v-form>
-                        <h3 class="text-center mt-4">Forgot your password ?</h3>
+                        <h3 class="text-center mt-4">Forgot your password?</h3>
                       </v-card-text>
                       <div class="text-center mt-3">
                         <v-btn rounded color="blue accent-3" dark>login</v-btn>
