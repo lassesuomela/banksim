@@ -30,6 +30,11 @@ PinCodeUI::~PinCodeUI()
     delete ui;
 }
 
+QString PinCodeUI::getPinCode()
+{
+    return pinCode;
+}
+
 void PinCodeUI::setPinCodeText(QString text)
 {
     // set pinCodeTextBox text to QString
@@ -40,7 +45,8 @@ void PinCodeUI::clearPin()
 {
     // clear pinCode and clear pinCodeTextBox
     pinCode = QString("");
-    setPinCodeText(pinCode);
+    censoredPinCode = "";
+    setPinCodeText(censoredPinCode);
 }
 
 void PinCodeUI::handleClick()
@@ -62,7 +68,17 @@ void PinCodeUI::handleClick()
         if(btn->objectName() == btnName){
             qDebug() << "Pushed" << btn->text() << "button";
             pinCode += btn->text();
-            setPinCodeText(pinCode);
+
+            // clear censored pincode
+            censoredPinCode = "";
+
+            // append '*' to censored pincode based on pinCodes length
+            for (int i = 0; i < pinCode.length(); i++){
+                censoredPinCode += "*";
+            }
+
+            // update text box
+            setPinCodeText(censoredPinCode);
         }
     }
 }
@@ -82,5 +98,8 @@ void PinCodeUI::on_btn_ok_clicked()
     }
 
     qDebug() << "Pin code:" << pinCode;
+
+    qDebug() << "Emitting signal to Pin code DLL";
+    emit sendPinCode(pinCode);
 }
 

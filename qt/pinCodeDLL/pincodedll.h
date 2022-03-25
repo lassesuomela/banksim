@@ -14,6 +14,10 @@ public:
     ~PinCodeDLL();
 private:
     PinCodeUI * pinCodeUI;
+signals:
+    void pinToExe(QString);
+public slots:
+    void getPinFromDLL(QString);
 };
 
 #endif // PINCODEDLL_H
