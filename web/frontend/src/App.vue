@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+    <v-app>
     <v-app-bar
       app
       color="primary"
@@ -44,12 +44,21 @@
 </template>
 
 <script>
-
-export default {
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
-};
+    
 </script>
+
+<style>
+    body {
+        background-color: #ffffff;
+        
+    }
+    h1 {
+        padding: 0;
+        margin-top: 0;
+    }
+    #app {
+        width: 1024px;
+        margin: auto;
+
+    }
+</style>
