@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QDialog>
 #include <QDebug>
+#include <QTimer>
 
 namespace Ui {
 class PinCodeUI;
@@ -24,12 +25,21 @@ private:
     QString censoredPinCode;
 
     void setPinCodeText(QString);
+    void clearPin();
+
+    void setInfoText(QString);
+    int tries = 3;
 
 private slots:
-    void clearPin();
+
     void handleClick();
+
     void on_btn_clear_clicked();
     void on_btn_ok_clicked();
+
+public slots:
+    void decTries();
+
 signals:
     void sendPinCode(QString);
 };

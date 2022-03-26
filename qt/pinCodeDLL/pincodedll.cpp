@@ -8,6 +8,7 @@ PinCodeDLL::PinCodeDLL(QWidget * parent) : QWidget (parent)
     qDebug() << "PinCodeDLL called pinCodeUI->show()";
 
     connect(pinCodeUI, SIGNAL(sendPinCode(QString)), this, SLOT(getPinFromDLL(QString)));
+    connect(this, SIGNAL(triesToDLL()), pinCodeUI, SLOT(decTries()));
 
 }
 

@@ -49,6 +49,11 @@ void PinCodeUI::clearPin()
     setPinCodeText(censoredPinCode);
 }
 
+void PinCodeUI::setInfoText(QString txt)
+{
+    ui->infoTextBox->setText(txt);
+}
+
 void PinCodeUI::handleClick()
 {
 
@@ -97,9 +102,24 @@ void PinCodeUI::on_btn_ok_clicked()
         return;
     }
 
+    qDebug() << "Tries" << tries;
+
+    if (tries <= 0){
+        ui->infoTextBox->setText("Ei yrityksiä jäljellä");
+
+        return;
+    }
+
     qDebug() << "Pin code:" << pinCode;
 
     qDebug() << "Emitting signal to Pin code DLL";
+
     emit sendPinCode(pinCode);
+}
+
+void PinCodeUI::decTries()
+{
+    tries--;
+    ui->infoTextBox->setText(QString::number(tries) + " yritystä jäljellä");
 }
 

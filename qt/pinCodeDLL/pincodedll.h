@@ -16,6 +16,8 @@ private:
     PinCodeUI * pinCodeUI;
 signals:
     void pinToExe(QString);
+    void triesToDLL();
+
 public slots:
     void getPinFromDLL(QString);
 };
