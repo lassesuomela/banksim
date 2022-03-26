@@ -43,7 +43,7 @@
                         >Enter your personal details</h5>
                       </v-card-text>
                       <div class="text-center">
-                        <v-btn rounded outlined dark @click="step++">REGISTER</v-btn>
+                        <v-btn to="/register" rounded outlined dark @click="step++">REGISTER</v-btn>
                       </div>
                     </v-col>
                   </v-row>

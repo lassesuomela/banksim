@@ -14,7 +14,7 @@
                         >Please login with your personnel info</h5>
                       </v-card-text>
                       <div class="text-center">
-                        <v-btn rounded outlined dark @click="step--">LOGIN</v-btn>
+                        <v-btn to="/login" rounded outlined dark @click="step--">LOGIN</v-btn>
                       </div>
                     </v-col>
 
