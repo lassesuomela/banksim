@@ -1,44 +1,30 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginComponent from "../views/login.vue"
-import SecureComponent from "../views/secure.vue"
-import AboutComponent from "../views/About.vue"
+import HomeComponent from "../views/home.vue"
 import RegisterComponent from "../views/register.vue"
 
 Vue.use(VueRouter)
 
-
-router.beforeEach((to, from, next) => {
-  document.title = `${to.name}`;
-  next();
-});
-
 const routes = [
     {
         path: '/',
-        redirect: {
-            name: "login"
-        }
+        redirect: "login"
     },
     {
         path: "/login",
-        name: "login",
+        name: "Login",
         component: LoginComponent
         
     },
     {
-        path: "/secure",
-        name: "secure",
-        component: SecureComponent
-    },
-    {
-        path: "/about",
-        name: "about",
-        component: AboutComponent
+        path: "/home",
+        name: "Home",
+        component: HomeComponent
     },
     {
         path: "/register",
-        name: "register",
+        name: "Register",
         component: RegisterComponent
     }
   ]
