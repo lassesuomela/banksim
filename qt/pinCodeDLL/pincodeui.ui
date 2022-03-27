@@ -6,12 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
-    <height>376</height>
+    <width>340</width>
+    <height>273</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>Pin koodi boxi</string>
+   <string>Pankkiautomaatti</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -35,16 +40,28 @@
           <bool>true</bool>
          </property>
          <property name="placeholderText">
-          <string>Anna pin koodi</string>
+          <string>Anna PIN-koodi</string>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
+      <widget class="QLabel" name="infoTextBox">
+       <property name="font">
+        <font>
+         <pointsize>10</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>X yritystä jäljellä</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="btn_1">
+       <item row="1" column="2">
+        <widget class="QPushButton" name="btn_6">
          <property name="font">
           <font>
            <pointsize>14</pointsize>
@@ -52,59 +69,7 @@
           </font>
          </property>
          <property name="text">
-          <string>1</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="btn_9">
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>9</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QPushButton" name="btn_0">
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="btn_7">
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>7</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="btn_8">
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>8</string>
+          <string>6</string>
          </property>
         </widget>
        </item>
@@ -121,8 +86,8 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="btn_5">
+       <item row="3" column="1">
+        <widget class="QPushButton" name="btn_0">
          <property name="font">
           <font>
            <pointsize>14</pointsize>
@@ -130,12 +95,12 @@
           </font>
          </property>
          <property name="text">
-          <string>5</string>
+          <string>0</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="btn_clear">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btn_1">
          <property name="font">
           <font>
            <pointsize>14</pointsize>
@@ -143,20 +108,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="btn_6">
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>6</string>
+          <string>1</string>
          </property>
         </widget>
        </item>
@@ -186,6 +138,32 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="btn_7">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>7</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="btn_clear">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Clear</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="btn_3">
          <property name="font">
@@ -199,18 +177,48 @@
          </property>
         </widget>
        </item>
+       <item row="2" column="2">
+        <widget class="QPushButton" name="btn_9">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>9</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="btn_5">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="btn_8">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>8</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLineEdit" name="infoTextBox">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
