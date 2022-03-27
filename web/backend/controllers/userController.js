@@ -39,8 +39,8 @@ const userLogin = (req, res) => {
                             console.log("Successfully logged in!");
                             res.json({message:"Successfully logged in!"});
                         }else{
-                            res.json({message:"Invalid email or password!"});
                             console.log("Invalid email or password!");
+                            res.json({message:"Invalid email or password!"});
                         }
                     });
                 }else{ 
