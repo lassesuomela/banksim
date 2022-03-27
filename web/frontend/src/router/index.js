@@ -5,11 +5,13 @@ import SecureComponent from "../views/secure.vue"
 import AboutComponent from "../views/About.vue"
 import RegisterComponent from "../views/register.vue"
 
-
-
 Vue.use(VueRouter)
 
 
+router.beforeEach((to, from, next) => {
+  document.title = `${to.name}`;
+  next();
+});
 
 const routes = [
     {

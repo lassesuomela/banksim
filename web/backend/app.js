@@ -4,18 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var history = require('connect-history-api-fallback');
-const mysql = require("mysql");
+var cors = require("cors");
+var bcrypt = require("bcrypt");
+var db = require("./config/db");
 require("dotenv").config();
-const conn = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_DB
-})
 
 const vue = express.static("../frontend/dist");
-var apiRouter = require('./routes/api');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/userRoutes');
 
 var app = express();
 
@@ -23,15 +18,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({origin: "*"}));
 //app.use(vue);
 
-app.use('/api', apiRouter);
-app.use('/users', usersRouter);
+app.use('/api/user', userRouter);
 
 app.use(history({
   index: "index.html"
