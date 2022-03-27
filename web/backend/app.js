@@ -5,12 +5,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var history = require('connect-history-api-fallback');
 var cors = require("cors");
-var db = require("./db");
+var bcrypt = require("bcrypt");
+var db = require("./config/db");
 require("dotenv").config();
 
 const vue = express.static("../frontend/dist");
-var apiRouter = require('./routes/api');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/userRoutes');
 
 var app = express();
 
@@ -18,18 +18,16 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors({
-  origin: "*"
-}));
+app.use(cors({origin: "*"}));
 //app.use(vue);
 
-app.use('/api', apiRouter);
-app.use('/users', usersRouter);
+app.use('/api/user', userRouter);
 
 app.use(history({
   index: "index.html"
