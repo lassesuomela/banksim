@@ -16,7 +16,6 @@ class PinCodeUI : public QDialog
 public:
     explicit PinCodeUI(QWidget *parent = nullptr);
     ~PinCodeUI();
-    QString getPinCode();
 
 private:
     Ui::PinCodeUI *ui;
@@ -30,11 +29,9 @@ private:
     void setInfoText(QString);
 
     void resetTimer();
-    int tries = 3;
+    int currentTries = 1;
 
     QTimer * timer;
-
-
 
 private slots:
 
@@ -44,10 +41,8 @@ private slots:
     void on_btn_ok_clicked();
 
     void autoTimeout();
-
 public slots:
-    void decTries();
-
+    void getTries(int);
 signals:
     void sendPinCode(QString);
 };

@@ -8,7 +8,7 @@ PinCodeDLL::PinCodeDLL(QWidget * parent) : QWidget (parent)
     qDebug() << "PinCodeDLL called pinCodeUI->show()";
 
     connect(pinCodeUI, SIGNAL(sendPinCode(QString)), this, SLOT(getPinFromDLL(QString)));
-    connect(this, SIGNAL(triesToDLL()), pinCodeUI, SLOT(decTries()));
+    connect(this, SIGNAL(triesToDLL(int)), pinCodeUI, SLOT(getTries(int)));
 
 }
 
@@ -25,4 +25,9 @@ void PinCodeDLL::getPinFromDLL(QString pin)
     qDebug() << "Emitting Pin code to exe";
 
     emit pinToExe(pin);
+}
+
+void PinCodeDLL::getTriesFromEXE(int tries)
+{
+    emit triesToDLL(tries);
 }

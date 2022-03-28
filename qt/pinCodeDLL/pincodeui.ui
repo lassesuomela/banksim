@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>340</width>
-    <height>273</height>
+    <width>329</width>
+    <height>283</height>
    </rect>
   </property>
   <property name="font">
@@ -54,7 +54,7 @@
         </font>
        </property>
        <property name="text">
-        <string>X yritystä jäljellä</string>
+        <string/>
        </property>
       </widget>
      </item>

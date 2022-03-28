@@ -29,20 +29,14 @@ PinCodeUI::PinCodeUI(QWidget *parent) :
 
     connect(timer, SIGNAL(timeout()), this, SLOT(autoTimeout()));
     timer->start(10000);
-
-    ui->infoTextBox->setText(QString::number(tries) + " yritystä jäljellä");
 }
 
 PinCodeUI::~PinCodeUI()
 {
+    qDebug() << "called pincodeui deconstructor";
     delete ui;
     delete timer;
     timer = nullptr;
-}
-
-QString PinCodeUI::getPinCode()
-{
-    return pinCode;
 }
 
 void PinCodeUI::setPinCodeText(QString text)
@@ -123,9 +117,9 @@ void PinCodeUI::on_btn_ok_clicked()
         return;
     }
 
-    qDebug() << "Tries" << tries;
+    qDebug() << "Tries" << currentTries;
 
-    if (tries <= 0){
+    if (currentTries <= 0){
         return;
     }
 
@@ -148,15 +142,16 @@ void PinCodeUI::autoTimeout()
     this->close();
 }
 
-void PinCodeUI::decTries()
+void PinCodeUI::getTries(int tries)
 {
-    // decrement tries
-    tries--;
+    qDebug() << "got tries";
+    currentTries = tries;
 
-    if (tries <= 0){
+    if (currentTries <= 0){
         ui->infoTextBox->setText("Ei yrityksiä jäljellä");
 
     }else{
-        ui->infoTextBox->setText(QString::number(tries) + " yritystä jäljellä");
+        ui->infoTextBox->setText(QString::number(currentTries) + " yritystä jäljellä");
     }
 }
+
