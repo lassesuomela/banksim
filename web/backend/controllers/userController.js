@@ -2,6 +2,7 @@ const user = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const emailvalidator = require("email-validator");
 const { json } = require("express/lib/response");
+const jwt = require("../config/jwtAuth");
 
 const getAll = (req, res) => {
     user.get(function(err,dbResult){
@@ -37,8 +38,9 @@ const userLogin = (req, res) => {
                             res.json(err);
                         }
                         if(match){
-                            console.log("Successfully logged in!");
-                            res.json({status:"success",message:"Successfully logged in!"});
+                            const token = jwt.generateToken(dbResult[0].user_ID);
+                            console.log("Created token: ",token);
+                            res.status(200).json({status:"success",message:"Successfully logged in!",secret:token});
                         }else{
                             console.log("Invalid email or password!");
                             res.json({status:"error",message:"Invalid email or password!"});

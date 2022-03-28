@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-main>
-      <v-container class="fill-height" fluid>
+      <v-container class="fill-height" style="width: 100%" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="8">
             <v-card class="elevation-12">
@@ -17,7 +17,7 @@
                                 md="3"
                               >
                                 <v-text-field
-                                  id="Firstname"
+                                  id="firstname"
                                   label="Firstname"
                                   name="Firstname"
                                   prepend-icon="person"
@@ -32,7 +32,7 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  id="Lastname"
+                                  id="lastname"
                                   label="Lastname"
                                   name="Lastname"
                                   type="Lastname"
@@ -42,7 +42,7 @@
                             </v-row>
                           <v-text-field
                             id="email"
-                            :rules="emailRules"
+                            rule="emailRules"
                             label="Email"
                             name="email"
                             prepend-icon="email"
@@ -60,7 +60,7 @@
                             color="light-green darken-1"
                           />
                           <v-text-field
-                            id="Phone"
+                            id="phone"
                             label="Phone"
                             name="Phone"
                             prepend-icon="phone"
@@ -68,7 +68,7 @@
                             color="light-green darken-1"
                           />
                           <v-text-field
-                            id="Address"
+                            id="address"
                             label="Address"
                             name="Address"
                             prepend-icon="mdi-map-marker"
@@ -101,14 +101,30 @@
 </template>
 
 <script>
+  import axios from "axios";
   export default {
-    data: () => ({
-      valid: false,
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
-      ],
-    }),
+    methods:{
+      submitRegister(){
+        let formData = {
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+          fname: document.getElementById("firstname").value,
+          lname: document.getElementById("lastname").value,
+          phone: document.getElementById("phone").value,
+          address: document.getElementById("address").value
+        };
+        axios.post("http://localhost:3000/api/user/register", formData).then((res) => {
+          console.log(JSON.stringify(res.data.message));
+        });
+      }
+    },
   }
+  data: () => ({
+    valid: false,
+    email: '',
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+/.test(v) || 'E-mail must be valid',
+    ],
+  });
 </script>

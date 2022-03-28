@@ -11,6 +11,7 @@ require("dotenv").config();
 
 const vue = express.static("../frontend/dist");
 var userRouter = require('./routes/userRoutes');
+const res = require('express/lib/response');
 
 var app = express();
 
