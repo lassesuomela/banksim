@@ -30,7 +30,26 @@ const getByCardNumber = (req, res) => {
 
 const updateCardStatus = (req, res) => {
     if(req.body.active && req.body.card_number){
-        card.updateActiveStatus(req, function(err, dbResult){
+
+        // activating card, resetting tries
+        if(req.body.active == 1){
+            card.updateTries(0, req.body.card_number, (err, result) =>{
+
+                if(err){
+                    console.log(err);
+                    return res.json({status:"error",message:"Error on resetting card's tries"})
+                }
+
+                if(result.affectedRows > 0){
+                    console.log("Unlocking card, resetting tries");
+                }else{
+                    console.log("Error on resetting tries");
+                }
+            })
+        }
+
+        card.updateActiveStatus(req.body.active, req.body.card_number, function(err, dbResult){
+
             if(err){
                 res.json(err);
             }
@@ -69,16 +88,48 @@ const authenticate = (req, res) => {
             }
 
             if(result.length > 0){
+
+                if(result[0].active === 0){
+                    return res.json({status:"error",message:"Card is locked!"});
+                }
+
                 bcrypt.compare(req.body.pin, result[0].pin.toString(), (err, match)=>{
                     if(err){
-                        res.json(err);
+                        return res.json(err);
                     }
                     if(match){
                         console.log("Successfully authenticated!");
-                        res.json({status:"success",message:"Successfully authenticated!"});
+                        return res.json({status:"success",message:"Successfully authenticated!"});
                     }else{
                         console.log("Invalid pin code or card number!");
-                        res.json({status:"error",message:"Invalid pin code or card number!"});
+
+                        if(result[0].tries >= 2 && result[0].active === 1){
+                            card.updateActiveStatus(0, req.body.card_number, (err, result) =>{
+                                if(err){
+                                    console.log(err);
+                                }
+    
+                                if(result){
+                                    console.log(result);
+                                }
+
+                                res.json({status:"error",message:"Card deactivated!"});
+                            })
+                        }else{
+                            card.updateTries(result[0].tries + 1, req.body.card_number, (err, result)=>{
+                                if(err){
+                                    console.log(err);
+                                }
+    
+                                if(result.affectedRows > 0){
+                                    console.log("Incremented tries");
+                                }else{
+                                    console.log("Error on incrimenting tries");
+                                }
+    
+                                res.json({status:"error",message:"Invalid pin code!"});
+                            })
+                        }
                     }
                 });
             }else{

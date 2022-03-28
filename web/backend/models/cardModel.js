@@ -9,8 +9,8 @@ const card = {
     getByNumber: function(card_number, callback){
         return db.query("SELECT * FROM card WHERE card_number = ?", [card_number], callback);
     },
-    updateActiveStatus: function(req, callback){
-        return db.query("UPDATE card SET active = ? WHERE card_number = ?", [req.body.active, req.body.card_number], callback);
+    updateActiveStatus: function(active, card_number, callback){
+        return db.query("UPDATE card SET active = ? WHERE card_number = ?", [active, card_number], callback);
     },
     add: function(req, callback){
         bcrypt.hash(req.body.pin, saltRounds, function(err, hash){
@@ -20,6 +20,9 @@ const card = {
     },
     delete: function(req, callback){
         return db.query("DELETE FROM card WHERE card_number = ?", [req.body.card_number], callback);
+    },
+    updateTries: function(tries, card_number, callback){
+        return db.query("UPDATE card SET tries = ? WHERE card_number = ?", [tries, card_number], callback);
     }
 
 }
