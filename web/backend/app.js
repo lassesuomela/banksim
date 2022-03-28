@@ -28,6 +28,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors({origin: "*"}));
 //app.use(vue);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('err 500')
+})
+
 app.use('/api/user', userRouter);
 
 app.use(history({
