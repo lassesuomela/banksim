@@ -5,7 +5,7 @@
          
             
         </div>
-        <router-view @authenticated="setAuthenticated" />
+        <router-view />
     </div>
 </template>
 

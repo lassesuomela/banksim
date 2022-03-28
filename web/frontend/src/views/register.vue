@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-content>
+    <v-main>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
           <v-col cols="12" sm="8" md="8">
@@ -17,6 +17,8 @@
                             prepend-icon="person"
                             type="text"
                             color="teal"
+                            autocomplete="off"
+                            required
                           />
                           <v-text-field
                             id="password"
@@ -26,11 +28,12 @@
                             type="password"
                             color="teal"
                           />
+                          <br>
+                          <div class="text-center mt-n5">
+                            <v-btn rounded color="teal" dark>REGISTER</v-btn>
+                          </div>
                         </v-form>
                       </v-card-text>
-                      <div class="text-center mt-n5">
-                        <v-btn rounded color="teal" dark>REGISTER</v-btn>
-                      </div>
                     </v-col>
                     <v-col cols="12" md="4" class="teal">
                       <v-card-text class="white--text mt-12">
@@ -46,7 +49,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
