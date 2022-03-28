@@ -1,5 +1,6 @@
 const user = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const emailvalidator = require("email-validator");
 const { json } = require("express/lib/response");
 
 const getAll = (req, res) => {
@@ -25,7 +26,7 @@ const getById = (req, res) => {
 }
 
 const userLogin = (req, res) => {
-    if(req.body.email && req.body.password){
+    if(emailvalidator.validate(req.body.email) && req.body.password){
         user.getByEmail(req.body.email, function(err, dbResult){
             if(err){
                 res.json(err);
@@ -37,25 +38,25 @@ const userLogin = (req, res) => {
                         }
                         if(match){
                             console.log("Successfully logged in!");
-                            res.json({message:"Successfully logged in!"});
+                            res.json({status:"success",message:"Successfully logged in!"});
                         }else{
                             console.log("Invalid email or password!");
-                            res.json({message:"Invalid email or password!"});
+                            res.json({status:"error",message:"Invalid email or password!"});
                         }
                     });
                 }else{ 
                     console.log("No user found with this email");
-                    res.json({message: "No user found with this email"});
+                    res.json({status:"error",message:"No user found with this email"});
                 }
             };
         });
     }else{
-        res.json({message:"Please enter email and password."});
+        res.json({status:"error",message:"Please enter email and password."});
     }
 }
 
 const userRegister = (req, res) => {
-    if(req.body.email && req.body.password && req.body.address && req.body.fname && req.body.lname && req.body.phone){
+    if(emailvalidator.validate(req.body.email) && req.body.password && req.body.address && req.body.fname && req.body.lname && req.body.phone){
         user.add(req, function(err, result){
             if(err){
                 if(err.errno === 1062){
