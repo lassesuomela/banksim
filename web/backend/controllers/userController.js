@@ -58,9 +58,11 @@ const userRegister = (req, res) => {
     if(req.body.email && req.body.password && req.body.address && req.body.fname && req.body.lname && req.body.phone){
         user.add(req, function(err, result){
             if(err){
-                res.json(err);
+                if(err.errno === 1062){
+                    res.json({status:"error",message:"Email already exists."});
+                }
             }else{
-                res.json({status:"success",affectedRows: result.affectedRows});
+                res.json({status:"success"});
             }
         });
     }else{
