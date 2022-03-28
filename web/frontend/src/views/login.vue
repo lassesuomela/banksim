@@ -30,6 +30,7 @@
                             required
                           />
                           <br>
+                          <h5>{{loginResponse}}</h5>
                           <div class="text-center mt-n5">
                             <v-btn type="submit" rounded color="cyan darken-2" dark form="login-form">LOGIN</v-btn>
                           </div>
@@ -64,8 +65,14 @@ export default{
         password: document.getElementById("password").value
       };
       axios.post("http://localhost:3000/api/user/login", formData).then((res) => {
+        this.loginResponse = res.data.message;
         console.log(JSON.stringify(res.data.message));
       });
+    }
+  },
+  data() {
+    return {
+      loginResponse: ""
     }
   }
   
