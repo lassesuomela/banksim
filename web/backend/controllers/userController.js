@@ -1,5 +1,6 @@
 const user = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const emailvalidator = require("email-validator");
 const { json } = require("express/lib/response");
 
 const getAll = (req, res) => {
@@ -25,7 +26,7 @@ const getById = (req, res) => {
 }
 
 const userLogin = (req, res) => {
-    if(req.body.email && req.body.password){
+    if(emailvalidator.validate(req.body.email) && req.body.password){
         user.getByEmail(req.body.email, function(err, dbResult){
             if(err){
                 res.json(err);
@@ -55,7 +56,7 @@ const userLogin = (req, res) => {
 }
 
 const userRegister = (req, res) => {
-    if(req.body.email && req.body.password && req.body.address && req.body.fname && req.body.lname && req.body.phone){
+    if(emailvalidator.validate(req.body.email) && req.body.password && req.body.address && req.body.fname && req.body.lname && req.body.phone){
         user.add(req, function(err, result){
             if(err){
                 if(err.errno === 1062){
