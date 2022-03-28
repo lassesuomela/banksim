@@ -24,13 +24,20 @@ PinCodeUI::PinCodeUI(QWidget *parent) :
         connect(btn, SIGNAL(clicked()), this, SLOT(handleClick()));
     }
 
-    ui->infoTextBox->setText(QString::number(tries) + " yritystä jäljellä");
+    // create timer and start it
+    timer = new QTimer(this);
 
+    connect(timer, SIGNAL(timeout()), this, SLOT(autoTimeout()));
+    timer->start(10000);
+
+    ui->infoTextBox->setText(QString::number(tries) + " yritystä jäljellä");
 }
 
 PinCodeUI::~PinCodeUI()
 {
     delete ui;
+    delete timer;
+    timer = nullptr;
 }
 
 QString PinCodeUI::getPinCode()
@@ -49,12 +56,19 @@ void PinCodeUI::clearPin()
     // clear pinCode and clear pinCodeTextBox
     pinCode = QString("");
     censoredPinCode = "";
+
     setPinCodeText(censoredPinCode);
 }
 
 void PinCodeUI::setInfoText(QString txt)
 {
     ui->infoTextBox->setText(txt);
+}
+
+void PinCodeUI::resetTimer()
+{
+    timer->stop();
+    timer->start(10000);
 }
 
 void PinCodeUI::handleClick()
@@ -89,12 +103,16 @@ void PinCodeUI::handleClick()
             setPinCodeText(censoredPinCode);
         }
     }
+
+    resetTimer();
 }
 
 void PinCodeUI::on_btn_clear_clicked()
 {
     clearPin();
     qDebug() << "Pin code cleared";
+
+    resetTimer();
 }
 
 
@@ -120,6 +138,14 @@ void PinCodeUI::on_btn_ok_clicked()
     // reset pincode var and text
     pinCode = "";
     setPinCodeText(pinCode);
+
+    resetTimer();
+}
+
+void PinCodeUI::autoTimeout()
+{
+    qDebug() << "Auto timeout because no action was taken in 10 s";
+    this->close();
 }
 
 void PinCodeUI::decTries()

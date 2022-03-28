@@ -28,7 +28,13 @@ private:
     void clearPin();
 
     void setInfoText(QString);
+
+    void resetTimer();
     int tries = 3;
+
+    QTimer * timer;
+
+
 
 private slots:
 
@@ -36,6 +42,8 @@ private slots:
 
     void on_btn_clear_clicked();
     void on_btn_ok_clicked();
+
+    void autoTimeout();
 
 public slots:
     void decTries();
