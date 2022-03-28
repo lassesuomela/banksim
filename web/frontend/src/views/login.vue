@@ -8,8 +8,7 @@
                   <v-row>
                     <v-col cols="12" md="8">
                       <v-card-text class="mt-12">
-                        <h1
-                          class="text-center display-2 cyan--text text--darken-2">Login</h1>
+                        <h1 class="text-center display-2 blue--text text--accent-3">Login</h1>
                           <v-form @submit.prevent="submitLogin" id="login-form">
                           <v-text-field
                             id="email"
