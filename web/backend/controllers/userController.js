@@ -38,20 +38,20 @@ const userLogin = (req, res) => {
                         }
                         if(match){
                             console.log("Successfully logged in!");
-                            res.json({message:"Successfully logged in!"});
+                            res.json({status:"success",message:"Successfully logged in!"});
                         }else{
                             console.log("Invalid email or password!");
-                            res.json({message:"Invalid email or password!"});
+                            res.json({status:"error",message:"Invalid email or password!"});
                         }
                     });
                 }else{ 
                     console.log("No user found with this email");
-                    res.json({message: "No user found with this email"});
+                    res.json({status:"error",message:"No user found with this email"});
                 }
             };
         });
     }else{
-        res.json({message:"Please enter email and password."});
+        res.json({status:"error",message:"Please enter email and password."});
     }
 }
 
