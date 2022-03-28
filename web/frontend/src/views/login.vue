@@ -16,7 +16,7 @@
                             name="email"
                             prepend-icon="person"
                             type="text"
-                            color="blue accent-3"
+                            color="cyan darken-2"
                             autocomplete="off"
                             required
                           />
@@ -26,17 +26,17 @@
                             name="password"
                             prepend-icon="lock"
                             type="password"
-                            color="blue accent-3"
+                            color="cyan darken-2"
                             required
                           />
                           <br>
                           <div class="text-center mt-n5">
-                            <v-btn type="submit" rounded color="blue accent-3" dark form="login-form">LOGIN</v-btn>
+                            <v-btn type="submit" rounded color="cyan darken-2" dark form="login-form">LOGIN</v-btn>
                           </div>
                         </v-form>
                       </v-card-text>
                     </v-col>
-                    <v-col cols="12" md="4" class="blue accent-3">
+                    <v-col cols="12" md="4" class="cyan darken-2">
                       <v-card-text class="white--text mt-12">
                         <h1 class="text-center display-1">Need an account?</h1>
                         <br>
