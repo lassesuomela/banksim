@@ -31,7 +31,6 @@
         margin-top: 0;
     }
     #app {
-
         background-color: #202227;
     }
 

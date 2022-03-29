@@ -45,7 +45,7 @@
                         <br>
                       </v-card-text>
                       <div class="text-center">
-                        <v-btn to=/register npm  rounded outlined dark>REGISTER</v-btn>
+                        <v-btn to="/register" rounded outlined dark>REGISTER</v-btn>
                       </div>
                     </v-col>
                   </v-row>

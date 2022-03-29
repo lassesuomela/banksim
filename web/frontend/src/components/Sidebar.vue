@@ -24,7 +24,7 @@ export default {
     return {
       links: [
         { icon: 'mdi-account', text: 'Home', route: '/home' },
-        { icon: 'mdi-cash', text: 'register', route: '/register' },
+        { icon: 'mdi-cash', text: 'Register', route: '/register' },
         { icon: 'person', text: 'Login', route: '/' },
       ],
     };
