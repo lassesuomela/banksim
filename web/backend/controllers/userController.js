@@ -71,7 +71,7 @@ const userRegister = (req, res) => {
             }
         });
     }else{
-        res.json({message:"Please fill all field.s"});
+        res.json({message:"Please fill all fields."});
     }
 }
 
