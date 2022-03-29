@@ -10,13 +10,13 @@ function verifyToken(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1];
     if (token == null) return res.sendStatus(401)
 
-    jwt.verify(token, process.env.SECRET_TOKEN, (err, user) => {
+    jwt.verify(token, process.env.SECRET_TOKEN, (err, decodedToken) => {
         if (err){
-            console.log(err);
-            return res.sendStatus(403);
+            console.log(err.message);
+            return res.redirect("/login");
         }
-        req.userId = user
-        next()
+        req.userId = decodedToken.userId;
+        next();
     })
 }
 
