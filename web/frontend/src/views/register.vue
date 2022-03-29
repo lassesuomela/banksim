@@ -1,12 +1,12 @@
 <template>
   <v-app id="inspire">
     <v-main>
-      <v-container class="fill-height" style="width: 100%" fluid>
+      <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="8">
+          <v-col cols="12" sm="8" md="8" >
             <v-card class="elevation-12">
                   <v-row class="fill-height">
-                    <v-col cols="12" md="8">
+                    <v-col cols="12" md="8" class="blue-grey darken-3">
                       <v-card-text class="mt-12">
                         <h1 class="text-center display-2 light-green--text text--darken-1">Create Account</h1>
                           <v-form>
@@ -17,7 +17,8 @@
                                 md="3"
                               >
                                 <v-text-field
-                                  id="firstname"
+                                  dark
+                                  id="Firstname"
                                   label="Firstname"
                                   name="Firstname"
                                   prepend-icon="person"
@@ -32,7 +33,8 @@
                                 md="6"
                               >
                                 <v-text-field
-                                  id="lastname"
+                                  dark
+                                  id="Lastname"
                                   label="Lastname"
                                   name="Lastname"
                                   type="Lastname"
@@ -41,8 +43,9 @@
                               </v-col>
                             </v-row>
                           <v-text-field
+                            dark
                             id="email"
-                            rule="emailRules"
+                            :rules="emailRules"
                             label="Email"
                             name="email"
                             prepend-icon="email"
@@ -52,6 +55,7 @@
                             required
                           />
                           <v-text-field
+                            dark
                             id="password"
                             label="Password"
                             name="password"
@@ -60,7 +64,8 @@
                             color="light-green darken-1"
                           />
                           <v-text-field
-                            id="phone"
+                            dark
+                            id="Phone"
                             label="Phone"
                             name="Phone"
                             prepend-icon="phone"
@@ -68,7 +73,8 @@
                             color="light-green darken-1"
                           />
                           <v-text-field
-                            id="address"
+                            dark
+                            id="Address"
                             label="Address"
                             name="Address"
                             prepend-icon="mdi-map-marker"
@@ -101,7 +107,7 @@
 </template>
 
 <script>
-  import axios from "axios";
+import axios from "axios";
   export default {
     methods:{
       submitRegister(){
