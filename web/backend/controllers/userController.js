@@ -30,6 +30,7 @@ const userLogin = (req, res) => {
     if(emailvalidator.validate(req.body.email) && req.body.password){
         user.getByEmail(req.body.email, function(err, dbResult){
             if(err){
+                console.log(err);
                 res.json(err);
             }else{
                 if(dbResult.length > 0){
@@ -40,15 +41,15 @@ const userLogin = (req, res) => {
                         if(match){
                             const token = jwt.generateToken(dbResult[0].user_ID);
                             console.log("Created token: ",token);
-                            res.status(200).json({status:"success",message:"Successfully logged in!",secret:token});
+                            res.status(200).json({status:"success",message:"Successfully logged in.",token:token});
                         }else{
                             console.log("Invalid email or password!");
-                            res.json({status:"error",message:"Invalid email or password!"});
+                            res.json({status:"error",message:"Invalid email or password."});
                         }
                     });
                 }else{ 
                     console.log("No user found with this email");
-                    res.json({status:"error",message:"No user found with this email"});
+                    res.json({status:"error",message:"No user found with this email."});
                 }
             };
         });
@@ -65,11 +66,12 @@ const userRegister = (req, res) => {
                     res.json({status:"error",message:"Email already exists."});
                 }
             }else{
-                res.json({status:"success"});
+                console.log("Successfully registered.");
+                res.redirect("/login");
             }
         });
     }else{
-        res.json({message:"Please fill all fields"});
+        res.json({message:"Please fill all fields."});
     }
 }
 

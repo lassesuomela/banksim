@@ -4,9 +4,9 @@ const db = require("../config/db");
 const userController = require("../controllers/userController");
 const jwtAuth = require("../config/jwtAuth");
 
-router.get('/',jwtAuth.authToken,userController.getAll)
+router.get('/',jwtAuth.verifyToken,userController.getAll)
 
-router.get('/:id',jwtAuth.authToken,userController.getById);
+router.get('/:id',jwtAuth.verifyToken,userController.getById);
 
 router.post("/login",userController.userLogin);
 
