@@ -30,6 +30,7 @@ const userLogin = (req, res) => {
     if(emailvalidator.validate(req.body.email) && req.body.password){
         user.getByEmail(req.body.email, function(err, dbResult){
             if(err){
+                console.log(err);
                 res.json(err);
             }else{
                 if(dbResult.length > 0){
@@ -73,9 +74,19 @@ const userRegister = (req, res) => {
     }
 }
 
+const test = (req, res) => {
+    if(req.userId){
+        console.log(req.userId);
+        res.json({jwtID: "test"});
+    }else{
+        res.json("no jwtid");
+    }
+}
+
 module.exports = {
     getAll,
     userLogin,
     userRegister,
-    getById
+    getById,
+    test
 }

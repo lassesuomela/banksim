@@ -11,7 +11,7 @@ require("dotenv").config();
 
 const vue = express.static("../frontend/dist");
 var userRouter = require('./routes/userRoutes');
-const res = require('express/lib/response');
+let cardRoutes = require('./routes/cardRoutes');
 
 var app = express();
 
@@ -35,6 +35,7 @@ app.use((err, req, res, next) => {
 })
 
 app.use('/api/user', userRouter);
+app.use('/api/cards', cardRoutes);
 
 app.use(history({
   index: "index.html"
