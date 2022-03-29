@@ -1,11 +1,6 @@
 
 <template>
     <div class="dashboard">
-        <v-subheader class="py-0 d-flex justify-space-between rounded-lg">
-            <h3>Dashboard</h3>
-            <v-btn color="success"> View Orders </v-btn>
-        </v-subheader>
-        <br>
         <v-row>
             <v-col lg="7" cols="12">
                 <v-alert dense text type="success">
@@ -24,8 +19,6 @@
                                 </v-avatar>
                             </v-card-text>
                             <v-card-actions class="d-flex justify-space-between">
-
-
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -48,11 +41,6 @@
                 ],
             }
         },
-        methods: {
-            onButtonClick(item) {
-                console.log('click on ' + item.no)
-            }
-        }
     }
     
 </script>
