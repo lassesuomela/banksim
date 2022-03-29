@@ -107,14 +107,30 @@
 </template>
 
 <script>
+import axios from "axios";
   export default {
-    data: () => ({
-      valid: false,
-      email: '',
-      emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+/.test(v) || 'E-mail must be valid',
-      ],
-    }),
+    methods:{
+      submitRegister(){
+        let formData = {
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+          fname: document.getElementById("firstname").value,
+          lname: document.getElementById("lastname").value,
+          phone: document.getElementById("phone").value,
+          address: document.getElementById("address").value
+        };
+        axios.post("http://localhost:3000/api/user/register", formData).then((res) => {
+          console.log(JSON.stringify(res.data.message));
+        });
+      }
+    },
   }
+  data: () => ({
+    valid: false,
+    email: '',
+    emailRules: [
+      v => !!v || 'E-mail is required',
+      v => /.+@.+/.test(v) || 'E-mail must be valid',
+    ],
+  });
 </script>
