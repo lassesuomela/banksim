@@ -1,8 +1,8 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="app">
     <Sidebar :drawer="drawer" />
-    <Topbar @drawerEvent="drawer = !drawer" />
-    <v-main style="background: #f5f5f540">
+    <Topbar @drawerEvent="drawer = !drawer" />   
+    <v-main>    
       <v-container class="py-8 px-6" fluid>
         <router-view></router-view>
       </v-container>
@@ -11,21 +11,29 @@
 </template>
 
 <script>
-
+    import Sidebar from "./components/Sidebar";
+    import Topbar from "./components/Topbar";
+    export default {  
+        name: "App",
+          components: { Topbar, Sidebar },
+          data: () => ({
+            drawer: null,
+          }),
+        }      
 </script>
 
 <style>
     body {
-        background-color: #000000;
-        
+        background-color: #202227;
     }
     h1 {
         padding: 0;
         margin-top: 0;
     }
     #app {
-        width: 1024px;
-        margin: auto;
 
+        background-color: #202227;
     }
+
+    
 </style>
