@@ -13,7 +13,7 @@ function verifyToken(req, res, next) {
     jwt.verify(token, process.env.SECRET_TOKEN, (err, decodedToken) => {
         if (err){
             console.log(err.message);
-            return res.redirect("/login");
+            return res.sendStatus(403);
         }
         req.userId = decodedToken.userId;
         next();
