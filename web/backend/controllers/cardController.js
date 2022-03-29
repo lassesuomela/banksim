@@ -33,14 +33,14 @@ const updateCardStatus = (req, res) => {
 
         // activating card, resetting tries
         if(req.body.active == 1){
-            card.updateTries(0, req.body.card_number, (err, result) =>{
+            card.updateTries(0, req.body.card_number, (err, dbResult) =>{
 
                 if(err){
                     console.log(err);
                     return res.json({status:"error",message:"Error on resetting card's tries"})
                 }
 
-                if(result.affectedRows > 0){
+                if(dbResult.affectedRows > 0){
                     console.log("Unlocking card, resetting tries");
                 }else{
                     console.log("Error on resetting tries");
@@ -51,11 +51,11 @@ const updateCardStatus = (req, res) => {
         card.updateActiveStatus(req.body.active, req.body.card_number, function(err, dbResult){
 
             if(err){
-                res.json(err);
+                return res.json(err);
             }
             
             if(dbResult.affectedRows > 0){
-                res.json({status:"Successfully modified card's status"});
+                res.json({status:"success",message:"Successfully modified card's status"});
             }else{
                 res.json({status:"error",message:"Card not found"})
             }
@@ -82,18 +82,18 @@ const addCard = (req, res) => {
 
 const authenticate = (req, res) => {
     if(req.body.card_number && req.body.pin){
-        card.getByNumber(req.body.card_number, function(err, result){
+        card.getByNumber(req.body.card_number, function(err, dbResult){
             if(err){
                 return res.send(err);
             }
 
-            if(result.length > 0){
+            if(dbResult.length > 0){
 
-                if(result[0].active === 0){
+                if(dbResult[0].active === 0){
                     return res.json({status:"error",message:"Card is locked!"});
                 }
 
-                bcrypt.compare(req.body.pin, result[0].pin.toString(), (err, match)=>{
+                bcrypt.compare(req.body.pin, dbResult[0].pin.toString(), (err, match)=>{
                     if(err){
                         return res.json(err);
                     }
@@ -103,25 +103,25 @@ const authenticate = (req, res) => {
                     }else{
                         console.log("Invalid pin code or card number!");
 
-                        if(result[0].tries >= 2 && result[0].active === 1){
-                            card.updateActiveStatus(0, req.body.card_number, (err, result) =>{
+                        if(dbResult[0].tries >= 2 && dbResult[0].active === 1){
+                            card.updateActiveStatus(0, req.body.card_number, (err, dbResult) =>{
                                 if(err){
                                     console.log(err);
                                 }
     
-                                if(result){
-                                    console.log(result);
+                                if(dbResult){
+                                    console.log(dbResult);
                                 }
 
                                 res.json({status:"error",message:"Card deactivated!"});
                             })
                         }else{
-                            card.updateTries(result[0].tries + 1, req.body.card_number, (err, result)=>{
+                            card.updateTries(dbResult[0].tries + 1, req.body.card_number, (err, dbResult)=>{
                                 if(err){
                                     console.log(err);
                                 }
     
-                                if(result.affectedRows > 0){
+                                if(dbResult.affectedRows > 0){
                                     console.log("Incremented tries");
                                 }else{
                                     console.log("Error on incrimenting tries");
