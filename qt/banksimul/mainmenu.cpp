@@ -13,3 +13,9 @@ MainMenu::~MainMenu()
 {
     delete ui;
 }
+
+void MainMenu::on_toolButton_4_clicked()
+{
+ this->close();
+}
+
