@@ -1,28 +1,38 @@
 <template>
-    <div id="app">
-        <div id="nav">
-             
-        </div>
-        <router-view />
-    </div>
+  <v-app id="app">
+    <Sidebar :drawer="drawer" />
+    <Topbar @drawerEvent="drawer = !drawer" />   
+    <v-main>    
+      <v-container class="py-8 px-6" fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-    
+    import Sidebar from "./components/Sidebar";
+    import Topbar from "./components/Topbar";
+    export default {  
+        name: "App",
+          components: { Topbar, Sidebar },
+          data: () => ({
+            drawer: null,
+          }),
+        }      
 </script>
 
 <style>
     body {
-        background-color: #ffffff;
-        
+        background-color: #202227;
     }
     h1 {
         padding: 0;
         margin-top: 0;
     }
     #app {
-        width: 1024px;
-        margin: auto;
-
+        background-color: #202227;
     }
+
+    
 </style>
