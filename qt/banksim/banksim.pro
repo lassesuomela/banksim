@@ -10,15 +10,15 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainmenu.cpp \
+    idlewindow.cpp \
     mainwindow.cpp
 
 HEADERS += \
-    mainmenu.h \
+    idlewindow.h \
     mainwindow.h
 
 FORMS += \
-    mainmenu.ui \
+    idlewindow.ui \
     mainwindow.ui
 
 # Default rules for deployment.
