@@ -28,3 +28,5 @@ Importtaa banksim.sql omaan tietokantaan komennolla
 ```
 mysql -u <user> -p < banksim.sql
 ```
+
+![db](./documents/db.png)
