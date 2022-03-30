@@ -1,6 +1,5 @@
 const card = require("../models/cardModel");
 const bcrypt = require("bcrypt");
-const emailvalidator = require("email-validator");
 const { json } = require("express/lib/response");
 
 const getAll = (req, res) => {
@@ -55,7 +54,7 @@ const updateCardStatus = (req, res) => {
             }
             
             if(dbResult.affectedRows > 0){
-                res.json({status:"Successfully modified card's status"});
+                res.json({status:"success",message:"Successfully modified card's status"});
             }else{
                 res.json({status:"error",message:"Card not found"})
             }
@@ -72,7 +71,7 @@ const addCard = (req, res) => {
             if(err){
                 res.json(err);
             }else{
-                res.json({status:"Successfully added new card"});
+                res.json({status:"success", message:"Successfully added new card"});
             }
         });
     }else{
