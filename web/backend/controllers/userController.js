@@ -67,7 +67,7 @@ const userRegister = (req, res) => {
                 }
             }else{
                 console.log("Successfully registered.");
-                res.redirect("/login");
+                res.json({status:"success",message:"Successfully registered."});
             }
         });
     }else{
