@@ -1,6 +1,8 @@
 
 <template>
     <div class="dashboard">
+        <app-sidebar/>
+        <app-topbar/>
         <v-row>
             <v-col lg="7" cols="12">
                 <v-alert dense text type="success">
