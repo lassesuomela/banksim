@@ -15,10 +15,15 @@
     export default {  
         name: "App",
           components: { Topbar, Sidebar },
-          data: () => ({
-            drawer: null,
-          }),
-        }      
+          data(){
+            return {
+              drawer: null,
+            }
+          },
+        methods:{
+          
+        }
+      }      
 </script>
 
 <style>

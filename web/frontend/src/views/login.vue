@@ -68,9 +68,21 @@ export default{
       };
       axios.post("http://localhost:3000/api/user/login", formData).then((res) => {
         this.loginResponse = res.data.message;
-        console.log(JSON.stringify(res.data.message));
+        if(res.data.status === "success"){
+          localStorage.setItem("token",res.data.token);
+          window.location.replace("/home");
+        }
+
       });
+    },
+    isLoggedIn(){
+      if(localStorage.getItem("token")){
+        window.location.replace("/home");
+      }
     }
+  },
+  beforeMount(){
+    this.isLoggedIn();
   },
   data() {
     return {

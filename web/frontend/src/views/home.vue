@@ -6,7 +6,7 @@
         <v-row>
             <v-col lg="7" cols="12">
                 <v-alert dense text type="success">
-                    Login Successfully! Welcome to <strong>Customer name</strong>
+                    Login Successfully! Welcome to <strong>{{fname}}</strong>
                 </v-alert>
                 <v-row>
                     <v-col lg="6" cols="12" v-for="(item,index) in activityLog" :key="index">
@@ -31,10 +31,12 @@
 </template>
 
 <script>
+    import UserInfo from "../userlib.js";
     export default {
         name: "Dashboard",
         data() {
             return {
+                fname: UserInfo.fname,
                 activityLog: [
                     {title: 'Total Products', amount: 50, icon: 'mdi-account', color: 'cyan lighten-3'},
                     {title: 'Total Customer', amount: 3433, icon: 'mdi-account-group-outline', color: 'green darken-2'},
@@ -43,6 +45,13 @@
                 ],
             }
         },
+        methods:{
+            getUserData: UserInfo.getUserData
+        },
+        mounted(){
+            this.getUserData
+        }
+        
     }
     
 </script>

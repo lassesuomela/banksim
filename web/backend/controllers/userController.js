@@ -60,7 +60,7 @@ const userLogin = (req, res) => {
 
 const userRegister = (req, res) => {
     if(emailvalidator.validate(req.body.email) && req.body.password && req.body.address && req.body.fname && req.body.lname && req.body.phone){
-        user.add(req, function(err, result){
+        user.add(req, function(err, dbResult){
             if(err){
                 if(err.errno === 1062){
                     res.json({status:"error",message:"Email already exists."});
@@ -75,9 +75,27 @@ const userRegister = (req, res) => {
     }
 }
 
+const userInfo = (req, res) => {
+    user.get(function(err, dbResult){
+        if(err){
+            console.log(err);
+            return res.json(err);
+        }
+        for(let i = 0;i<dbResult.length;i++){
+            if(dbResult[i].user_ID === req.userId){
+                let uinfo = dbResult[i];
+                delete uinfo["password"];
+                return res.json(uinfo);
+            }
+        }
+        return res.json({status:"error",message:"No data available"});
+    });
+}
+
 module.exports = {
     getAll,
     userLogin,
     userRegister,
-    getById
+    getById,
+    userInfo
 }
