@@ -19,13 +19,18 @@
 -- Table structure for table `account`
 --
 
+CREATE DATABASE banksim;
+USE banksim;
+
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
   `account_ID` int NOT NULL AUTO_INCREMENT,
   `date_opened` date NOT NULL,
+
   `balance` double(9,2) NOT NULL DEFAULT '0.00',
+  
   PRIMARY KEY (`account_ID`),
   UNIQUE KEY `account_ID_UNIQUE` (`account_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -59,11 +64,13 @@ CREATE TABLE `card` (
   PRIMARY KEY (`card_ID`),
   UNIQUE KEY `card_ID_UNIQUE` (`card_ID`),
   UNIQUE KEY `card_number_UNIQUE` (`card_number`),
+
   KEY `fk_card_account1_idx` (`account_ID`),
   KEY `fk_card_user1_idx` (`user_ID`),
   CONSTRAINT `fk_card_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`),
   CONSTRAINT `fk_card_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='//';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
