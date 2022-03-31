@@ -83,9 +83,8 @@ const userInfo = (req, res) => {
         }
         for(let i = 0;i<dbResult.length;i++){
             if(dbResult[i].user_ID === req.userId){
-                let uinfo = dbResult[i];
-                delete uinfo["password"];
-                return res.json(uinfo);
+                delete dbResult[i]["password"];
+                return res.json(dbResult[i]);
             }
         }
         return res.json({status:"error",message:"No data available"});

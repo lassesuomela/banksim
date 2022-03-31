@@ -79,7 +79,7 @@ export default{
     },
     isLoggedIn(){
       if(localStorage.getItem("token")){
-        window.location.replace("/home");
+        this.$router.replace("/home");
       }
     }
   },
