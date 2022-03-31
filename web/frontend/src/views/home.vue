@@ -6,7 +6,7 @@
         <v-row>
             <v-col lg="7" cols="12">
                 <v-alert dense text type="success">
-                    Login Successfully! Welcome to <strong>{{fname}}</strong>
+                    Welcome back {{fname}}!
                 </v-alert>
                 <v-row>
                     <v-col lg="6" cols="12" v-for="(item,index) in activityLog" :key="index">
@@ -31,12 +31,12 @@
 </template>
 
 <script>
-    import UserInfo from "../userlib.js";
+    import axios from "../axios";
     export default {
         name: "Dashboard",
         data() {
             return {
-                fname: UserInfo.fname,
+                fname: "",
                 activityLog: [
                     {title: 'Total Products', amount: 50, icon: 'mdi-account', color: 'cyan lighten-3'},
                     {title: 'Total Customer', amount: 3433, icon: 'mdi-account-group-outline', color: 'green darken-2'},
@@ -46,10 +46,13 @@
             }
         },
         methods:{
-            getUserData: UserInfo.getUserData
+            async getUserData(){
+                const response = await axios.get("/api/user/info");
+                this.fname = response.data.fname;
+            }
         },
         mounted(){
-            this.getUserData
+            this.getUserData();
         }
         
     }

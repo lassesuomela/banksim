@@ -21,6 +21,7 @@
                                   id="firstname"
                                   label="Firstname"
                                   name="firstname"
+                                  v-model="fname"
                                   prepend-icon="person"
                                   type="Firstname"
                                   color="light-green darken-1"
@@ -38,6 +39,7 @@
                                   id="lastname"
                                   label="Lastname"
                                   name="lastname"
+                                  v-model="lname"
                                   type="Lastname"
                                   color="light-green darken-1"
                                   autocomplete="off"
@@ -50,6 +52,7 @@
                             :rules="emailRules"
                             label="Email"
                             name="email"
+                            v-model="email"
                             prepend-icon="email"
                             type="text"
                             color="light-green darken-1"
@@ -61,6 +64,7 @@
                             id="password"
                             label="Password"
                             name="password"
+                            v-model="password"
                             prepend-icon="lock"
                             type="password"
                             color="light-green darken-1"
@@ -70,6 +74,7 @@
                             id="phone"
                             label="Phone"
                             name="phone"
+                            v-model="phone"
                             prepend-icon="phone"
                             type="Phone"
                             color="light-green darken-1"
@@ -79,6 +84,7 @@
                             id="address"
                             label="Address"
                             name="address"
+                            v-model="address"
                             prepend-icon="mdi-map-marker"
                             type="Address"
                             color="light-green darken-1"
@@ -110,19 +116,19 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../axios";
 export default{
   methods:{
     submitRegister(){
       let formData = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value,
-        fname: document.getElementById("firstname").value,
-        lname: document.getElementById("lastname").value,
-        phone: document.getElementById("phone").value,
-        address: document.getElementById("address").value
+        email: this.email,
+        password: this.password,
+        fname: this.fname,
+        lname: this.lname,
+        phone: this.phone,
+        address: this.address
       };
-      axios.post("http://localhost:3000/api/user/register", formData).then((res) => {
+      axios.post("/api/user/register", formData).then((res) => {
         this.registerResponse = res.data.message;
         if(res.data.status === "success"){
           window.location.replace("/login");
@@ -132,6 +138,12 @@ export default{
   },
   data () {
     return {
+      email: "",
+      password: "",
+      fname: "",
+      lname: "",
+      phone: "",
+      address: "",
       registerResponse: "",
       valid: false,
       email: '',

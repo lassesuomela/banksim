@@ -15,6 +15,7 @@
                             id="email"
                             label="Email"
                             name="email"
+                            v-model="email"
                             prepend-icon="person"
                             type="text"
                             color="cyan darken-1"
@@ -26,6 +27,7 @@
                             id="password"
                             label="Password"
                             name="password"
+                            v-model="password"
                             prepend-icon="lock"
                             type="password"
                             color="cyan darken-1"
@@ -58,15 +60,15 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from "../axios"
 export default{
   methods:{
     submitLogin(){
       let formData = {
-        email: document.getElementById("email").value,
-        password: document.getElementById("password").value
+        email: this.email,
+        password: this.password
       };
-      axios.post("http://localhost:3000/api/user/login", formData).then((res) => {
+      axios.post("/api/user/login", formData).then((res) => {
         this.loginResponse = res.data.message;
         if(res.data.status === "success"){
           localStorage.setItem("token",res.data.token);
@@ -86,6 +88,8 @@ export default{
   },
   data() {
     return {
+      email: "",
+      password: "",
       loginResponse: ""
     }
   }
