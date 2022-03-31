@@ -3,8 +3,9 @@ import VueRouter from 'vue-router'
 import LoginComponent from "../views/login.vue"
 import HomeComponent from "../views/home.vue"
 import RegisterComponent from "../views/register.vue"
-import AboutComponent from "../views/About.vue"
 import LogoutComponent from "../views/logout.vue"
+import BalanceComponent from "../views/balance.vue"
+import CardsComponent from "../views/cards.vue"
 import axios from "../axios"
 
 Vue.use(VueRouter)
@@ -21,18 +22,28 @@ const routes = [
         
     },
     {
-      path: "/about",
-      name: "about",
-      component: AboutComponent
-      
-  },
-    {
         path: "/home",
         name: "Home",
         component: HomeComponent,
         meta:{
           requireAuth: true
         }
+    },
+    {
+      path: "/balance",
+      name: "balance",
+      component: BalanceComponent,
+      meta:{
+        requireAuth: true
+      }
+    },
+    {
+      path: "/cards",
+      name: "cards",
+      component: CardsComponent,
+      meta:{
+        requireAuth: true
+      }
     },
     {
         path: "/register",

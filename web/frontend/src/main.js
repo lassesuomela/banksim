@@ -6,12 +6,12 @@ import router from './router'
 import vuetify from './plugins/vuetify'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Sidebar from "./components/Sidebar.vue"
-import Topbar from "./components/Topbar.vue"
+import cards from "./components/cards.vue"
 
 Vue.use(Vuetify);
 Vue.config.productionTip = false
 Vue.component("app-sidebar", Sidebar);
-Vue.component("app-topbar", Topbar);
+Vue.component("app-cards", cards);
 
 new Vue({
   router,
