@@ -13,7 +13,7 @@
             src="https://images.almatalent.fi/cx0,cy1,cw1140,ch855,650x/https://assets.almatalent.fi/image/1887dfab-fdfd-3291-89a7-ad3ffa65304e"
           />
         </v-avatar>
-        <h2 class="cyan--text text--darken-1">Customer</h2>
+        <h2 class="cyan--text text--darken-1">{{fname}}</h2>
       </div>
     </v-col>
     <v-divider></v-divider>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import axios from "../axios"
 export default {
   name: "Sidebar",
   props: ["drawer"],
@@ -43,8 +44,18 @@ export default {
         { icon: 'mdi-credit-card', text: 'Cards', route: '/cards' },
         { icon: 'mdi-door', text: 'Logout', route: '/logout' }
       ],
+      fname: "",
     };
   },
+  methods:{
+    async getUserInfo(){
+      let response = await axios.get("/api/user/info");
+      this.fname = response.data.fname;
+    }
+  },
+  mounted(){
+    this.getUserInfo();
+  }
 };
 </script>
 

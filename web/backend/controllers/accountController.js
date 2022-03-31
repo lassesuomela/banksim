@@ -51,14 +51,19 @@ const addAccount = (req, res) => {
 }
 
 const addUserToAccount = (req, res) => {
-    if(emailvalidator(req.body.email)){
-        let uid = 0;
+    if(emailvalidator.validate(req.body.email)){
         user.getByEmail(req.body.email,function(err, dbResult){
             if(err){
                 return res.json(err);
             }
             if(dbResult.length > 0){
-                uid = dbResult[0].user_ID;
+                account.addUser(dbResult[0].user_ID,req.body.account,function(err, dbResult){
+                    if(err){
+                        return res.json(err);
+                    }else{
+                        return res.json({status:"success",message:req.body.email+" now has access to account "+req.body.account+"."});
+                    }
+                });
             }else{
                 return res.json({status:"error",message:"Requested email not found."});
             }

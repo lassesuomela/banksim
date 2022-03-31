@@ -21,7 +21,7 @@ const account = {
         return db.query("INSERT INTO user_account(user_ID, account_ID) VALUES(?, (SELECT account_ID FROM account ORDER BY account_ID DESC LIMIT 1))",[userId], callback);
     },
     addUser: function(userId, accountId, callback){
-        return db.query("INSERT INTO user_account(user_ID, account_ID) VALUES(?, )", [userId]);
+        return db.query("INSERT INTO user_account(user_ID, account_ID) VALUES(?, ?)", [userId, accountId], callback);
     }
 }
 
