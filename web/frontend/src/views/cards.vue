@@ -27,11 +27,20 @@
 </template>
 
 <script>
+import axios from "../axios"
 export default {
-    data: () => ({
-      items: ['account1', 'account2', 'account3', 'account4'],
-      items1: ['Debit', 'Credit'],
-    }),
+    data(){
+      return {
+        items: [],
+        items1: ['Debit', 'Credit'],
+      }
+    },
+    methods:{
+      async getCards(){
+        let response = await axios.get("/api/account");
+        
+      }
+    }
   }
     
 </script>

@@ -39,7 +39,7 @@ const routes = [
     },
     {
       path: "/cards",
-      name: "cards",
+      name: "Cards",
       component: CardsComponent,
       meta:{
         requireAuth: true
