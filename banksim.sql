@@ -18,8 +18,6 @@
 --
 -- Table structure for table `account`
 --
-CREATE DATABASE banksim;
-USE banksim;
 
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -27,7 +25,7 @@ DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `account_ID` int NOT NULL AUTO_INCREMENT,
   `date_opened` date NOT NULL,
-  `balance` double NOT NULL DEFAULT '0',
+  `balance` double(9,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`account_ID`),
   UNIQUE KEY `account_ID_UNIQUE` (`account_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -60,11 +58,12 @@ CREATE TABLE `card` (
   `tries` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`card_ID`),
   UNIQUE KEY `card_ID_UNIQUE` (`card_ID`),
+  UNIQUE KEY `card_number_UNIQUE` (`card_number`),
   KEY `fk_card_account1_idx` (`account_ID`),
   KEY `fk_card_user1_idx` (`user_ID`),
   CONSTRAINT `fk_card_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`),
   CONSTRAINT `fk_card_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='//';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +86,7 @@ CREATE TABLE `logs` (
   `log_ID` int NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `event` varchar(45) NOT NULL,
-  `amount` double NOT NULL,
+  `amount` double(9,2) NOT NULL,
   `account_ID` int NOT NULL,
   PRIMARY KEY (`log_ID`),
   UNIQUE KEY `log_ID_UNIQUE` (`log_ID`),
@@ -171,4 +170,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-31 14:14:06
+-- Dump completed on 2022-03-31 14:28:02
