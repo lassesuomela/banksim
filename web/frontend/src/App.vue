@@ -1,7 +1,6 @@
+
 <template>
   <v-app id="app">
-    <Sidebar :drawer="drawer" />
-    <Topbar @drawerEvent="drawer = !drawer" />   
     <v-main>    
       <v-container class="py-8 px-6" fluid>
         <router-view></router-view>
@@ -16,10 +15,15 @@
     export default {  
         name: "App",
           components: { Topbar, Sidebar },
-          data: () => ({
-            drawer: null,
-          }),
-        }      
+          data(){
+            return {
+              drawer: null,
+            }
+          },
+        methods:{
+          
+        }
+      }      
 </script>
 
 <style>
