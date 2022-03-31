@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include <QWidget>
+#include <QMainWindow>
+#include "idlewindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,10 +16,10 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_talletus_clicked();
 
 private:
     Ui::MainWindow *ui;
+    IdleWindow *idleWindow;
 };
 
 #endif // MAINWINDOW_H
