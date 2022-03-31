@@ -1,0 +1,47 @@
+
+<template>
+<div class="dashboard">
+ <app-sidebar/>
+ <app-cards/>
+   <v-row >
+    <v-col cols="12" sm="8">
+      <v-card class="blue-grey darken-3">
+        <v-card-title class="cyan darken-1">
+          <span class="font-weight-bold text-h5 blue-grey--text text--darken-3">Add card</span>
+        </v-card-title>
+      <v-col class="d-flex" >
+        <v-select dark color="cyan darken-1" :items="items" label="Account"  prepend-icon="person" ></v-select>
+      </v-col>
+      <v-col class="d-flex" >
+        <v-select dark color="cyan darken-1" :items="items1" label="Debit or Credit"  prepend-icon="person" ></v-select>
+      </v-col>
+      <br>                    
+      <div class="text-center ">
+         <v-btn type="submit" rounded color="cyan darken-1" dark form="login-form">Add card</v-btn>
+      </div>
+      <br>
+      </v-card>
+    </v-col>
+  </v-row>
+</div>
+</template>
+
+<script>
+export default {
+    data: () => ({
+      items: ['account1', 'account2', 'account3', 'account4'],
+      items1: ['Debit', 'Credit'],
+    }),
+  }
+    
+</script>
+
+<style scoped>
+    .overlap-icon {
+        position: absolute;
+        top: -33px;
+        text-align: center;
+        padding-top: 12px;
+    }
+
+</style>

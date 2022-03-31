@@ -14,5 +14,5 @@ export default{
         this.userLogout();
     }
 }
-
 </script>
+

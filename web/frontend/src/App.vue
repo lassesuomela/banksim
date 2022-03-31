@@ -9,21 +9,7 @@
   </v-app>
 </template>
 
-<script>
-    import Sidebar from "./components/Sidebar";
-    import Topbar from "./components/Topbar";
-    export default {  
-        name: "App",
-          components: { Topbar, Sidebar },
-          data(){
-            return {
-              drawer: null,
-            }
-          },
-        methods:{
-          
-        }
-      }      
+<script>  
 </script>
 
 <style>
