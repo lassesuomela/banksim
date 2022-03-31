@@ -40,7 +40,7 @@ const userLogin = (req, res) => {
                         }
                         if(match){
                             const token = jwt.generateToken(dbResult[0].user_ID);
-                            console.log("Created token: ",token);
+                            console.log("Created token:",token);
                             res.status(200).json({status:"success",message:"Successfully logged in.",token:token});
                         }else{
                             console.log("Invalid email or password!");
