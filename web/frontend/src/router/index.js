@@ -4,6 +4,7 @@ import LoginComponent from "../views/login.vue"
 import HomeComponent from "../views/home.vue"
 import RegisterComponent from "../views/register.vue"
 import AboutComponent from "../views/About.vue"
+import LogoutComponent from "../views/logout.vue"
 import axios from "../axios"
 
 Vue.use(VueRouter)
@@ -37,6 +38,14 @@ const routes = [
         path: "/register",
         name: "Register",
         component: RegisterComponent
+    },
+    {
+        path: "/logout",
+        name: "Logout",
+        component: LogoutComponent,
+        meta:{
+          requireAuth: true
+        }
     }
   ]
   
