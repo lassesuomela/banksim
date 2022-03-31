@@ -26,6 +26,7 @@ export default {
         { icon: 'mdi-account', text: 'Home', route: '/home' },
         { icon: 'mdi-cash', text: 'Register', route: '/register' },
         { icon: 'person', text: 'Login', route: '/' },
+        { icon: 'mdi-door', text: 'Logout', route: '/logout' }
       ],
     };
   },
