@@ -4,8 +4,6 @@ const db = require("../config/db");
 const accountController = require("../controllers/accountController");
 const jwtAuth = require("../config/jwtAuth");
 
-//router.get("/cards",jwtAuth.verifyToken,accountController.getOwnedAccounts);
-
 router.get("/",jwtAuth.verifyToken,accountController.getOwnedAccounts);
 
 router.get("/:id",jwtAuth.verifyToken,accountController.getById);
