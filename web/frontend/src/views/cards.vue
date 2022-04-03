@@ -10,10 +10,10 @@
           <span class="font-weight-bold text-h5 blue-grey--text text--darken-3">Add card</span>
         </v-card-title>
       <v-col class="d-flex" >
-        <v-select dark color="cyan darken-1" :items="items" label="Account"  prepend-icon="person" ></v-select>
+        <v-select dark color="cyan darken-1" :items="accountlist" label="Account" prepend-icon="person" ></v-select>
       </v-col>
       <v-col class="d-flex" >
-        <v-select dark color="cyan darken-1" :items="items1" label="Debit or Credit"  prepend-icon="person" ></v-select>
+        <v-select dark color="cyan darken-1" :items="cardtype" label="Debit or Credit" prepend-icon="person" ></v-select>
       </v-col>
       <br>                    
       <div class="text-center ">
@@ -31,15 +31,22 @@ import axios from "../axios"
 export default {
     data(){
       return {
-        items: [],
-        items1: ['Debit', 'Credit'],
+        accountlist: [],
+        cardtype: ['Debit', 'Credit'],
       }
     },
     methods:{
-      async getCards(){
-        let response = await axios.get("/api/account");
-        
-      }
+      getAccounts(){
+        axios.get("/api/account").then((response) => {
+          for(var i=0;i<response.data.length;i++){
+            this.accountlist.push(response.data[i].account_ID);
+          }
+        });
+      },
+      
+    },
+    mounted(){
+      this.getAccounts();
     }
   }
     

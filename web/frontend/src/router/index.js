@@ -4,7 +4,7 @@ import LoginComponent from "../views/login.vue"
 import HomeComponent from "../views/home.vue"
 import RegisterComponent from "../views/register.vue"
 import LogoutComponent from "../views/logout.vue"
-import BalanceComponent from "../views/balance.vue"
+import AccountsComponent from "../views/accounts.vue"
 import CardsComponent from "../views/cards.vue"
 import axios from "../axios"
 
@@ -30,9 +30,9 @@ const routes = [
         }
     },
     {
-      path: "/balance",
-      name: "balance",
-      component: BalanceComponent,
+      path: "/accounts",
+      name: "Accounts",
+      component: AccountsComponent,
       meta:{
         requireAuth: true
       }
