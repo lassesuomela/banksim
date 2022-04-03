@@ -9,6 +9,7 @@
         <v-card-title class="cyan darken-1">
           <span class="font-weight-bold text-h5 blue-grey--text text--darken-3">Add card</span>
         </v-card-title>
+      <v-form @submit.prevent="addCard" id="addcard-form">
       <v-col class="d-flex" >
         <v-select dark color="cyan darken-1" :items="accountlist" label="Account" prepend-icon="person" ></v-select>
       </v-col>
@@ -17,8 +18,9 @@
       </v-col>
       <br>                    
       <div class="text-center ">
-         <v-btn type="submit" rounded color="cyan darken-1" dark form="login-form">Add card</v-btn>
+         <v-btn type="submit" rounded color="cyan darken-1" dark form="addcard-form">Add card</v-btn>
       </div>
+      </v-form>
       <br>
       </v-card>
     </v-col>
@@ -43,7 +45,11 @@ export default {
           }
         });
       },
-      
+      addCard(){
+        if(this.cardtype === "Debit"){
+          console.log("DEBIT CHOSEN");
+        }
+      }
     },
     mounted(){
       this.getAccounts();
