@@ -11,15 +11,16 @@
         </v-card-title>
       <v-form @submit.prevent="addCard" id="addcard-form">
       <v-col class="d-flex" >
-        <v-select dark color="cyan darken-1" :items="accountlist" label="Account" prepend-icon="person" ></v-select>
+        <v-select v-model="selectAccount" dark color="cyan darken-1" :items="accountlist" label="Account" prepend-icon="person" ></v-select>
       </v-col>
       <v-col class="d-flex" >
-        <v-select dark color="cyan darken-1" :items="cardtype" label="Debit or Credit" prepend-icon="person" ></v-select>
+        <v-select v-model="selectType" dark color="cyan darken-1" :items="cardtype" label="Debit or Credit" prepend-icon="person" ></v-select>
       </v-col>
-      <br>                    
+      <br>
       <div class="text-center ">
          <v-btn type="submit" rounded color="cyan darken-1" dark form="addcard-form">Add card</v-btn>
       </div>
+      <span class="cyan--text">{{this.addCardRes}}</span>
       </v-form>
       <br>
       </v-card>
@@ -35,6 +36,9 @@ export default {
       return {
         accountlist: [],
         cardtype: ['Debit', 'Credit'],
+        selectAccount: "",
+        selectType: "",
+        addCardRes: ""
       }
     },
     methods:{
@@ -46,9 +50,12 @@ export default {
         });
       },
       addCard(){
-        if(this.cardtype === "Debit"){
-          console.log("DEBIT CHOSEN");
-        }
+        axios.put("/api/card/connect", {accountId:this.selectAccount,card_type:this.selectType}).then((response) => {
+          this.addCardRes = response.data.message;
+          if(response.data.status === "success"){
+            window.location.replace("/cards");
+          }
+        });
       }
     },
     mounted(){
