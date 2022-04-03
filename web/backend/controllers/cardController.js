@@ -174,6 +174,14 @@ const addCard = (req, res) => {
 // connect account to user & account
 const connectCard = (req, res) => {
     if(req.userId && req.body.accountId && req.body.card_type){
+        let ctype = null;
+        if(req.body.card_type === "Debit"){
+            ctype = 0;
+        }else if(req.body.card_type === "Credit"){
+            ctype = 1;
+        }else{
+            return res.json({status:"error",message:"Invalid card type."});
+        }
         account.getByUserId(req, function(err, dbResult){
             if(err){
                 return res.json({status:"error",message:err});
@@ -187,10 +195,13 @@ const connectCard = (req, res) => {
                 if(!hasAccessToAccount){
                     return res.json({status:"error",message:"User does not have access to this account."});
                 }
-                card.connectToAccount(req.body.accountId, req.userId, req.body.card_type, function(err, dbResult){
+                card.connectToAccount(req.body.accountId, req.userId, ctype, function(err, dbResult){
                     if(err){
                         return res.json({status:"error",message:err});
-                    }else{
+                    }else if(dbResult.affectedRows === 0){
+                        return res.json({status:"error",message:"No cards available."});
+                    }
+                    else{
                         return res.json({status:"success",message:"Successfully added card to selected account."});
                     }
                 });

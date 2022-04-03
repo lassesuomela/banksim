@@ -16,7 +16,7 @@ const card = {
         return db.query("UPDATE card SET active = ? WHERE card_number = ?", [active, card_number], callback);
     },
     connectToAccount: function(accountId, userId, card_type, callback){
-        return db.query("UPDATE card SET account_ID = ?, user_ID = ?, card_type = ? WHERE user_ID is NULL and account_ID is null and card_ID = (SELECT card_ID FROM card ORDER BY card_ID ASC LIMIT 1)", [accountId, userId, card_type], callback);
+        return db.query("UPDATE card SET account_ID = ?, user_ID = ?, card_type = ? WHERE user_ID IS NULL AND account_ID IS NULL ORDER BY card_ID ASC LIMIT 1", [accountId, userId, card_type], callback);
     },
     add: function(req, callback){
         bcrypt.hash(req.body.pin, saltRounds, function(err, hash){
