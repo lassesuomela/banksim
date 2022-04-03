@@ -24,7 +24,7 @@ const getById = (req, res) => {
 }
 
 const getOwnedAccounts = (req, res) => {
-    account.getByUserId(req.userId,function(err, dbResult){
+    account.getByUserId(req,function(err, dbResult){
         if(err){
             return res.json(err);
         }else{

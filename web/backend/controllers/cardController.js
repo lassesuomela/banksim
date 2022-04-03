@@ -1,4 +1,5 @@
 const card = require("../models/cardModel");
+const account = require("../models/accountModel");
 const bcrypt = require("bcrypt");
 const { json } = require("express/lib/response");
 
@@ -53,7 +54,7 @@ const getByCardNumber = (req, res) => {
     }
 }
 
-const getByCardsByUserID = (req, res) => {
+const getByUserID = (req, res) => {
     card.getByUserID(req.userId, function(err,dbResult){
 
         if(err){
@@ -61,7 +62,7 @@ const getByCardsByUserID = (req, res) => {
         }
 
         if(dbResult.length > 0){
-            res.json({status:"success",message:dbResult});
+            res.json(dbResult);
         }else{
             res.json({status:"error",message:"No cards found for this user"})
         }
@@ -92,7 +93,7 @@ const updateCardStatus = (req, res) => {
             }
 
             // activating card, resetting tries
-            if(req.body.active == 1){
+            if(req.body.active === 1){
                 card.updateTries(0, req.body.card_number, (err, dbResult) =>{
 
                     if(err){
@@ -126,7 +127,7 @@ const updateCardStatus = (req, res) => {
         res.json({status:"error",message:"Please fill all fields"});
     }
 }
-
+/*
 const addCard = (req, res) => {
     if(req.body.pin && req.body.card_number && req.body.card_type){
 
@@ -153,6 +154,50 @@ const addCard = (req, res) => {
         
     }else{
         res.json({message:"Please fill all fields"});
+    }
+}
+*/
+
+// add card to db without connecting it to any user or account
+const addCard = (req, res) => {
+    if(req.body.pin && req.body.card_number){
+        card.add(req, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }else{
+                res.json({status:"success",message:"Successfully added new card to database."});
+            }
+        });
+    }
+}
+
+// connect account to user & account
+const connectCard = (req, res) => {
+    if(req.userId && req.body.accountId && req.body.card_type){
+        account.getByUserId(req, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }else{
+                let hasAccessToAccount = false;
+                for(let i=0;i<dbResult.length;i++){
+                    if(dbResult[i].account_ID === req.body.accountId){
+                        hasAccessToAccount = true;
+                    }
+                }
+                if(!hasAccessToAccount){
+                    return res.json({status:"error",message:"User does not have access to this account."});
+                }
+                card.connectToAccount(req.body.accountId, req.userId, req.body.card_type, function(err, dbResult){
+                    if(err){
+                        return res.json({status:"error",message:err});
+                    }else{
+                        return res.json({status:"success",message:"Successfully added card to selected account."});
+                    }
+                });
+            }
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
     }
 }
 
@@ -274,9 +319,10 @@ const deleteCard = (req, res) => {
 module.exports = {
     getAll,
     getByCardNumber,
-    getByCardsByUserID,
+    getByUserID,
     updateCardStatus,
     addCard,
     authenticate,
-    deleteCard
+    deleteCard,
+    connectCard
 }
