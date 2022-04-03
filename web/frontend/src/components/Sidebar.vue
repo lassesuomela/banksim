@@ -40,7 +40,7 @@ export default {
     return {
       links: [
         { icon: 'mdi-account', text: 'Home', route: '/home' },
-        { icon: 'mdi-cash', text: 'Balance', route: '/balance' },
+        { icon: 'mdi-cash', text: 'Accounts', route: '/accounts' },
         { icon: 'mdi-credit-card', text: 'Cards', route: '/cards' },
         { icon: 'mdi-door', text: 'Logout', route: '/logout' }
       ],
