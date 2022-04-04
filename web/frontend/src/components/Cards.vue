@@ -22,7 +22,7 @@
             </v-list-item-action>
 
             <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-title>{{ item.title }} | Account ID: {{item.accountId}} | {{item.balance}}€</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
           
@@ -44,7 +44,7 @@
         },
         methods:{
           getAccounts(){
-            axios.get("/api/card").then((response) => {
+            axios.get("/api/card/info").then((response) => {
               let ctype = null;
               for(var i=0; i<response.data.length;i++){
                 if(response.data[i].card_type === 0){
@@ -52,7 +52,7 @@
                 }else{
                   ctype = "mdi-credit-card-check";
                 }
-                this.cardlist.push({title:response.data[i].card_number,type:ctype});
+                this.cardlist.push({title:response.data[i].card_number,type:ctype,accountId:response.data[i].account_ID,balance:response.data[i].balance});
               }
             });
           }
