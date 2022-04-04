@@ -9,6 +9,8 @@ router.get('/getAllCards', jwtAuth.verifyToken, cardController.getAll)
 
 router.get('/getByCardNumber/:card_number', jwtAuth.verifyToken, cardController.getByCardNumber);
 
+router.get("/info", jwtAuth.verifyToken, cardController.getCardAccountInfo);
+
 router.get('/', jwtAuth.verifyToken, cardController.getByUserID);
 
 router.put("/updateCard", jwtAuth.verifyToken, cardController.updateCardStatus);
@@ -19,6 +21,6 @@ router.post("/", jwtAuth.verifyToken, cardController.addCard);
 
 router.post("/auth", jwtAuth.verifyToken, cardController.authenticate)
 
-router.delete("/deleteCard", jwtAuth.verifyToken, cardController.deleteCard)
+router.delete("/", jwtAuth.verifyToken, cardController.disconnectCard)
 
 module.exports = router;
