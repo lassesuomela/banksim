@@ -70,6 +70,19 @@ const getByUserID = (req, res) => {
     });
 }
 
+const getCardAccountInfo = (req, res) => {
+    card.getCardAccountInfo(req.userId, function(err, dbResult){
+        if(err){
+            return res.json({status:"error",message:err});
+        }
+        if(dbResult.length > 0){
+            return res.json(dbResult);
+        }else{
+            return res.json({status:"error",message:"No cards found for this user"});
+        }
+    });
+}
+
 const updateCardStatus = (req, res) => {
     if(req.body.active && req.body.card_number){
 
@@ -195,7 +208,7 @@ const connectCard = (req, res) => {
                 if(!hasAccessToAccount){
                     return res.json({status:"error",message:"User does not have access to this account."});
                 }
-                card.connectToAccount(req.body.accountId, req.userId, ctype, function(err, dbResult){
+                card.connectCard(req.body.accountId, req.userId, ctype, function(err, dbResult){
                     if(err){
                         return res.json({status:"error",message:err});
                     }else if(dbResult.affectedRows === 0){
@@ -206,6 +219,37 @@ const connectCard = (req, res) => {
                     }
                 });
             }
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+}
+
+const disconnectCard = (req, res) => {
+    if(req.body.card_number){
+        card.getByUserID(req.userId, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }
+            let hasAccessToCard = false;
+            for(let i=0;i<dbResult.length;i++){
+                if(dbResult[i].card_number === req.body.card_number){
+                    hasAccessToCard = true;
+                }
+            }
+            if(!hasAccessToCard){
+                return res.json({status:"error",message:"User does not have access to this card."});
+            }
+            card.disconnectCard(req.body.card_number, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+                if(dbResult.affectedRows > 0){
+                    return res.json({status:"success",message:"Successfully deleted card."});
+                }else{
+                    return res.json({status:"error",message:"Unknown error has occurred."});
+                }
+            });
         });
     }else{
         return res.json({status:"error",message:"Please fill all fields."});
@@ -331,9 +375,11 @@ module.exports = {
     getAll,
     getByCardNumber,
     getByUserID,
+    getCardAccountInfo,
     updateCardStatus,
     addCard,
     authenticate,
     deleteCard,
-    connectCard
+    connectCard,
+    disconnectCard
 }
