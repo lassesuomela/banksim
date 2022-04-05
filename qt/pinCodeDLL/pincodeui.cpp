@@ -28,12 +28,17 @@ PinCodeUI::PinCodeUI(QWidget *parent) :
     timer = new QTimer(this);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(autoTimeout()));
-    timer->start(10000);
 }
 
 PinCodeUI::~PinCodeUI()
 {
-    qDebug() << "called pincodeui deconstructor";
+    qDebug() << "Pincodeui destroyed";
+    disconnect(timer, SIGNAL(timeout()), this, SLOT(autoTimeout()));
+
+    foreach(QPushButton *btn, buttons){
+        disconnect(btn, SIGNAL(clicked()), this, SLOT(handleClick()));
+    }
+
     delete ui;
     delete timer;
     timer = nullptr;
@@ -63,6 +68,13 @@ void PinCodeUI::resetTimer()
 {
     timer->stop();
     timer->start(10000);
+}
+
+void PinCodeUI::resetText()
+{
+    // reset pincode var and text
+    pinCode = "";
+    setPinCodeText(pinCode);
 }
 
 void PinCodeUI::handleClick()
@@ -109,7 +121,6 @@ void PinCodeUI::on_btn_clear_clicked()
     resetTimer();
 }
 
-
 void PinCodeUI::on_btn_ok_clicked()
 {
     // check if pinCode length is less than 4 then return out
@@ -124,27 +135,31 @@ void PinCodeUI::on_btn_ok_clicked()
     }
 
     qDebug() << "Pin code:" << pinCode;
-
     qDebug() << "Emitting signal to Pin code DLL";
 
     emit sendPinCode(pinCode);
 
-    // reset pincode var and text
-    pinCode = "";
-    setPinCodeText(pinCode);
+    resetText();
 
-    resetTimer();
+    this->close();
 }
 
 void PinCodeUI::autoTimeout()
 {
-    qDebug() << "Auto timeout because no action was taken in 10 s";
-    this->close();
+    if(this->isVisible()){
+        qDebug() << "Auto timeout because no action was taken in 10 s";
+
+        resetText();
+
+        this->close();
+    }
 }
 
 void PinCodeUI::getTries(int tries)
 {
-    qDebug() << "got tries";
+    timer->start(10000);
+
+    qDebug() << "Got tries from exe";
     currentTries = tries;
 
     if (currentTries <= 0){
@@ -153,5 +168,13 @@ void PinCodeUI::getTries(int tries)
     }else{
         ui->infoTextBox->setText(QString::number(currentTries) + " yritystä jäljellä");
     }
+}
+
+
+void PinCodeUI::on_pushButton_clicked()
+{
+    resetText();
+
+    this->close();
 }
 

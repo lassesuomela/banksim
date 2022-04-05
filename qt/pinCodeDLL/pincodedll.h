@@ -12,6 +12,8 @@ class PINCODEDLL_EXPORT PinCodeDLL : public QWidget
 public:
     PinCodeDLL(QWidget * parent = nullptr);
     ~PinCodeDLL();
+
+    void ShowWindow();
 private:
     PinCodeUI * pinCodeUI;
 signals:
