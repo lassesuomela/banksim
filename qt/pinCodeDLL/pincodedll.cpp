@@ -45,3 +45,8 @@ void PinCodeDLL::getTriesFromEXE(int tries)
 {
     emit triesToDLL(tries);
 }
+
+void PinCodeDLL::closeSignalSlot()
+{
+    pinCodeUI->close();
+}
