@@ -19,8 +19,8 @@
 -- Table structure for table `account`
 --
 
-create database banksim;
-use banksim;
+CREATE DATABASE banksim;
+USE banksim;
 
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -32,7 +32,7 @@ CREATE TABLE `account` (
   `owner` int(11) NOT NULL,
   PRIMARY KEY (`account_ID`),
   UNIQUE KEY `account_ID_UNIQUE` (`account_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,6 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'2022-04-03',12.50,1),(2,'2022-04-03',0.00,1),(3,'2022-04-03',0.00,1),(4,'2022-04-05',0.00,1),(5,'2022-04-05',0.00,1),(6,'2022-04-05',0.00,1),(7,'2022-04-05',0.00,1),(8,'2022-04-05',0.00,1),(9,'2022-04-05',0.00,1);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -68,7 +67,7 @@ CREATE TABLE `card` (
   KEY `fk_card_user1_idx` (`user_ID`),
   CONSTRAINT `fk_card_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`),
   CONSTRAINT `fk_card_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='//';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='//';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +76,6 @@ CREATE TABLE `card` (
 
 LOCK TABLES `card` WRITE;
 /*!40000 ALTER TABLE `card` DISABLE KEYS */;
-INSERT INTO `card` VALUES (1,'$2b$10$ZGR6JnkSnqrSHzrTZcZucuLg7wrbyCpRBRc1lHN/ouM7KDD8CnNiq','4920694200',2,1,0,1,0),(2,'$2b$10$ouYiM3kWQEbyFaj3HdTAL.QHako1/JrcT1.OTXi4znxGr2HNJq2JK','735469001',1,1,1,1,0),(4,'$2b$10$eSAVI26S09cdn6oITC7/P.b62S33eiQ2PdXeyUH/l.zZ6i/O9HW1a','735469002',NULL,NULL,0,1,0),(5,'$2b$10$gEPg8ynmHAJJZqjxiRr8ue2Yv3beLjUMidjEdHGiZxS6kUQWgH71K','12345678',NULL,NULL,0,1,0);
 /*!40000 ALTER TABLE `card` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +126,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`user_ID`),
   UNIQUE KEY `user_ID_UNIQUE` (`user_ID`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +135,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Tomi','Test','muumitalo 55','a@a.com','584905','$2b$10$t0Xhe/96k6HTo.Gnh9g9c.yMc.z/NrkwKyxBtbcGi498XlC9EsAr6');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +162,6 @@ CREATE TABLE `user_account` (
 
 LOCK TABLES `user_account` WRITE;
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
-INSERT INTO `user_account` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9);
 /*!40000 ALTER TABLE `user_account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -178,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-05 10:49:40
+-- Dump completed on 2022-04-05 11:14:25
