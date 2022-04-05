@@ -14,18 +14,15 @@
          </v-icon>
          <span class="text-subtitle-1 blue-grey--text text--darken-3">Credit</span>
         </v-card-title>
-
         <v-list color="blue-grey darken-3" v-for="(item,index) in cardlist" :key="index">
           <v-list-item dark>
             <v-list-item-action>
               <v-icon>{{item.type}}</v-icon>
             </v-list-item-action>
-
             <v-list-item-content>
               <v-list-item-title>{{ item.title }} | Account ID: {{item.accountId}} | {{item.balance}}€</v-list-item-title>
             </v-list-item-content>
-          </v-list-item>
-          
+          </v-list-item>     
           <v-divider dark inset></v-divider>
         </v-list>
       </v-card>

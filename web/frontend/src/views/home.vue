@@ -33,6 +33,7 @@
     import axios from "../axios";
     export default {
         name: "Dashboard",
+        props: ["resource", "title"],
         data() {
             return {
                 fname: "",
