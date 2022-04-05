@@ -23,6 +23,7 @@ signals:
 public slots:
     void getPinFromDLL(QString);
     void getTriesFromEXE(int);
+    void closeSignalSlot();
 };
 
 #endif // PINCODEDLL_H
