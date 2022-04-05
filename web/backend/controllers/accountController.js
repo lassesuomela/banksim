@@ -48,6 +48,8 @@ const addAccount = (req, res) => {
                 }
             }
         });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
     }
 }
 

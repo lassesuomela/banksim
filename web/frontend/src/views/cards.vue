@@ -11,7 +11,7 @@
         </v-card-title>
       <v-form @submit.prevent="addCard" id="addcard-form">
       <v-col class="d-flex" >
-        <v-select v-model="selectAccount" dark color="cyan darken-1" :items="accountlist" label="Account" prepend-icon="person" ></v-select>
+        <v-select v-model="selectAccount" dark color="cyan darken-1" :items="accountlist" item-value="id" item-text="name" label="Account" prepend-icon="person" ></v-select>
       </v-col>
       <v-col>
         <v-select v-model="selectType" dark color="cyan darken-1" :items="cardtype" label="Debit or Credit" prepend-icon="mdi-credit-card" ></v-select>
@@ -68,7 +68,7 @@ export default {
       getAccounts(){
         axios.get("/api/account").then((response) => {
           for(var i=0;i<response.data.length;i++){
-            this.accountlist.push(response.data[i].account_ID);
+            this.accountlist.push({id:response.data[i].account_ID,name:response.data[i].name});
           }
         });
       },
