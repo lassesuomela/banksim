@@ -140,8 +140,6 @@ void PinCodeUI::on_btn_ok_clicked()
     emit sendPinCode(pinCode);
 
     resetText();
-
-    this->close();
 }
 
 void PinCodeUI::autoTimeout()
