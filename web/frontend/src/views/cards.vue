@@ -13,12 +13,29 @@
       <v-col class="d-flex" >
         <v-select v-model="selectAccount" dark color="cyan darken-1" :items="accountlist" label="Account" prepend-icon="person" ></v-select>
       </v-col>
-      <v-col class="d-flex" >
-        <v-select v-model="selectType" dark color="cyan darken-1" :items="cardtype" label="Debit or Credit" prepend-icon="person" ></v-select>
+      <v-col>
+        <v-select v-model="selectType" dark color="cyan darken-1" :items="cardtype" label="Debit or Credit" prepend-icon="mdi-credit-card" ></v-select>
       </v-col>
+        <v-col >
+          <v-text-field
+            prepend-icon="lock"
+            dark
+            :rules="[rules.required, rules.min]"
+            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="show1 ? 'text' : 'password'"
+            name="input-10-2"
+            color="cyan darken-1"
+            label="Pin code"
+            v-model="Value"
+
+            hint="4 Numbers"
+            class="input-group--focused"
+            @click:append="show1 = !show1"
+          ></v-text-field>
+        </v-col>
       <br>
       <div class="text-center ">
-         <v-btn type="submit" rounded color="cyan darken-1" dark form="addcard-form">Add card</v-btn>
+         <v-btn type="submit" rounded color="cyan darken-1" class="blue-grey--text text--darken-3" dark form="addcard-form">Add card</v-btn>
       </div>
       <span class="cyan--text">{{this.addCardRes}}</span>
       </v-form>
@@ -35,10 +52,15 @@ export default {
     data(){
       return {
         accountlist: [],
+        show1: false,
         cardtype: ['Debit', 'Credit'],
         selectAccount: "",
         selectType: "",
-        addCardRes: ""
+        addCardRes: "",
+        rules: {
+          required: value => !!value || 'Required.',
+          min: v => v.length == 4 || '4 Numbers',
+        },
       }
     },
     methods:{
