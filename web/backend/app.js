@@ -6,6 +6,7 @@ var logger = require('morgan');
 var history = require('connect-history-api-fallback');
 var cors = require("cors");
 var bcrypt = require("bcrypt");
+var sanitizer = require("sanitizer");
 var db = require("./config/db");
 require("dotenv").config();
 

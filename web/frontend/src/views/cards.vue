@@ -26,9 +26,9 @@
             name="input-10-2"
             color="cyan darken-1"
             label="Pin code"
-            v-model="Value"
+            v-model="pin"
 
-            hint="4 Numbers"
+            hint="4 Digits"
             class="input-group--focused"
             @click:append="show1 = !show1"
           ></v-text-field>
@@ -56,10 +56,11 @@ export default {
         cardtype: ['Debit', 'Credit'],
         selectAccount: "",
         selectType: "",
+        pin: "",
         addCardRes: "",
         rules: {
           required: value => !!value || 'Required.',
-          min: v => v.length == 4 || '4 Numbers',
+          min: v => v.length == 4 || '4 Digits',
         },
       }
     },
@@ -72,7 +73,7 @@ export default {
         });
       },
       addCard(){
-        axios.put("/api/card/connect", {accountId:this.selectAccount,card_type:this.selectType}).then((response) => {
+        axios.put("/api/card/connect", {accountId:this.selectAccount,card_type:this.selectType,pin:this.pin}).then((response) => {
           this.addCardRes = response.data.message;
           if(response.data.status === "success"){
             window.location.replace("/cards");
