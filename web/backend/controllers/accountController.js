@@ -1,4 +1,5 @@
 const emailvalidator = require("email-validator");
+const sanitizer = require("sanitizer");
 const { json } = require("express/lib/response");
 const account = require("../models/accountModel");
 const user = require("../models/userModel");
@@ -34,8 +35,8 @@ const getOwnedAccounts = (req, res) => {
 }
 
 const addAccount = (req, res) => {
-    if(req.userId){
-        account.add(req.userId,function(err, dbResult){
+    if(req.userId && req.body.name){
+        account.add(sanitizer.escape(req.body.name),req.userId,function(err, dbResult){
             if(err){
                 console.log(err);
                 return res.json(err);
@@ -51,7 +52,7 @@ const addAccount = (req, res) => {
 }
 
 const addUserToAccount = (req, res) => {
-    if(emailvalidator.validate(req.body.email)){
+    if(emailvalidator.validate(req.body.email) && req.body.account){
         user.getByEmail(req.body.email,function(err, dbResult){
             if(err){
                 return res.json(err);

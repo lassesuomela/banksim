@@ -27,10 +27,10 @@ DROP TABLE IF EXISTS `account`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
   `account_ID` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
   `date_opened` date NOT NULL,
-
   `balance` double(9,2) NOT NULL DEFAULT '0.00',
-  
+  `owner` int NOT NULL,
   PRIMARY KEY (`account_ID`),
   UNIQUE KEY `account_ID_UNIQUE` (`account_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -64,13 +64,11 @@ CREATE TABLE `card` (
   PRIMARY KEY (`card_ID`),
   UNIQUE KEY `card_ID_UNIQUE` (`card_ID`),
   UNIQUE KEY `card_number_UNIQUE` (`card_number`),
-
   KEY `fk_card_account1_idx` (`account_ID`),
   KEY `fk_card_user1_idx` (`user_ID`),
   CONSTRAINT `fk_card_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`),
   CONSTRAINT `fk_card_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='//';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -177,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-03-31 14:28:02
+-- Dump completed on 2022-04-05 13:08:59
