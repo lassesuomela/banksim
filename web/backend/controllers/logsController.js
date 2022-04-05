@@ -10,26 +10,45 @@ const getAll = (req, res) => {
     });
 }
 
-const getByAccountId = (req, res) => {
-    if(req.body.accountId){
-        logs.getById(req.body.accountId, function(err,dbResult){
+const getByCardNumber = (req, res) => {
+    if(req.params.card_number){
+        logs.getByCardNumber(req.params.card_number, function(err,dbResult){
             if(err){
                 res.json(err);
-            }else{
-                res.json(dbResult);
             }
+
+            if(dbResult.length > 0){
+                res.json(dbResult);
+            }else{
+                res.json({status:"error",message:"No logs found for that card number"});
+            }
+
         });
+    }else{
+        res.json({message:"Please fill all fields."});
     }
 }
 
 const add = (req, res) => {
-    if(req.body.event && req.body.amount && req.body.account_ID){
-        logs.add(req, function(err, dbResult){
+    if(req.body.amount && req.body.card_number){
+        let event = null;
+
+        if(req.body.amount < 0){
+            event = "Otto";
+        }else{
+            event = "Talletus";
+        }
+
+        logs.add(req, event, function(err, dbResult){
             if(err){
                 console.log(err);
-                res.json({status:"error",message:"Error on creating logs."});
-            }else{
+                return res.json({status:"error",message:"Error on creating logs."});
+            }
+
+            if(dbResult.affectedRows > 0){
                 res.json({status:"success",message:"Log created."});
+            }else{
+                res.json({status:"error",message:"Log was not created."});
             }
         });
     }else{
@@ -38,12 +57,16 @@ const add = (req, res) => {
 }
 
 const deleteLogs = (req, res) => {
-    if(req.body.account_ID && req.body.log_ID){
+    if(req.body.card_number && req.body.log_ID){
         logs.delete(req, function(err, dbResult){
             if(err){
-                res.json({status:"error",message:"Error on deleting logs."});
-            }else{
+                return res.json({status:"error",message:"Error on deleting logs."});
+            }
+
+            if(dbResult.affectedRows > 0){
                 res.json({status:"success",message:"Log deleted."});
+            }else{
+                res.json({status:"error",message:"Log not deleted."});
             }
         });
     }else{
@@ -53,7 +76,7 @@ const deleteLogs = (req, res) => {
 
 module.exports = {
     getAll,
-    getByAccountId,
+    getByCardNumber,
     add,
     deleteLogs
 }
