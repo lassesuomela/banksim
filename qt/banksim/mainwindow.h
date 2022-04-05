@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
-#include "idlewindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -19,7 +18,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    IdleWindow *idleWindow;
 };
 
 #endif // MAINWINDOW_H

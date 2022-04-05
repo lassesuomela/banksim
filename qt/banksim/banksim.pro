@@ -26,15 +26,14 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-
-win32:CONFIG(release, debug|release): LIBS += -LF:/Koulu/olio-ohjelmointi/release/ -lDLLSerialPort
-else:win32:CONFIG(debug, debug|release): LIBS += -LF:/Koulu/olio-ohjelmointi/debug/ -lDLLSerialPort
-
-INCLUDEPATH += $$PWD/../DLLSerialPort
-DEPENDPATH += $$PWD/../DLLSerialPort
-
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../pinCodeDLL/build/release/ -lpinCodeDLL
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../pinCodeDLL/build/debug/ -lpinCodeDLL
 
-INCLUDEPATH += $$PWD/../pinCodeDLL
-DEPENDPATH += $$PWD/../pinCodeDLL
+INCLUDEPATH += $$PWD/../pinCodeDLL/
+DEPENDPATH += $$PWD/../pinCodeDLL/
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../DLLSerialPort/build/release/ -lDLLSerialPort
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../DLLSerialPort/build/debug/ -lDLLSerialPort
+
+INCLUDEPATH += $$PWD/../DLLSerialPort/
+DEPENDPATH += $$PWD/../DLLSerialPort/

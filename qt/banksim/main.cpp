@@ -1,11 +1,11 @@
-#include "mainwindow.h"
+#include "idlewindow.h"
 #include "dllserialport.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    IdleWindow w;
     w.show();
     return a.exec();
 }

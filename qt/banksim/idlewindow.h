@@ -26,11 +26,14 @@ public slots:
 signals:
     void SendTries(int);
 
+private slots:
+    void on_nappi_clicked();
+
 private:
-    MainWindow *mainWindow;
     Ui::IdleWindow *ui;
     DLLSerialPort *serialPort;
     PinCodeDLL *pinCodeDLL;
+    MainWindow *mainWindow;
     void HandleCard();
     char* rfid;
     QString pinCode;
