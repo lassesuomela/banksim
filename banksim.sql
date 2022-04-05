@@ -21,12 +21,13 @@
 
 CREATE DATABASE banksim;
 USE banksim;
---
+
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
   `account_ID` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
   `date_opened` date NOT NULL,
   `balance` double(9,2) NOT NULL DEFAULT '0.00',
   `owner` int NOT NULL,
@@ -174,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-05 11:37:37
+-- Dump completed on 2022-04-05 13:08:59

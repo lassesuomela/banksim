@@ -25,6 +25,7 @@ public slots:
 
 signals:
     void SendTries(int);
+    void sendCloseSignal();
 
 private slots:
     void on_nappi_clicked();

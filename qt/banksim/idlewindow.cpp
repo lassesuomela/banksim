@@ -13,12 +13,16 @@ IdleWindow::IdleWindow(QWidget *parent)
     connect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
     connect(pinCodeDLL, SIGNAL(pinToExe(QString)), this, SLOT(PinSlot(QString)));
     connect(this, SIGNAL(SendTries(int)), pinCodeDLL, SLOT(getTriesFromEXE(int)));
+    connect(this, SIGNAL(sendCloseSignal()), pinCodeDLL, SLOT(closeSignalSlot()));
+
     HandleCard();
 }
 IdleWindow::~IdleWindow(){
     disconnect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
     disconnect(pinCodeDLL, SIGNAL(pinToExe(QString)), this, SLOT(PinSlot(QString)));
     disconnect(this, SIGNAL(SendTries(int)), pinCodeDLL, SLOT(getTriesFromEXE(int)));
+    disconnect(this, SIGNAL(sendCloseSignal()), pinCodeDLL, SLOT(closeSignalSlot()));
+
     delete ui;
     delete pinCodeDLL;
     delete mainWindow;
@@ -31,13 +35,14 @@ void IdleWindow::PinSlot(QString pin){
     if(CheckInfo(tries, rfid, pinCode)){
        mainWindow = new MainWindow();
        this->close();
+       emit sendCloseSignal();
        mainWindow->show();
 
     }
     else{
         tries--;
         emit SendTries(tries);
-        pinCodeDLL->ShowWindow();
+
     }
 }
 
