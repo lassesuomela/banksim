@@ -48,9 +48,6 @@
     created () {
       this.initialize()
     },
-    deleteItem (item) {
-        
-      },
     methods: {
       initialize () {
         axios.get("/api/account").then((response) => {
@@ -59,6 +56,11 @@
           }
         });
       },
+      deleteItem(item){
+        axios.delete("/api/account",{id:Number(item.id)}).then((response) => {
+
+        });
+      }
     },
   }
 </script>
