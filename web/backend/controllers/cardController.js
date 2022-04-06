@@ -15,7 +15,7 @@ const getAll = (req, res) => {
 
 const getByCardNumber = (req, res) => {
 
-    if(req.body.card_number){
+    if(req.params.card_number){
 
         // check if user has access to queried card
         card.getByUserID(req.userId, (err, dbResult) =>{
@@ -25,9 +25,8 @@ const getByCardNumber = (req, res) => {
             }
 
             let hasAccessToCard = false;
-        
             for(let i = 0; i < dbResult.length; i++){
-                if(dbResult[i].card_number === req.body.card_number){
+                if(dbResult[i].card_number.toString() === req.params.card_number){
                     hasAccessToCard = true;
                 }
             }
@@ -35,22 +34,21 @@ const getByCardNumber = (req, res) => {
             if(!hasAccessToCard){
                 return res.json({status:"error",message:"User doesn't have this card"});
             }
-        })
 
-        card.getByNumber(req.body.card_number, function(err,dbResult){
-            if(err){
-                return res.json({status:"error",message:err});
-            }
-
-            if(dbResult.length > 0){
-                res.json({status:"success",message:dbResult});
-            }else{
-                res.json({status:"error",message:"Card not found"})
-            }
+            card.getByNumber(req.params.card_number, function(err,dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+    
+                if(dbResult.length > 0){
+                    return res.json({status:"success",message:dbResult});
+                }else{
+                    return res.json({status:"error",message:"Card not found"})
+                }
+            });
         });
-
     }else{
-        res.json({message:"Please fill all fields"});
+        return res.json({status:"error",message:"Please fill all fields"});
     }
 }
 
