@@ -4,7 +4,7 @@
  <app-sidebar/>
  <app-cards/>
    <v-row >
-    <v-col cols="12" sm="8">
+    <v-col cols="12">
       <v-card class="blue-grey darken-3">
         <v-card-title class="cyan darken-1">
           <span class="font-weight-bold text-h5 blue-grey--text text--darken-3">Add card</span>

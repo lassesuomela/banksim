@@ -4,6 +4,7 @@ import LoginComponent from "../views/login.vue"
 import HomeComponent from "../views/home.vue"
 import RegisterComponent from "../views/register.vue"
 import LogoutComponent from "../views/logout.vue"
+import tesComponent from "../views/tes.vue"
 import AccountsComponent from "../views/accounts.vue"
 import CardsComponent from "../views/cards.vue"
 import axios from "../axios"
@@ -21,6 +22,12 @@ const routes = [
         component: LoginComponent
         
     },
+    {
+      path: "/tes",
+      name: "tes",
+      component: tesComponent
+      
+  },
     {
         path: "/home",
         name: "Home",
