@@ -3,8 +3,8 @@
     :headers="headers"
     dark
     :items="Accounts"
-    sort-by="id"
-    class="elevation-1 blue-grey darken-3"
+    sort-by="Kortti"
+    class="elevation-1 blue-grey darken-3" 
   >
     <template v-slot:top>
       <v-toolbar
@@ -86,36 +86,33 @@
 </template>
 
 <script>
-  import axios from "../axios"
   export default {
     data: () => ({
       dialog: false,
       dialogDelete: false,
-      Accounts: [],
       headers: [
-        { text: 'Name', align: 'start', sortable: false, value: 'name', },
-        { text: 'Account ID', value: 'id' },
-        { text: 'Balance €', value: 'balance' },
+        { text: 'Account', sortable: false, value: 'Account', },
+        { text: 'Kortti??', value: 'Kortti' },
+        { text: 'Balance €', value: 'Balance' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
-      defaultItem: { name: '', id: 0, balance: 0, },
+      defaultItem: { Account: '', Kortti: 0, Balance: 0, },
     }),   
     created () {
       this.initialize()
     },
+    deleteItem (item) {
+        
+      },
     methods: {
       initialize () {
-        axios.get("/api/account").then((response) => {
-          for(let i=0;i<response.data.length;i++){
-            this.Accounts.push({name:response.data[i].name,id:response.data[i].account_ID,balance:response.data[i].balance});
-          }
-        });
+        this.Accounts = [
+          { Account: 'Account 1', Kortti: 'lkm?', Balance: 6000, },
+          { Account: 'Account 2', Kortti: 'ID?', Balance: 5000, },
+          { Account: 'Account 3', Kortti: 1, Balance: 1000, },
+          { Account: 'Account 4', Kortti: 22, Balance: 3000, },
+        ]
       },
-      deleteItem(item){
-        axios.delete("/api/account",{id:Number(item.id)}).then((response) => {
-
-        });
-      }
     },
   }
 </script>

@@ -5,6 +5,7 @@ import HomeComponent from "../views/home.vue"
 import RegisterComponent from "../views/register.vue"
 import LogoutComponent from "../views/logout.vue"
 import AccountsComponent from "../views/accounts.vue"
+import TestComponent from "../views/test.vue"
 import CardsComponent from "../views/cards.vue"
 import axios from "../axios"
 
@@ -21,6 +22,12 @@ const routes = [
         component: LoginComponent
         
     },
+    {
+      path: "/test",
+      name: "test",
+      component: TestComponent
+      
+  },
     {
         path: "/home",
         name: "Home",

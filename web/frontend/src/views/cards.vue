@@ -35,7 +35,15 @@
         </v-col>
       <br>
       <div class="text-center ">
-         <v-btn type="submit" rounded color="cyan darken-1" class="blue-grey--text text--darken-3" dark form="addcard-form">Add card</v-btn>
+         <v-btn
+         type="submit" 
+         rounded color="cyan darken-1" 
+         class="blue-grey--text text--darken-3" 
+         dark 
+         form="addcard-form"
+         > 
+         Add card
+         </v-btn>
       </div>
       <span class="cyan--text">{{this.addCardRes}}</span>
       </v-form>

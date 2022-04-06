@@ -61,13 +61,16 @@
                           />
                           <v-text-field
                             dark
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show1 ? 'text' : 'password'"
                             id="password"
                             label="Password"
                             name="password"
                             v-model="password"
                             prepend-icon="lock"
-                            type="password"
                             color="light-green darken-1"
+                            @click:append="show1 = !show1"
+                            required
                           />
                           <v-text-field
                             dark
@@ -138,6 +141,7 @@ export default{
   },
   data () {
     return {
+      show1: false,
       email: "",
       password: "",
       fname: "",
