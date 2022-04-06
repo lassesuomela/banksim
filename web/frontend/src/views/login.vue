@@ -29,7 +29,6 @@
                             name="password"
                             v-model="password"
                             prepend-icon="lock"
-                            type="password"
                             color="cyan darken-1"
                             :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                             :type="show1 ? 'text' : 'password'"

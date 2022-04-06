@@ -75,11 +75,42 @@ const addUserToAccount = (req, res) => {
     }
 }
 
+const deleteAccount = (req, res) => {
+    if(req.body.id){
+        account.getOwnerById(req.userId, req.body.id, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }
+            let hasAccessToAccount = false;
+            for(let i=0;i<dbResult.length;i++){
+                if(dbResult[i].account_ID === req.body.id && dbResult[i].owner === req.userId){
+                    hasAccessToAccount = true;
+                }
+            }
+            if(!hasAccessToAccount){
+                return res.json({status:"error",message:"User does not have access to this account."});
+            }
+            account.delete(req.body.id, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+                if(dbResult.affectedRows > 0){
+                    return res.json({status:"success",message:"Successfully deleted account "+req.body.id});
+                }
+            });
+
+            
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+}
+
 module.exports = {
     getAll,
     getById,
     getOwnedAccounts,
     addAccount,
     addUserToAccount,
-
+    deleteAccount,
 }
