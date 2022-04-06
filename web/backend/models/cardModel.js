@@ -29,6 +29,10 @@ const card = {
         return db.query("UPDATE card SET account_ID = NULL, user_ID = NULL, card_type = 0, active = 0 WHERE card_number = ?",
         [card_number], callback);
     },
+    disconnectByAccountId: function(accountId, callback){
+        return db.query("UPDATE card SET account_ID = NULL, user_ID = NULL, card_type = 0, active = 0 WHERE account_ID = ?",
+        [accountId], callback);
+    },
     add: function(callback){
         bcrypt.hash("1234", saltRounds, function(err, hash){
             return db.query("INSERT INTO card (pin, card_number, active) VALUES(?,?, 0)",
