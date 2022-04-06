@@ -117,11 +117,13 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
     QJsonArray json_array = json_doc.array();
     qDebug()<<json_array<<"json"<<Qt::endl;
 
-    /*account_name = json_obj["name"].toString();
-    account_balance = json_obj["balance"].toDouble();
-    account_owner_id = json_obj["owner"].toString();*/
+    foreach(const QJsonValue &value, json_array){
+        QJsonObject obj = value.toObject();
+        account_name = obj["name"].toString();
+        account_balance = obj["balance"].toDouble();
+    }
 
-    qDebug()<<account_balance<<account_name<<account_owner_id<<"parsed data";
+    qDebug()<<account_balance<<account_name<<"parsed data";
     reply->deleteLater();
     manager->deleteLater();
 }

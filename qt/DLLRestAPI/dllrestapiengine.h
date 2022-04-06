@@ -40,7 +40,6 @@ private:
     //account data
     double account_balance;
     QString account_name;
-    QString account_owner_id;
 
 private slots:
     void loginSlot(QNetworkReply *reply);
