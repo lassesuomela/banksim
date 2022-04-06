@@ -1,7 +1,7 @@
 <template>
-        <div>
-        <apexchart width="500" type="pie" :options="chartOptions" :series="series"></apexchart>
-        </div>       
+    <div>
+      <apexchart width="500" type="pie" :options="chartOptions" :series="series"></apexchart>
+    </div>       
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
             chart: {
               width: '100%',
               type: 'pie',
-              background: '#202227'
+              background: '#37474F'
             },
             labels: [],
             theme: {

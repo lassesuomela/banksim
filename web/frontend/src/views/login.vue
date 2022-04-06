@@ -24,14 +24,14 @@
                           />
                           <v-text-field
                             dark
+                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="show1 ? 'text' : 'password'"
                             id="password"
                             label="Password"
                             name="password"
                             v-model="password"
                             prepend-icon="lock"
                             color="cyan darken-1"
-                            :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                            :type="show1 ? 'text' : 'password'"
                             @click:append="show1 = !show1"
                             required
                           />
