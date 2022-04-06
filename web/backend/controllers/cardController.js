@@ -15,7 +15,7 @@ const getAll = (req, res) => {
 
 const getByCardNumber = (req, res) => {
 
-    if(req.body.card_number){
+    if(req.params.card_number){
 
         // check if user has access to queried card
         card.getByUserID(req.userId, (err, dbResult) =>{
@@ -27,7 +27,7 @@ const getByCardNumber = (req, res) => {
             let hasAccessToCard = false;
         
             for(let i = 0; i < dbResult.length; i++){
-                if(dbResult[i].card_number === req.body.card_number){
+                if(dbResult[i].card_number === req.params.card_number){
                     hasAccessToCard = true;
                 }
             }
@@ -37,7 +37,7 @@ const getByCardNumber = (req, res) => {
             }
         })
 
-        card.getByNumber(req.body.card_number, function(err,dbResult){
+        card.getByNumber(req.params.card_number, function(err,dbResult){
             if(err){
                 return res.json({status:"error",message:err});
             }
