@@ -41,7 +41,7 @@ const getByCardNumber = (req, res) => {
                 }
     
                 if(dbResult.length > 0){
-                    return res.json({status:"success",message:dbResult});
+                    return res.json(dbResult);
                 }else{
                     return res.json({status:"error",message:"Card not found"})
                 }
