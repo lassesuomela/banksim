@@ -6,7 +6,9 @@ const jwtAuth = require("../config/jwtAuth");
 
 router.get("/",jwtAuth.verifyToken,logsController.getAll);
 
-router.get("/getByCardNumber/:card_number",jwtAuth.verifyToken,logsController.getByCardNumber)
+router.get("/getByCardNumber/:card_number/:min/:max",jwtAuth.verifyToken,logsController.getByCardNumber)
+
+router.get("/getByCardNumber/:card_number",jwtAuth.verifyToken,logsController.getByCardNumberFixed)
 
 router.post("/create",jwtAuth.verifyToken,logsController.add);
 

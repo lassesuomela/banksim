@@ -11,8 +11,27 @@ const getAll = (req, res) => {
 }
 
 const getByCardNumber = (req, res) => {
+    if(req.params.card_number, req.params.min, req.params.max){
+        logs.getByCardNumber(req.params.card_number, req.params.min, req.params.max, function(err,dbResult){
+            if(err){
+                res.json(err);
+            }
+
+            if(dbResult.length > 0){
+                res.json(dbResult);
+            }else{
+                res.json({status:"error",message:"No logs found for that card number"});
+            }
+
+        });
+    }else{
+        res.json({message:"Please fill all fields."});
+    }
+}
+
+const getByCardNumberFixed = (req, res) => {
     if(req.params.card_number){
-        logs.getByCardNumber(req.params.card_number, function(err,dbResult){
+        logs.getByCardNumberFixed(req.params.card_number, function(err,dbResult){
             if(err){
                 res.json(err);
             }
@@ -77,6 +96,7 @@ const deleteLogs = (req, res) => {
 module.exports = {
     getAll,
     getByCardNumber,
+    getByCardNumberFixed,
     add,
     deleteLogs
 }
