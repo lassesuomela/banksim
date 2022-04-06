@@ -6,12 +6,14 @@ var logger = require('morgan');
 var history = require('connect-history-api-fallback');
 var cors = require("cors");
 var bcrypt = require("bcrypt");
+var sanitizer = require("sanitizer");
 var db = require("./config/db");
 require("dotenv").config();
 
 const vue = express.static("../frontend/dist");
 var userRouter = require('./routes/userRoutes');
-const res = require('express/lib/response');
+let cardRouter = require('./routes/cardRoutes');
+let accountRouter = require("./routes/accountRoutes");
 
 var app = express();
 
@@ -35,6 +37,8 @@ app.use((err, req, res, next) => {
 })
 
 app.use('/api/user', userRouter);
+app.use('/api/card', cardRouter);
+app.use("/api/account", accountRouter);
 
 app.use(history({
   index: "index.html"

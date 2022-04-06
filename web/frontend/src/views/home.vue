@@ -1,15 +1,11 @@
 
 <template>
     <div class="dashboard">
-        <v-subheader class="py-0 d-flex justify-space-between rounded-lg">
-            <h3>Dashboard</h3>
-            <v-btn color="success"> View Orders </v-btn>
-        </v-subheader>
-        <br>
+        <app-sidebar/>
         <v-row>
             <v-col lg="7" cols="12">
                 <v-alert dense text type="success">
-                    Login Successfully! Welcome to <strong>Customer name</strong>
+                    Welcome back {{fname}}!
                 </v-alert>
                 <v-row>
                     <v-col lg="6" cols="12" v-for="(item,index) in activityLog" :key="index">
@@ -24,8 +20,6 @@
                                 </v-avatar>
                             </v-card-text>
                             <v-card-actions class="d-flex justify-space-between">
-
-
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -36,10 +30,13 @@
 </template>
 
 <script>
+    import axios from "../axios";
     export default {
         name: "Dashboard",
+        props: ["resource", "title"],
         data() {
             return {
+                fname: "",
                 activityLog: [
                     {title: 'Total Products', amount: 50, icon: 'mdi-account', color: 'cyan lighten-3'},
                     {title: 'Total Customer', amount: 3433, icon: 'mdi-account-group-outline', color: 'green darken-2'},
@@ -48,11 +45,16 @@
                 ],
             }
         },
-        methods: {
-            onButtonClick(item) {
-                console.log('click on ' + item.no)
+        methods:{
+            async getUserData(){
+                const response = await axios.get("/api/user/info");
+                this.fname = response.data.fname;
             }
+        },
+        mounted(){
+            this.getUserData();
         }
+        
     }
     
 </script>
