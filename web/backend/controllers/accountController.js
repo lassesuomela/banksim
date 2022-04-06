@@ -3,6 +3,7 @@ const sanitizer = require("sanitizer");
 const { json } = require("express/lib/response");
 const account = require("../models/accountModel");
 const user = require("../models/userModel");
+const card = require("../models/cardModel");
 
 const getAll = (req, res) => {
     account.get(function(err, dbResult){
@@ -38,16 +39,13 @@ const addAccount = (req, res) => {
     if(req.userId && req.body.name){
         account.add(sanitizer.escape(req.body.name),req.userId,function(err, dbResult){
             if(err){
-                console.log(err);
                 return res.json(err);
             }else{
-                if(dbResult.affectedRows > 0){
-                    return res.json({status:"success",message:"New account added succesfully!"});
-                }else{
-                    return res.json({status:"error"});
-                }
+                return res.json({status:"success",message:"New account added succesfully!"});
             }
         });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
     }
 }
 
@@ -73,11 +71,50 @@ const addUserToAccount = (req, res) => {
     }
 }
 
+const deleteAccount = (req, res) => {
+    if(req.body.id){
+        account.getOwnerById(req.userId, req.body.id, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }
+            let hasAccessToAccount = false;
+            let accountId = null;
+            for(let i=0;i<dbResult.length;i++){
+                if(dbResult[i].account_ID === req.body.id && dbResult[i].owner === req.userId){
+                    hasAccessToAccount = true;
+                    accountId = dbResult[i].account_ID;
+                    if(dbResult[i].balance !== 0){
+                        return res.json({status:"error",message:"Account's balance must be 0 before deleting."});
+                    }
+                }
+            }
+            if(!hasAccessToAccount){
+                return res.json({status:"error",message:"User does not have access to this account."});
+            }
+            card.disconnectByAccountId(accountId, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+            });
+            account.delete(accountId, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+                if(dbResult.affectedRows > 0){
+                    return res.json({status:"success",message:"Successfully deleted account "+req.body.id});
+                }
+            });
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+}
+
 module.exports = {
     getAll,
     getById,
     getOwnedAccounts,
     addAccount,
     addUserToAccount,
-
+    deleteAccount,
 }

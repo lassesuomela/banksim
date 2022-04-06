@@ -12,4 +12,6 @@ router.post("/adduser",jwtAuth.verifyToken,accountController.addUserToAccount);
 
 router.post("/",jwtAuth.verifyToken,accountController.addAccount);
 
+router.delete("/", jwtAuth.verifyToken, accountController.deleteAccount);
+
 module.exports = router;
