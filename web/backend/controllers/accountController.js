@@ -39,7 +39,6 @@ const addAccount = (req, res) => {
     if(req.userId && req.body.name){
         account.add(sanitizer.escape(req.body.name),req.userId,function(err, dbResult){
             if(err){
-                console.log(err);
                 return res.json(err);
             }else{
                 return res.json({status:"success",message:"New account added succesfully!"});
@@ -73,7 +72,6 @@ const addUserToAccount = (req, res) => {
 }
 
 const deleteAccount = (req, res) => {
-    console.log(req.body);
     if(req.body.id){
         account.getOwnerById(req.userId, req.body.id, function(err, dbResult){
             if(err){
@@ -86,7 +84,6 @@ const deleteAccount = (req, res) => {
                     hasAccessToAccount = true;
                     accountId = dbResult[i].account_ID;
                     if(dbResult[i].balance !== 0){
-                        console.log(dbResult[i]);
                         return res.json({status:"error",message:"Account's balance must be 0 before deleting."});
                     }
                 }
