@@ -14,6 +14,8 @@ public:
     void GetUserInfo();
     void GetCardInfo();
     void GetAccountInfo();
+    void GetLogs1();
+    void UpdateLogs(int);
 private:
     DLLRestAPIEngine* engine;
 };

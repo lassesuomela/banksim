@@ -13,14 +13,13 @@ DLLRestAPIEngine::~DLLRestAPIEngine()
 
 void DLLRestAPIEngine::Login(QString email, QString password)
 {
-    //todo login with cardnum and pin
-    //use card number saved here for getting card info
     qDebug()<<"login kutsuttu";
+    card_number = email;
     QJsonObject jsonObj;
-    jsonObj.insert("email",email);
-    jsonObj.insert("password",password);
+    jsonObj.insert("card_number",email);
+    jsonObj.insert("pin",password);
     manager = new QNetworkAccessManager(this);
-    QNetworkRequest request(base_url+"api/user/login");
+    QNetworkRequest request(base_url+"api/card/auth");
     request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
@@ -40,11 +39,12 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
     authByteArr = auth.toUtf8();
     qDebug()<<status<<auth<<Qt::endl;
     }else{
-        qDebug()<<"Wrong pin code";
+        qDebug()<<"Wrong pin code"<<json_obj;
     }
     reply->deleteLater();
     manager->deleteLater();
 }
+
 
 void DLLRestAPIEngine::GetUserInfo()
 {
@@ -75,10 +75,10 @@ void DLLRestAPIEngine::getUserInfoSlot(QNetworkReply *reply)
     manager->deleteLater();
 }
 
+
 void DLLRestAPIEngine::GetCardInfo()
 {
     QJsonObject jsonObj;
-    QString card_number = "956693190818";
     QNetworkRequest request(base_url+"api/card/"+card_number);
     manager = new QNetworkAccessManager(this);
     request.setRawHeader("Authorization", authByteArr);
@@ -104,6 +104,7 @@ void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
     reply->deleteLater();
     manager->deleteLater();
 }
+
 
 void DLLRestAPIEngine::GetAccountInfo()
 {
@@ -132,6 +133,77 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
     }
 
     qDebug()<<account_balance<<account_name<<"parsed data";
+    reply->deleteLater();
+    manager->deleteLater();
+}
+
+
+void DLLRestAPIEngine::GetLogs()
+{
+    QJsonObject jsonObj;
+    QNetworkRequest request(base_url+"api/logs/getByCardNumber/"+card_number);
+    manager = new QNetworkAccessManager(this);
+    request.setRawHeader("Authorization", authByteArr);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getLogsSlot(QNetworkReply*)));
+
+    reply = manager->get(request);
+}
+
+void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
+{
+    QByteArray response_data = reply->readAll();
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+    qDebug()<<json_array<<"json"<<Qt::endl;
+
+    foreach(const QJsonValue &value, json_array){
+        QJsonObject obj = value.toObject();
+        logs_amount_list << obj["amount"].toInt();
+        logs_id_list << obj["log_ID"].toInt();
+        logs_date_list << obj["date"].toString();
+        logs_event_list << obj["event"].toString();
+    }
+    for(int i = 0; i < logs_amount_list.size(); i++){
+        qDebug()<<logs_amount_list.at(i);
+        qDebug()<<logs_id_list.at(i);
+        qDebug()<<logs_date_list.at(i);
+        qDebug()<<logs_event_list.at(i);
+    }
+
+
+    reply->deleteLater();
+    manager->deleteLater();
+}
+
+
+void DLLRestAPIEngine::CreateLog(int amount)
+{
+    QJsonObject jsonObj;
+    jsonObj.insert("amount",amount);
+    jsonObj.insert("card_number",card_number);
+    manager = new QNetworkAccessManager(this);
+    QNetworkRequest request(base_url+"api/logs/create");
+    request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
+    request.setRawHeader("Authorization", authByteArr);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(createLogSlot(QNetworkReply*)));
+    qDebug()<<jsonObj<<"request body";
+    reply = manager->post(request, QJsonDocument(jsonObj).toJson());
+
+}
+
+void DLLRestAPIEngine::createLogSlot(QNetworkReply *reply)
+{
+    status = "";
+    QByteArray response_data=reply->readAll();
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonObject json_obj = json_doc.object();
+    qDebug()<<json_doc;
+    status = json_obj["status"].toString();
+    if(status == "success"){
+        qDebug()<<"log added success";
+    }else{
+        qDebug()<<"error adding log";
+    }
     reply->deleteLater();
     manager->deleteLater();
 }

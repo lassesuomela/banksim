@@ -18,6 +18,8 @@ public:
     void GetUserInfo();
     void GetCardInfo();
     void GetAccountInfo();
+    void GetLogs();
+    void CreateLog(int);
 
 private:
     //network managament
@@ -41,12 +43,20 @@ private:
     //account data
     double account_balance;
     QString account_name;
+    //logs
+    QList<int> logs_id_list;
+    QList<QString> logs_date_list;
+    QList<QString> logs_event_list;
+    QList<int> logs_amount_list;
 
+    QString card_number;
 private slots:
     void loginSlot(QNetworkReply *reply);
     void getUserInfoSlot(QNetworkReply *reply);
     void getCardInfoSlot(QNetworkReply *reply);
     void getAccountInfoSlot(QNetworkReply *reply);
+    void getLogsSlot(QNetworkReply *reply);
+    void createLogSlot(QNetworkReply *reply);
 };
 
 #endif // DLLRESTAPIENGINE_H

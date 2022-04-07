@@ -30,3 +30,13 @@ void DLLRestAPI::GetAccountInfo()
 {
     engine->GetAccountInfo();
 }
+
+void DLLRestAPI::GetLogs1()
+{
+    engine->GetLogs();
+}
+
+void DLLRestAPI::UpdateLogs(int i)
+{
+    engine->CreateLog(i);
+}
