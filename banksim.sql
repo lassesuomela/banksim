@@ -26,10 +26,11 @@ DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `account` (
-  `account_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `account_ID` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `date_opened` date NOT NULL,
-  `balance` double(9,2) NOT NULL DEFAULT 0.00,
-  `owner` int(11) NOT NULL,
+  `balance` double(9,2) NOT NULL DEFAULT '0.00',
+  `owner` int NOT NULL,
   PRIMARY KEY (`account_ID`),
   UNIQUE KEY `account_ID_UNIQUE` (`account_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -116,10 +117,10 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `user_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `fname` varchar(45) NOT NULL,
-  `lname` varchar(45) NOT NULL,
-  `address` varchar(45) NOT NULL,
+  `user_ID` int NOT NULL AUTO_INCREMENT,
+  `fname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `lname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `address` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `email` varchar(100) NOT NULL,
   `phone` varchar(45) NOT NULL,
   `password` binary(60) NOT NULL,
@@ -174,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-05 11:14:25
+-- Dump completed on 2022-04-05 14:44:33

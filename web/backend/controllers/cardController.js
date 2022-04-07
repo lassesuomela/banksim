@@ -15,7 +15,7 @@ const getAll = (req, res) => {
 
 const getByCardNumber = (req, res) => {
 
-    if(req.body.card_number){
+    if(req.params.card_number){
 
         // check if user has access to queried card
         card.getByUserID(req.userId, (err, dbResult) =>{
@@ -25,9 +25,8 @@ const getByCardNumber = (req, res) => {
             }
 
             let hasAccessToCard = false;
-        
             for(let i = 0; i < dbResult.length; i++){
-                if(dbResult[i].card_number === req.body.card_number){
+                if(dbResult[i].card_number.toString() === req.params.card_number){
                     hasAccessToCard = true;
                 }
             }
@@ -35,22 +34,21 @@ const getByCardNumber = (req, res) => {
             if(!hasAccessToCard){
                 return res.json({status:"error",message:"User doesn't have this card"});
             }
-        })
 
-        card.getByNumber(req.body.card_number, function(err,dbResult){
-            if(err){
-                return res.json({status:"error",message:err});
-            }
-
-            if(dbResult.length > 0){
-                res.json({status:"success",message:dbResult});
-            }else{
-                res.json({status:"error",message:"Card not found"})
-            }
+            card.getByNumber(req.params.card_number, function(err,dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+    
+                if(dbResult.length > 0){
+                    return res.json({status:"success",message:dbResult});
+                }else{
+                    return res.json({status:"error",message:"Card not found"})
+                }
+            });
         });
-
     }else{
-        res.json({message:"Please fill all fields"});
+        return res.json({status:"error",message:"Please fill all fields"});
     }
 }
 
@@ -173,20 +171,27 @@ const addCard = (req, res) => {
 
 // add card to db without connecting it to any user or account
 const addCard = (req, res) => {
-    if(req.body.pin && req.body.card_number){
-        card.add(req, function(err, dbResult){
-            if(err){
-                return res.json({status:"error",message:err});
-            }else{
-                res.json({status:"success",message:"Successfully added new card to database."});
-            }
-        });
-    }
+    card.add(function(err, dbResult){
+        if(err){
+            return res.json({status:"error",message:err});
+        }else{
+            res.json({status:"success",message:"Successfully added new card to database."});
+        }
+    });
 }
 
 // connect account to user & account
 const connectCard = (req, res) => {
-    if(req.userId && req.body.accountId && req.body.card_type){
+    if(req.userId && req.body.accountId && req.body.card_type && req.body.pin){
+        const pinRegex = /\D/;
+        const pinInput = req.body.pin.toString();
+        let validatePin = false;
+        if(!pinInput.match(pinRegex) && pinInput.length === 4){
+            validatePin = true;
+        }
+        if(!validatePin){
+            return res.json({status:"error",message:"Pin must be exactly 4 digits long."});
+        }
         let ctype = null;
         if(req.body.card_type === "Debit"){
             ctype = 0;
@@ -208,7 +213,7 @@ const connectCard = (req, res) => {
                 if(!hasAccessToAccount){
                     return res.json({status:"error",message:"User does not have access to this account."});
                 }
-                card.connectCard(req.body.accountId, req.userId, ctype, function(err, dbResult){
+                card.connectCard(req.body.accountId, req.userId, ctype, req.body.pin, function(err, dbResult){
                     if(err){
                         return res.json({status:"error",message:err});
                     }else if(dbResult.affectedRows === 0){

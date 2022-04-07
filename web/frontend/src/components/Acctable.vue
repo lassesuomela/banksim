@@ -3,61 +3,186 @@
     :headers="headers"
     dark
     :items="Accounts"
-    sort-by="Kortti"
+    sort-by="id"
     class="elevation-1 blue-grey darken-3"
   >
     <template v-slot:top>
-      <v-toolbar
-        rounded="2"
-        class="cyan darken-1"
-      >
-        <v-toolbar-title class="font-weight-bold text-h5 blue-grey--text text--darken-3">
-        Accounts
+      <v-toolbar rounded="" class="cyan darken-1">
+        <v-toolbar-title
+          class="font-weight-bold text-h5 blue-grey--text text--darken-3"
+        >
+          Accounts
         </v-toolbar-title>
         <v-spacer></v-spacer>
-       <v-btn rounded small color="success">
-       <v-icon left> mdi-account-plus
-       </v-icon>
-         Add
-       </v-btn>
-
-        
+        <v-dialog v-model="dialog" persistent max-width="600px">
+          <v-card color="blue-grey darken-3">
+            <v-form @submit.prevent="addAccount" id="addaccount-form">
+              <v-toolbar rounded="" class="cyan darken-1">
+                <v-card-title
+                  class="
+                    font-weight-bold
+                    text-h5
+                    blue-grey--text
+                    text--darken-3
+                  ">
+                  <span class="text-h5">Add user to account</span>
+                </v-card-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col>
+                      <v-text-field
+                        dark
+                        id="email"
+                        label="Email"
+                        name="email"
+                        v-model="email"
+                        prepend-icon="person"
+                        type="text"
+                        color="cyan darken-1"
+                        autocomplete="off"
+                        required
+                      />
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="cyan darken-1" text @click="dialog = false">
+                  Close
+                </v-btn>
+                <v-btn
+                  type="submit"
+                  form="addaccount-form"
+                  color="cyan darken-1"
+                  text
+                  @click="dialog = false"
+                >
+                  Add
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialog2" persistent max-width="600px">
+          <v-card color="blue-grey darken-3">
+            <v-form @submit.prevent="addAccount" id="addaccount-form">
+              <v-toolbar rounded="" class="cyan darken-1">
+                <v-card-title
+                  class="
+                    font-weight-bold
+                    text-h5
+                    blue-grey--text
+                    text--darken-3
+                  "
+                >
+                  <span class="text-h5">Account you want delete</span>
+                </v-card-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col>
+                      <v-select
+                        v-model="selectType"
+                        dark
+                        color="cyan darken-1"
+                        :items="accounts1"
+                        label="Account"
+                        prepend-icon="mdi-credit-card"
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="cyan darken-1" text @click="dialog2 = false">
+                  Close
+                </v-btn>
+                <v-btn
+                  type="submit"
+                  form="addaccount-form"
+                  color="cyan darken-1"
+                  text
+                  @click="dialog2 = false"
+                >
+                  Delete
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-dialog>
+        <app-Accadd />
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)">mdi-account-plus</v-icon>
+      <v-icon small class="mr-2" @click="dialogop(item)">mdi-account-minus</v-icon>
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      dialog: false,
-      dialogDelete: false,
-      headers: [
-        { text: 'Account', align: 'start', sortable: false, value: 'Account', },
-        { text: 'Kortti??', value: 'Kortti' },
-        { text: 'Balance €', value: 'Balance' },
-        { text: 'Actions', value: 'actions', sortable: false },
-      ],
-      defaultItem: { Account: '', Kortti: 0, Balance: 0, },
-    }),   
-    created () {
-      this.initialize()
+import axios from "../axios";
+export default {
+  data: () => ({
+    dialog: false,
+    dialog2: false,
+    dialogDelete: false,
+    accounts1: ["acc1", "acc2"],
+    addAccountName: "",
+    Accounts: [],
+    headers: [
+      { text: "Name", align: "start", sortable: false, value: "name" },
+      { text: "Account ID", value: "id" },
+      { text: "Balance €", value: "balance" },
+      { text: "Actions", value: "actions", sortable: false },
+    ],
+    defaultItem: { name: "", id: 0, balance: 0 },
+  }),
+  created() {
+    this.initialize();
+  },
+  methods: {
+    editItem(item) {
+      this.dialog = true;
     },
-    deleteItem (item) {
-        
-      },
-    methods: {
-      initialize () {
-        this.Accounts = [
-          { Account: 'Account 1', Kortti: 'lkm?', Balance: 6000, },
-          { Account: 'Account 2', Kortti: 'ID?', Balance: 5000, },
-          { Account: 'Account 3', Kortti: 1, Balance: 1000, },
-          { Account: 'Account 4', Kortti: 22, Balance: 3000, },
-        ]
-      },
+    dialogop(item) {
+    this.dialog2 = true;
     },
-  }
+    initialize() {
+      axios.get("/api/account").then((response) => {
+        for (let i = 0; i < response.data.length; i++) {
+          this.Accounts.push({
+            name: response.data[i].name,
+            id: response.data[i].account_ID,
+            balance: response.data[i].balance,
+          });
+        }
+      });
+    },
+    addAccount() {
+      axios
+        .post("/api/account", { name: this.addAccountName })
+        .then((response) => {
+          if (response.data.status === "success") {
+            this.$router.go();
+          }
+        });
+    },
+    deleteItem(item) {
+      axios
+        .delete("/api/account", { data: { id: item.id } })
+        .then((response) => {
+          if (response.data.status === "success") {
+            this.$router.go();
+          }
+        });
+    },
+  },
+};
 </script>
