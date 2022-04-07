@@ -23,13 +23,18 @@ const getByCardNumber = (req, res) => {
                 hasAccessToCard = true;
             }
         }
+        
+        if(!hasAccessToCard){
+            return res.json({status:"error",message:"User doesn't have access to this card"});
+        }
 
-        if(req.params.card_number, req.params.min, req.params.max){
+        if(req.params.card_number && req.params.min && req.params.max){
             logs.getByCardNumber(req.params.card_number, req.params.min, req.params.max, function(err,dbResult){
+                
                 if(err){
-                    res.json(err);
+                    return res.json(err);
                 }
-    
+
                 if(dbResult.length > 0){
                     res.json(dbResult);
                 }else{
@@ -54,6 +59,10 @@ const getByCardNumberFixed = (req, res) => {
             if(dbResult[i].card_number === req.params.card_number){
                 hasAccessToCard = true;
             }
+        }
+
+        if(!hasAccessToCard){
+            return res.json({status:"error",message:"User doesn't have access to this card"});
         }
 
         if(req.params.card_number){
@@ -86,6 +95,10 @@ const add = (req, res) => {
             if(dbResult[i].card_number === req.params.card_number){
                 hasAccessToCard = true;
             }
+        }
+
+        if(!hasAccessToCard){
+            return res.json({status:"error",message:"User doesn't have access to this card"});
         }
 
         if(req.body.amount && req.body.card_number){
@@ -128,6 +141,10 @@ const deleteLogs = (req, res) => {
             }
         }
 
+        if(!hasAccessToCard){
+            return res.json({status:"error",message:"User doesn't have access to this card"});
+        }
+        
         if(req.body.card_number && req.body.log_ID){
             logs.delete(req, function(err, dbResult){
                 if(err){
