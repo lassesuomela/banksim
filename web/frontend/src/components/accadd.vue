@@ -7,11 +7,12 @@
       </v-btn>
     </template>
     <v-card color="blue-grey darken-3">
+      <v-form @submit.prevent="addAccount" id="addaccount-form">
       <v-toolbar rounded="" class="cyan darken-1">
         <v-card-title
           class="font-weight-bold text-h5 blue-grey--text text--darken-3"
         >
-          <span class="text-h5">Account name you want add</span>
+          <span class="text-h5">Add account</span>
         </v-card-title>
       </v-toolbar>
       <v-card-text>
@@ -22,9 +23,10 @@
                 dark
                 label="Account name"
                 name="Account name"
-                id="Account name"
+                v-model="addAccountName"
                 prepend-icon="person"
                 color="cyan darken-1"
+                autocomplete="off"
                 required
               ></v-text-field>
             </v-col>
@@ -36,16 +38,29 @@
         <v-btn color="cyan darken-1" text @click="dialog = false">
           Close
         </v-btn>
-        <v-btn color="cyan darken-1" text @click="dialog = false"> ADD </v-btn>
+        <v-btn type="submit" form="addaccount-form" color="cyan darken-1" text @click="dialog = false"> Add </v-btn>
       </v-card-actions>
+      </v-form>
     </v-card>
   </v-dialog>
 </template>
 
 <script>
+import axios from "../axios"
 export default {
   data: () => ({
     dialog: false,
+    addAccountName: ""
   }),
+  methods:{
+    addAccount() {
+        console.log(this.addAccountName);
+        axios.post("/api/account", { name: this.addAccountName }).then((response) => {
+            if (response.data.status === "success") {
+            this.$router.go();
+            }
+        });
+    },
+  }
 };
 </script>
