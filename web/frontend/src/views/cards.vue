@@ -102,13 +102,11 @@ export default {
       });
     },
     addCard() {
-      axios
-        .put("/api/card/connect", {
+      axios.put("/api/card/connect", {
           accountId: this.selectAccount,
           card_type: this.selectType,
           pin: this.pin,
-        })
-        .then((response) => {
+        }).then((response) => {
           this.addCardRes = response.data.message;
           if (response.data.status === "success") {
             window.location.replace("/cards");
