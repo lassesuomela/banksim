@@ -34,10 +34,14 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
 
     status = json_obj["status"].toString();
+    if(status == "success"){
     auth =json_obj["token"].toString();
     auth = "Bearer "+auth;
     authByteArr = auth.toUtf8();
     qDebug()<<status<<auth<<Qt::endl;
+    }else{
+        qDebug()<<"Wrong pin code";
+    }
     reply->deleteLater();
     manager->deleteLater();
 }
@@ -85,13 +89,15 @@ void DLLRestAPIEngine::GetCardInfo()
 
 void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
 {
-    QByteArray response_data=reply->readAll();
+    QByteArray response_data = reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
+    qDebug()<<json_array<<"json"<<Qt::endl;
 
     foreach(const QJsonValue &value, json_array){
         QJsonObject obj = value.toObject();
-        account_id = obj["account_id"].toString();
+        account_id = obj["account_ID"].toString();
+        qDebug()<<"acc id: "<<obj["account_ID"].toString();
     }
 
     qDebug()<<account_id<<"got card info"<<Qt::endl;
