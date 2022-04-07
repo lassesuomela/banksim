@@ -53,19 +53,17 @@
             </v-form>
           </v-card>
         </v-dialog>
-        <v-dialog v-model="dialog2" persistent max-width="600px">
+        <v-dialog v-model="dialogDelete" persistent max-width="600px">
           <v-card color="blue-grey darken-3">
-            <v-form @submit.prevent="addAccount" id="addaccount-form">
+            <v-form @submit.prevent="deleteFromAccount" id="deleteuseremail-form">
               <v-toolbar rounded="" class="cyan darken-1">
                 <v-card-title
                   class="
                     font-weight-bold
                     text-h5
                     blue-grey--text
-                    text--darken-3
-                  "
-                >
-                  <span class="text-h5">Account you want delete</span>
+                    text--darken-3">
+                  <span class="text-h5">Remove user from account</span>
                 </v-card-title>
               </v-toolbar>
               <v-card-text>
@@ -73,10 +71,12 @@
                   <v-row>
                     <v-col>
                       <v-select
-                        v-model="selectType"
+                        v-model="deleteUserEmail"
                         dark
                         color="cyan darken-1"
-                        :items="accounts1"
+                        :items="Accounts"
+                        item-value="account_ID"
+                        item-text="name"
                         label="Account"
                         prepend-icon="mdi-credit-card"
                       ></v-select>
@@ -86,16 +86,15 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="cyan darken-1" text @click="dialog2 = false">
+                <v-btn color="cyan darken-1" text @click="dialogDelete = false">
                   Close
                 </v-btn>
                 <v-btn
                   type="submit"
-                  form="addaccount-form"
+                  form="deleteuseremail-form"
                   color="cyan darken-1"
                   text
-                  @click="dialog2 = false"
-                >
+                  @click="dialogDelete = false">
                   Delete
                 </v-btn>
               </v-card-actions>
@@ -109,7 +108,7 @@
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">mdi-account-plus</v-icon>
       <v-icon small class="mr-2" @click="dialogop(item)">mdi-account-minus</v-icon>
-      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+      <v-icon small @click="deleteAccount(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
 </template>
@@ -123,6 +122,7 @@ export default {
     dialogAddUser: false,
     dialogDelete: false,
     addUserEmail: "",
+    deleteUserEmail: "",
     itemdata: null,
     userAccountTrigger: false,
     Accounts: [],
@@ -143,7 +143,7 @@ export default {
       this.itemdata = item;
     },
     dialogop(item) {
-      this.dialog2 = true;
+      this.dialogDelete = true;
     },
     initialize() {
       axios.get("/api/account").then((response) => {
@@ -165,7 +165,10 @@ export default {
       });
       }
     },
-    deleteItem(item) {
+    deleteFromAccount(){
+      axios.delete("/api/account/removeuser");
+    },
+    deleteAccount(item) {
       axios.delete("/api/account", { data: { id: item.id } }).then((response) => {
           if (response.data.status === "success") {
             this.$router.go();
