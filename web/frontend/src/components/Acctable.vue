@@ -53,12 +53,62 @@
             </v-form>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="dialog2" persistent max-width="600px">
+          <v-card color="blue-grey darken-3">
+            <v-form @submit.prevent="addAccount" id="addaccount-form">
+              <v-toolbar rounded="" class="cyan darken-1">
+                <v-card-title
+                  class="
+                    font-weight-bold
+                    text-h5
+                    blue-grey--text
+                    text--darken-3
+                  "
+                >
+                  <span class="text-h5">Account you want delete</span>
+                </v-card-title>
+              </v-toolbar>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col>
+                      <v-select
+                        v-model="selectType"
+                        dark
+                        color="cyan darken-1"
+                        :items="accounts1"
+                        label="Account"
+                        prepend-icon="mdi-credit-card"
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="cyan darken-1" text @click="dialog2 = false">
+                  Close
+                </v-btn>
+                <v-btn
+                  type="submit"
+                  form="addaccount-form"
+                  color="cyan darken-1"
+                  text
+                  @click="dialog2 = false"
+                >
+                  Delete
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-card>
+        </v-dialog>
 
         <accadd />
       </v-toolbar>
     </template>
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">mdi-account-plus</v-icon>
+      <v-icon small class="mr-2" @click="dialogop(item)">mdi-account-minus</v-icon>
       <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
@@ -91,6 +141,9 @@ export default {
     editItem(item) {
       this.dialogAddUser = true;
       this.itemdata = item;
+    },
+    dialogop(item) {
+      this.dialog2 = true;
     },
     initialize() {
       axios.get("/api/account").then((response) => {
