@@ -2,7 +2,6 @@
 
 DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
 {
-    qDebug()<<"interface constructor";
     engine = new DLLRestAPIEngine;
 }
 

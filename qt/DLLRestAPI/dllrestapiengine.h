@@ -24,7 +24,7 @@ private:
     QJsonObject jsonObj;
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
-    QByteArray response_data;
+    //QByteArray response_data;
     QString auth = "";
     QString base_url="http://localhost:3000/";
     QString status;
@@ -36,7 +36,7 @@ private:
     QString email;
     QString phone;
     //card data
-
+    QString account_id;
     //account data
     double account_balance;
     QString account_name;

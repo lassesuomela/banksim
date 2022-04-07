@@ -1,8 +1,8 @@
 #include "dllrestapiengine.h"
-
+//get in order
+//login->userinfo->card info->account info->logs
 DLLRestAPIEngine::DLLRestAPIEngine(QObject * parent) : QObject(parent)
 {
-    qDebug()<<"constructyor called";
 
 }
 
@@ -29,7 +29,7 @@ void DLLRestAPIEngine::Login(QString email, QString password)
 
 void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
 {
-    response_data=reply->readAll();
+    QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
 
@@ -56,7 +56,7 @@ void DLLRestAPIEngine::GetUserInfo()
 
 void DLLRestAPIEngine::getUserInfoSlot(QNetworkReply *reply)
 {
-    response_data=reply->readAll();
+    QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
 
@@ -74,35 +74,34 @@ void DLLRestAPIEngine::getUserInfoSlot(QNetworkReply *reply)
 void DLLRestAPIEngine::GetCardInfo()
 {
     QJsonObject jsonObj;
-    //todo set the number to a variable
     QString card_number = "956693190818";
-    jsonObj.insert("card_number",card_number);
-    QNetworkRequest request(base_url+"api/card/getByCardNumber/:card_number");
+    QNetworkRequest request(base_url+"api/card/"+card_number);
     manager = new QNetworkAccessManager(this);
     request.setRawHeader("Authorization", authByteArr);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getCardInfoSlot(QNetworkReply*)));
 
-    //reply = manager->get(request, QJsonDocument(jsonObj).toJson());
+    reply = manager->get(request);
 }
 
 void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
 {
-    response_data=reply->readAll();
+    QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    //QJsonObject json_obj = json_doc.object();
+    QJsonArray json_array = json_doc.array();
 
-    qDebug()<<json_doc;
+    foreach(const QJsonValue &value, json_array){
+        QJsonObject obj = value.toObject();
+        account_id = obj["account_id"].toString();
+    }
 
-
+    qDebug()<<account_id<<"got card info"<<Qt::endl;
     reply->deleteLater();
     manager->deleteLater();
 }
 
 void DLLRestAPIEngine::GetAccountInfo()
 {
-    //todo get this id from the card info
-    QString account_id = "2";
-    QNetworkRequest request(base_url+"api/account/"+account_id);
+    QNetworkRequest request(base_url+"api/account/2"+account_id);
     request.setRawHeader("Authorization", authByteArr);
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getAccountInfoSlot(QNetworkReply*)));
@@ -112,7 +111,7 @@ void DLLRestAPIEngine::GetAccountInfo()
 
 void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
 {
-    response_data = reply->readAll();
+    QByteArray response_data = reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
     qDebug()<<json_array<<"json"<<Qt::endl;
