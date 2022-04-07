@@ -36,6 +36,7 @@ private:
     QString email;
     QString phone;
     //card data
+    int account_id_int;
     QString account_id;
     //account data
     double account_balance;
