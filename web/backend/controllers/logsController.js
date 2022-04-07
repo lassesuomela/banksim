@@ -92,7 +92,7 @@ const add = (req, res) => {
 
         for(let i = 0; i < dbResult.length; i++){
 
-            if(dbResult[i].card_number === req.params.card_number){
+            if(dbResult[i].card_number === req.body.card_number){
                 hasAccessToCard = true;
             }
         }

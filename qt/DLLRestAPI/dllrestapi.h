@@ -2,6 +2,7 @@
 #define DLLRESTAPI_H
 #include "dllrestapiengine.h"
 #include "DLLRestAPI_global.h"
+//saldo set get, log, owner name, kortin tyyppi
 
 class DLLRESTAPI_EXPORT DLLRestAPI : public QObject
 {
