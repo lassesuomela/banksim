@@ -27,7 +27,11 @@ DROP TABLE IF EXISTS `account`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
   `account_ID` int NOT NULL AUTO_INCREMENT,
+<<<<<<< ours
   `name` varchar(45) NOT NULL,
+=======
+  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+>>>>>>> theirs
   `date_opened` date NOT NULL,
   `balance` double(9,2) NOT NULL DEFAULT '0.00',
   `owner` int NOT NULL,
@@ -118,9 +122,15 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `user_ID` int NOT NULL AUTO_INCREMENT,
+<<<<<<< ours
   `fname` varchar(45) NOT NULL,
   `lname` varchar(45) NOT NULL,
   `address` varchar(45) NOT NULL,
+=======
+  `fname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `lname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `address` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+>>>>>>> theirs
   `email` varchar(100) NOT NULL,
   `phone` varchar(45) NOT NULL,
   `password` binary(60) NOT NULL,
@@ -152,8 +162,8 @@ CREATE TABLE `user_account` (
   PRIMARY KEY (`user_ID`,`account_ID`),
   KEY `fk_user_has_account_account1_idx` (`account_ID`),
   KEY `fk_user_has_account_user1_idx` (`user_ID`),
-  CONSTRAINT `fk_user_account_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`),
-  CONSTRAINT `fk_user_account_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`)
+  CONSTRAINT `fk_user_account_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_account_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -175,4 +185,8 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+<<<<<<< ours
 -- Dump completed on 2022-04-05 13:08:59
+=======
+-- Dump completed on 2022-04-05 14:44:33
+>>>>>>> theirs
