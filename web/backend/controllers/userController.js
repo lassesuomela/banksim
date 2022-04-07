@@ -30,6 +30,7 @@ const userLogin = (req, res) => {
     if(emailvalidator.validate(req.body.email) && req.body.password){
         user.getByEmail(req.body.email, function(err, dbResult){
             if(err){
+                console.log(err);
                 res.json(err);
             }else{
                 if(dbResult.length > 0){
@@ -39,16 +40,16 @@ const userLogin = (req, res) => {
                         }
                         if(match){
                             const token = jwt.generateToken(dbResult[0].user_ID);
-                            console.log("Created token: ",token);
-                            res.status(200).json({status:"success",message:"Successfully logged in!",secret:token});
+                            console.log("Created token:",token);
+                            res.status(200).json({status:"success",message:"Successfully logged in.",token:token});
                         }else{
                             console.log("Invalid email or password!");
-                            res.json({status:"error",message:"Invalid email or password!"});
+                            res.json({status:"error",message:"Invalid email or password."});
                         }
                     });
                 }else{ 
                     console.log("No user found with this email");
-                    res.json({status:"error",message:"No user found with this email"});
+                    res.json({status:"error",message:"No user found with this email."});
                 }
             };
         });
@@ -59,23 +60,41 @@ const userLogin = (req, res) => {
 
 const userRegister = (req, res) => {
     if(emailvalidator.validate(req.body.email) && req.body.password && req.body.address && req.body.fname && req.body.lname && req.body.phone){
-        user.add(req, function(err, result){
+        user.add(req, function(err, dbResult){
             if(err){
                 if(err.errno === 1062){
                     res.json({status:"error",message:"Email already exists."});
                 }
             }else{
-                res.json({status:"success"});
+                console.log("Successfully registered.");
+                res.json({status:"success",message:"Successfully registered."});
             }
         });
     }else{
-        res.json({message:"Please fill all fields"});
+        res.json({message:"Please fill all fields."});
     }
+}
+
+const userInfo = (req, res) => {
+    user.get(function(err, dbResult){
+        if(err){
+            console.log(err);
+            return res.json(err);
+        }
+        for(let i = 0;i<dbResult.length;i++){
+            if(dbResult[i].user_ID === req.userId){
+                delete dbResult[i]["password"];
+                return res.json(dbResult[i]);
+            }
+        }
+        return res.json({status:"error",message:"No data available"});
+    });
 }
 
 module.exports = {
     getAll,
     userLogin,
     userRegister,
-    getById
+    getById,
+    userInfo
 }
