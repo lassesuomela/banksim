@@ -12,7 +12,7 @@
         <v-card-title
           class="font-weight-bold text-h5 blue-grey--text text--darken-3"
         >
-          <span class="text-h5">User Profile</span>
+          <span class="text-h5">Add account</span>
         </v-card-title>
       </v-toolbar>
       <v-card-text>

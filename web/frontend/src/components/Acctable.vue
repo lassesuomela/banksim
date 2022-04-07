@@ -13,14 +13,15 @@
           Accounts
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-dialog v-model="dialog" max-width="500px">
+        <v-dialog v-model="dialogAddUser" max-width="500px">
           <v-card color="blue-grey darken-3">
+            <v-form @submit.prevent="addUserToAccount" id="adduseraccount-form">
             <v-toolbar rounded="" class="cyan darken-1">
               <v-icon>mdi-person</v-icon>
               <v-card-title
                 class="font-weight-bold text-h5 blue-grey--text text--darken-3"
               >
-                <span class="text-h5">Account you want add</span>
+                <span class="text-h5">Add user to account</span>
               </v-card-title>
             </v-toolbar>
             <br />
@@ -28,27 +29,28 @@
               <v-container>
                 <v-row>
                   <v-col>
-                    <v-select
-                      v-model="selectType"
+                    <v-text-field
+                      v-model="addUserEmail"
                       dark
                       color="cyan darken-1"
-                      :items="cardtype"
-                      label="Acc"
+                      type="email"
+                      label="Email"
                       prepend-icon="mdi-account-plus"
-                    ></v-select>
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="cyan darken-1" text @click="dialog = false">
+              <v-btn color="cyan darken-1" text @click="dialogAddUser = false">
                 Close
               </v-btn>
-              <v-btn color="cyan darken-1" text @click="dialog = false">
-                Save
+              <v-btn type="submit" form="adduseraccount-form" color="cyan darken-1" text @click="dialogAddUser = false">
+                Add
               </v-btn>
             </v-card-actions>
+            </v-form>
           </v-card>
         </v-dialog>
 
@@ -68,9 +70,11 @@ import accadd from "./accadd.vue";
 export default {
   components: { accadd },
   data: () => ({
-    dialog: false,
+    dialogAddUser: false,
     dialogDelete: false,
     addUserEmail: "",
+    itemdata: null,
+    userAccountTrigger: false,
     Accounts: [],
     headers: [
       { text: "Name", align: "start", sortable: false, value: "name" },
@@ -85,7 +89,8 @@ export default {
   },
   methods: {
     editItem(item) {
-      this.dialog = true;
+      this.dialogAddUser = true;
+      this.itemdata = item;
     },
     initialize() {
       axios.get("/api/account").then((response) => {
@@ -98,12 +103,14 @@ export default {
         }
       });
     },
-    addUserToAccount(item){
-      axios.post("/account/adduser",{email:this.addUserEmail,account:item.id}).then((response) => {
-        if(response.data.status === "success"){
-          this.$router.go();
-        }
+    addUserToAccount(){
+      if(this.itemdata){
+        axios.post("/api/account/adduser",{email:this.addUserEmail,id:this.itemdata.id}).then((response) => {
+          if(response.data.status === "success"){
+            this.$router.go();
+          }
       });
+      }
     },
     deleteItem(item) {
       axios.delete("/api/account", { data: { id: item.id } }).then((response) => {

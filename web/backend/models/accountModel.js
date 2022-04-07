@@ -13,10 +13,13 @@ const account = {
         [req.userId], callback);
 
     },
+    getExact: function(userId, accountId, callback){
+        return db.query("SELECT * FROM user_account WHERE user_ID = ? AND account_ID = ?",
+        [userId, accountId], callback);
+    },
     getCardsById: function(accountId, callback){
         return db.query("SELECT * FROM account JOIN card on card.account_ID = account.account_ID WHERE account.account_ID = ?",
         [accountId], callback);
-
     },
     getOwnerById: function(userId, accountId, callback){
         return db.query("SELECT account.account_ID, account.balance, account.owner FROM account JOIN user_account ON user_account.account_ID = account.account_ID JOIN user ON user.user_ID = user_account.user_ID WHERE user.user_ID = ? AND account.account_ID = ?",
