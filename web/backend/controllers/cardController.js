@@ -2,6 +2,7 @@ const card = require("../models/cardModel");
 const account = require("../models/accountModel");
 const bcrypt = require("bcrypt");
 const { json } = require("express/lib/response");
+const jwt = require("../config/jwtAuth");
 
 const getAll = (req, res) => {
     card.get(function(err,dbResult){
@@ -83,7 +84,6 @@ const getCardAccountInfo = (req, res) => {
 
 const updateCardStatus = (req, res) => {
     if(req.body.active && req.body.card_number){
-
         // check if user has access to queried card
         card.getByUserID(req.userId, (err, dbResult) =>{
 
@@ -104,7 +104,7 @@ const updateCardStatus = (req, res) => {
             }
 
             // activating card, resetting tries
-            if(req.body.active === 1){
+            if(req.body.active == 1){
                 card.updateTries(0, req.body.card_number, (err, dbResult) =>{
 
                     if(err){
@@ -262,11 +262,15 @@ const disconnectCard = (req, res) => {
 }
 
 const authenticate = (req, res) => {
+
+    let userID = null;
+
     if(req.body.card_number && req.body.pin){
         card.getByNumber(req.body.card_number, function(err, dbResult){
             if(err){
                 return res.json({status:"error",message:err})
             }
+            userID = dbResult[0].user_ID;
 
             // if card is found from database continue
             if(dbResult.length > 0){
@@ -276,52 +280,53 @@ const authenticate = (req, res) => {
                     return res.json({status:"error",message:"Card is locked!"});
                 }
                 
-                // if tries are >=3 and card is active then lock the card
-                if(dbResult[0].tries >= 3 && dbResult[0].active === 1){
-                    card.updateActiveStatus(0, req.body.card_number, (err, dbResult) =>{
-                        if(err){
-                            console.log(err);
-                        }
+                // comapre request pin and db pin if they dont match increment tries
+                bcrypt.compare(req.body.pin, dbResult[0].pin.toString(), (err, match)=>{
+                    if(err){
+                        return res.json({status:"error",message:err})
+                    }
 
-                        if(dbResult.affectedRows > 0){
-                            console.log("Card is deactivated");
-                        }else{
-                            console.log("Error on deactivating card");
-                        }
+                    if(match){
+                        const token = jwt.generateToken(userID);
+                        console.log("Created token:",token);
+                        return res.json({status:"success",message:"Successfully logged in.",token:token});
+                    }else{
+                        console.log("Invalid pin code or card number!");
 
-                        return res.json({status:"error",message:"Card deactivated!"});
-                    })
-                }else{
-                    // comapre request pin and db pin if they dont match increment tries
-                    bcrypt.compare(req.body.pin, dbResult[0].pin.toString(), (err, match)=>{
-                        if(err){
-                            return res.json({status:"error",message:err})
-                        }
+                        let tries = dbResult[0].tries + 1;
+                        
+                        card.updateTries(tries, req.body.card_number, (err, dbResult) =>{
+                            if(err){
+                                console.log(err);
+                            }
 
-                        if(match){
-                            console.log("Successfully authenticated!");
-                            return res.json({status:"success",message:"Successfully authenticated!"});
-                        }else{
-                            console.log("Invalid pin code or card number!");
+                            if(dbResult.affectedRows > 0){
+                                console.log("Incremented tries");
+                            }else{
+                                console.log("Error on incrimenting tries");
+                            }
+                        })
 
-                            let tries = dbResult[0].tries + 1;
-
-                            card.updateTries(tries, req.body.card_number, (err, dbResult) =>{
+                        // if tries are >=3 and card is active then lock the card
+                        if(tries === 3 && dbResult[0].active === 1){
+                            card.updateActiveStatus(0, req.body.card_number, (err, dbResult) =>{
                                 if(err){
                                     console.log(err);
                                 }
 
                                 if(dbResult.affectedRows > 0){
-                                    console.log("Incremented tries");
+                                    console.log("Card is deactivated");
                                 }else{
-                                    console.log("Error on incrimenting tries");
+                                    console.log("Error on deactivating card");
                                 }
 
-                                res.json({status:"error",message:"Invalid pin code!"});
+                                return res.json({status:"error",message:"Card deactivated!"});
                             })
+                        }else{
+                            return res.json({status:"error",message:"Invalid pin code!", tries:tries});
                         }
-                    });
-                }
+                    }
+                });
 
             }else{
                 res.json({status:"error",message:"Card was not found"});
