@@ -13,6 +13,10 @@ const getAll = (req, res) => {
 
 const getByCardNumber = (req, res) => {
 
+    if(!req.params.card_number || !req.params.page){
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+
     card.getByUserID(req.userId, function(err,dbResult){
 
         let hasAccessToCard = false;
@@ -28,23 +32,45 @@ const getByCardNumber = (req, res) => {
             return res.json({status:"error",message:"User doesn't have access to this card"});
         }
 
-        if(req.params.card_number && req.params.min && req.params.max){
-            logs.getByCardNumber(req.params.card_number, req.params.min, req.params.max, function(err,dbResult){
-                
-                if(err){
-                    return res.json(err);
+        // how many logs per page we want to show in the exe
+        let perPageCount = 10; 
+        let maxLogCount = 0;
+        let currentPage = 0;
+        let maxPage = 0;
+
+        logs.getMaxLogsNum(req.params.card_number, function(err,dbResult){
+            if(err){
+                return res.json(err);
+            }
+
+            if(dbResult.length > 0){
+                maxLogCount = dbResult[0].maxCount;
+
+                // round the max page num up because there doesn't need to be exactly 10 logs per page
+                maxPage = Math.ceil(maxLogCount/perPageCount); 
+
+                if(req.params.page <= 0 || req.params.page > maxPage){
+                    return res.json({status:"error",message:"Page number out of scope"});
                 }
 
-                if(dbResult.length > 0){
-                    res.json(dbResult);
-                }else{
-                    res.json({status:"error",message:"No logs found for that card number"});
-                }
+                currentPage = (req.params.page - 1) * perPageCount;
+                
+                logs.getByCardNumber(req.params.card_number, currentPage, function(err,dbResult){
+                    if(err){
+                        return res.json(err);
+                    }
     
-            });
-        }else{
-            res.json({message:"Please fill all fields."});
-        }
+                    if(dbResult.length > 0){
+                        res.json({status:"success", maxPageAmount: maxPage, data:dbResult});
+                    }else{
+                        res.json({status:"error",message:"No logs found for that card number"});
+                    }
+                })
+
+            }else{
+                return res.json({status:"error",message:"0 logs found for that card number"});
+            }
+        })
     })
 }
 
@@ -79,7 +105,7 @@ const getByCardNumberFixed = (req, res) => {
     
             });
         }else{
-            res.json({message:"Please fill all fields."});
+            res.json({status:"error",message:"Please fill all fields."});
         }
     })
 }
@@ -158,7 +184,7 @@ const deleteLogs = (req, res) => {
                 }
             });
         }else{
-            res.json({message:"Please fill all fields."});
+            res.json({status:"error",message:"Please fill all fields."});
         }
     })
 }
