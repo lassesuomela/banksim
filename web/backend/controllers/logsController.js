@@ -14,7 +14,7 @@ const getAll = (req, res) => {
 const getByCardNumber = (req, res) => {
 
     if(!req.params.card_number || !req.params.page){
-        return res.json({message:"Please fill all fields."});
+        return res.json({status:"error",message:"Please fill all fields."});
     }
 
     card.getByUserID(req.userId, function(err,dbResult){
@@ -32,8 +32,9 @@ const getByCardNumber = (req, res) => {
             return res.json({status:"error",message:"User doesn't have access to this card"});
         }
 
+        // how many logs per page we want to show in the exe
+        let perPageCount = 10; 
         let maxLogCount = 0;
-        let perPageCount = 10; // how many logs per page we want to show in the exe
         let currentPage = 0;
         let maxPage = 0;
 
@@ -44,7 +45,9 @@ const getByCardNumber = (req, res) => {
 
             if(dbResult.length > 0){
                 maxLogCount = dbResult[0].maxCount;
-                maxPage = maxLogCount/perPageCount;
+
+                // round the max page num up because there doesn't need to be exactly 10 logs per page
+                maxPage = Math.ceil(maxLogCount/perPageCount); 
 
                 if(req.params.page <= 0 || req.params.page > maxPage){
                     return res.json({status:"error",message:"Page number out of scope"});
@@ -58,14 +61,14 @@ const getByCardNumber = (req, res) => {
                     }
     
                     if(dbResult.length > 0){
-                        res.json(dbResult);
+                        res.json({status:"success", maxPageAmount: maxPage, data:dbResult});
                     }else{
                         res.json({status:"error",message:"No logs found for that card number"});
                     }
                 })
 
             }else{
-                return res.json({status:"error",message:"No logs found for this card number"});
+                return res.json({status:"error",message:"0 logs found for that card number"});
             }
         })
     })
@@ -102,7 +105,7 @@ const getByCardNumberFixed = (req, res) => {
     
             });
         }else{
-            res.json({message:"Please fill all fields."});
+            res.json({status:"error",message:"Please fill all fields."});
         }
     })
 }
@@ -181,7 +184,7 @@ const deleteLogs = (req, res) => {
                 }
             });
         }else{
-            res.json({message:"Please fill all fields."});
+            res.json({status:"error",message:"Please fill all fields."});
         }
     })
 }
