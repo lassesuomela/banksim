@@ -7,7 +7,9 @@
 #include <QJsonDocument>
 #include <QDebug>
 #include <QString>
+#include <iostream>
 
+using namespace std;
 class DLLRestAPIEngine : public QObject
 {
     Q_OBJECT
@@ -20,6 +22,10 @@ public:
     void GetAccountInfo();
     void GetLogs();
     void CreateLog(int);
+    void GetLastLogs(); //argument -1 when going toward newer logs, 1 when going to older
+    void GetNextLogs();
+    int logs_curret_page = 0;
+    int logs_total_pages;
 
 private:
     //network managament
@@ -44,12 +50,21 @@ private:
     double account_balance;
     QString account_name;
     //logs
-    QList<int> logs_id_list;
+    QList<QString> logs_id_list;
     QList<QString> logs_date_list;
     QList<QString> logs_event_list;
-    QList<int> logs_amount_list;
-
+    QList<QString> logs_amount_list;
+    int logs_count;
     QString card_number;
+
+    //logs for updating logs view
+    QString idSignal[10];
+    QString dateSignal[10];
+    QString eventSignal[10];
+    QString amountSignal[10];
+signals:
+    void logsSignal(QString idSignall[],QString dateSignall[],QString eventSignall[],QString amountSignall[]);
+
 private slots:
     void loginSlot(QNetworkReply *reply);
     void getUserInfoSlot(QNetworkReply *reply);

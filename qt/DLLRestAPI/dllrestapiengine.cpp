@@ -158,11 +158,18 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
 
     foreach(const QJsonValue &value, json_array){
         QJsonObject obj = value.toObject();
-        logs_amount_list << obj["amount"].toInt();
-        logs_id_list << obj["log_ID"].toInt();
+        logs_amount_list << QString::number(obj["amount"].toInt());
+        logs_id_list << QString::number(obj["log_ID"].toInt());
         logs_date_list << obj["date"].toString();
         logs_event_list << obj["event"].toString();
     }
+    logs_count = json_array.size();
+    if(logs_total_pages%10 == 0){
+        logs_total_pages = logs_count/10-1;
+    }else{
+        logs_total_pages = logs_count/10;
+    }
+    qDebug()<<json_array.size()<<"<- sixe of array";
     for(int i = 0; i < logs_amount_list.size(); i++){
         qDebug()<<logs_amount_list.at(i);
         qDebug()<<logs_id_list.at(i);
@@ -174,6 +181,10 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
     reply->deleteLater();
     manager->deleteLater();
 }
+
+
+
+
 
 
 void DLLRestAPIEngine::CreateLog(int amount)
@@ -189,6 +200,86 @@ void DLLRestAPIEngine::CreateLog(int amount)
     qDebug()<<jsonObj<<"request body";
     reply = manager->post(request, QJsonDocument(jsonObj).toJson());
 
+}
+
+void DLLRestAPIEngine::GetLastLogs()
+{
+    if(logs_curret_page < logs_total_pages && logs_curret_page > -1){
+        for(int i = 0; i<10;i++){
+           idSignal[i] = logs_id_list.at(i+logs_curret_page*10);
+           dateSignal[i] = logs_date_list.at(i+logs_curret_page*10);
+           eventSignal[i] = logs_event_list.at(i+logs_curret_page*10);
+           amountSignal[i] = logs_amount_list.at(i+logs_curret_page*10);
+        }
+        emit logsSignal(idSignal, dateSignal, eventSignal, amountSignal);
+    }else if(logs_curret_page == logs_total_pages){
+        for(int i = 0; i<10;i++){
+            idSignal[i] = "";
+            dateSignal[i] = "";
+            eventSignal[i] = "";
+            amountSignal[i] = "";
+        }
+        for(int i = 0; i<logs_count-logs_total_pages*10;i++){
+           idSignal[i] = logs_id_list.at(i+logs_curret_page*10);
+           dateSignal[i] = logs_date_list.at(i+logs_curret_page*10);
+           eventSignal[i] = logs_event_list.at(i+logs_curret_page*10);
+           amountSignal[i] = logs_amount_list.at(i+logs_curret_page*10);
+        }
+        emit logsSignal(idSignal, dateSignal, eventSignal, amountSignal);
+        qDebug()<<"printed the last logs";
+    }
+    else{
+        qDebug()<<"reached end of list";
+    }
+    qDebug()<<logs_curret_page<<"logs current page "<<logs_total_pages<<"logs total pages";
+    qDebug()<< "printing signal data"<<Qt::endl;
+    for(int i = 0; i<10; i++){
+        qDebug()<< idSignal[i];
+        /*qDebug()<<dateSignal[i];
+        qDebug()<<eventSignal[i];
+        qDebug()<<amountSignal[i];*/
+        idSignal[i] = "";
+    }
+}
+
+void DLLRestAPIEngine::GetNextLogs()
+{
+    if(logs_curret_page < logs_total_pages && logs_curret_page > -1){
+        for(int i = 0; i<10;i++){
+           idSignal[i] = logs_id_list.at(i+logs_curret_page*10);
+           dateSignal[i] = logs_date_list.at(i+logs_curret_page*10);
+           eventSignal[i] = logs_event_list.at(i+logs_curret_page*10);
+           amountSignal[i] = logs_amount_list.at(i+logs_curret_page*10);
+        }
+        emit logsSignal(idSignal, dateSignal, eventSignal, amountSignal);
+    }else if(logs_curret_page == logs_total_pages){
+        for(int i = 0; i<10;i++){
+            idSignal[i] = "";
+            dateSignal[i] = "";
+            eventSignal[i] = "";
+            amountSignal[i] = "";
+        }
+        for(int i = 0; i<logs_count-logs_total_pages*10;i++){
+           idSignal[i] = logs_id_list.at(i+logs_curret_page*10);
+           dateSignal[i] = logs_date_list.at(i+logs_curret_page*10);
+           eventSignal[i] = logs_event_list.at(i+logs_curret_page*10);
+           amountSignal[i] = logs_amount_list.at(i+logs_curret_page*10);
+        }
+        emit logsSignal(idSignal, dateSignal, eventSignal, amountSignal);
+        qDebug()<<"printed the last logs";
+    }
+    else{
+        qDebug()<<"reached end of list";
+    }
+    qDebug()<<logs_curret_page<<"logs current page "<<logs_total_pages<<"logs total pages";
+    qDebug()<< "printing signal data"<<Qt::endl;
+    for(int i = 0; i<10; i++){
+        qDebug()<< idSignal[i];
+        /*qDebug()<<dateSignal[i];
+        qDebug()<<eventSignal[i];
+        qDebug()<<amountSignal[i];*/
+        idSignal[i] = "";
+    }
 }
 
 void DLLRestAPIEngine::createLogSlot(QNetworkReply *reply)

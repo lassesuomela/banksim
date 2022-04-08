@@ -16,8 +16,13 @@ public:
     void GetAccountInfo();
     void GetLogs1();
     void UpdateLogs(int);
+    void GetLastLogs();
+    void GetNextLogs();
+
+    void BrowseLogs(bool); //true to go to older logs, false to go to newer logs
 private:
     DLLRestAPIEngine* engine;
+    int gotLast = 0;
 };
 
 #endif // DLLRESTAPI_H

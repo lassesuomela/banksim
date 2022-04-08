@@ -40,3 +40,30 @@ void DLLRestAPI::UpdateLogs(int i)
 {
     engine->CreateLog(i);
 }
+
+void DLLRestAPI::GetLastLogs()
+{
+    engine->GetLastLogs();
+}
+void DLLRestAPI::GetNextLogs()
+{
+    engine->GetNextLogs();
+}
+
+void DLLRestAPI::BrowseLogs(bool wantOlder)
+{
+    if(wantOlder){
+        if(gotLast != 0)
+            if(engine->logs_curret_page < engine->logs_total_pages)
+                engine->logs_curret_page++;
+        engine->GetNextLogs();
+        gotLast = 1;
+    }else{
+        if(gotLast != 0)
+            if(engine->logs_curret_page > 0)
+                engine->logs_curret_page--;
+        engine->GetNextLogs();
+        gotLast = 1;
+    }
+
+}
