@@ -22,10 +22,14 @@ public:
     void GetAccountInfo();
     void GetLogs();
     void CreateLog(int);
-    void GetLastLogs(); //argument -1 when going toward newer logs, 1 when going to older
-    void GetNextLogs();
-    int logs_curret_page = 0;
+
+    int logs_curret_page = 4;
     int logs_total_pages;
+    //logs for updating logs view
+    QString idSignal[10];
+    QString dateSignal[10];
+    QString eventSignal[10];
+    QString amountSignal[10];
 
 private:
     //network managament
@@ -57,13 +61,8 @@ private:
     int logs_count;
     QString card_number;
 
-    //logs for updating logs view
-    QString idSignal[10];
-    QString dateSignal[10];
-    QString eventSignal[10];
-    QString amountSignal[10];
-signals:
-    void logsSignal(QString idSignall[],QString dateSignall[],QString eventSignall[],QString amountSignall[]);
+
+
 
 private slots:
     void loginSlot(QNetworkReply *reply);

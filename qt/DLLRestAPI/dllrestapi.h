@@ -14,15 +14,16 @@ public:
     void GetUserInfo();
     void GetCardInfo();
     void GetAccountInfo();
-    void GetLogs1();
+    void GetLogs1(int); //argument = 0 for getting older logs (page++), -1 when wanting new logs (page--), else page = int
     void UpdateLogs(int);
-    void GetLastLogs();
-    void GetNextLogs();
+    QString logData[10][4];
 
-    void BrowseLogs(bool); //true to go to older logs, false to go to newer logs
+
 private:
     DLLRestAPIEngine* engine;
     int gotLast = 0;
+
+
 };
 
 #endif // DLLRESTAPI_H

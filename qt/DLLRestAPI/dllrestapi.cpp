@@ -3,6 +3,7 @@
 DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
 {
     engine = new DLLRestAPIEngine;
+
 }
 
 DLLRestAPI::~DLLRestAPI()
@@ -31,9 +32,28 @@ void DLLRestAPI::GetAccountInfo()
     engine->GetAccountInfo();
 }
 
-void DLLRestAPI::GetLogs1()
+void DLLRestAPI::GetLogs1(int page)
 {
+    switch (page) {
+        case 0:
+            engine->logs_curret_page = engine->logs_curret_page+1;
+            break;
+        case -1:
+            engine->logs_curret_page = engine->logs_curret_page-1;
+            break;
+    default:
+        engine->logs_curret_page = page;
+    }
     engine->GetLogs();
+
+    for(int i = 0; i<10; i++){
+        logData[i][0] = engine->idSignal[i];
+        logData[i][1] = engine->dateSignal[i];
+        logData[i][2] = engine->eventSignal[i];
+        logData[i][3] = engine->amountSignal[i];
+    }
+
+    qDebug()<<"ran GetLogs";
 }
 
 void DLLRestAPI::UpdateLogs(int i)
@@ -41,15 +61,7 @@ void DLLRestAPI::UpdateLogs(int i)
     engine->CreateLog(i);
 }
 
-void DLLRestAPI::GetLastLogs()
-{
-    engine->GetLastLogs();
-}
-void DLLRestAPI::GetNextLogs()
-{
-    engine->GetNextLogs();
-}
-
+/*
 void DLLRestAPI::BrowseLogs(bool wantOlder)
 {
     if(wantOlder){
@@ -67,3 +79,4 @@ void DLLRestAPI::BrowseLogs(bool wantOlder)
     }
 
 }
+*/
