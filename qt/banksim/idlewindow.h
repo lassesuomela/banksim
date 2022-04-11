@@ -3,6 +3,8 @@
 #include "dllserialport.h"
 #include "pincodedll.h"
 #include "mainwindow.h"
+#include "dllrestapi.h"
+
 #include <QMainWindow>
 #include <QString>
 #include <QDebug>
@@ -35,6 +37,7 @@ private:
     DLLSerialPort *serialPort;
     PinCodeDLL *pinCodeDLL;
     MainWindow *mainWindow;
+    DLLRestAPI *dllRestApi;
     void HandleCard();
     char* rfid;
     QString pinCode;

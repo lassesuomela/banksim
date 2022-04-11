@@ -10,6 +10,7 @@ IdleWindow::IdleWindow(QWidget *parent)
     tries = 3;
     serialPort = new DLLSerialPort(1);
     pinCodeDLL = new PinCodeDLL();
+    dllRestApi = new DLLRestAPI();
     connect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
     connect(pinCodeDLL, SIGNAL(pinToExe(QString)), this, SLOT(PinSlot(QString)));
     connect(this, SIGNAL(SendTries(int)), pinCodeDLL, SLOT(getTriesFromEXE(int)));
@@ -32,6 +33,7 @@ IdleWindow::~IdleWindow(){
 void IdleWindow::PinSlot(QString pin){
     pinCode = pin;
     qDebug() << "pinReceived" << pin;
+    dllRestApi->Login("sami@sami.com",pin);
     if(CheckInfo(tries, rfid, pinCode)){
        mainWindow = new MainWindow();
        this->close();
