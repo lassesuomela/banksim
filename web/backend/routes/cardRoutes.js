@@ -19,7 +19,7 @@ router.put("/connect", jwtAuth.verifyToken, cardController.connectCard);
 
 router.post("/", jwtAuth.verifyToken, cardController.addCard);
 
-router.post("/auth", jwtAuth.verifyToken, cardController.authenticate)
+router.post("/auth", cardController.authenticate)
 
 router.delete("/", jwtAuth.verifyToken, cardController.disconnectCard)
 
