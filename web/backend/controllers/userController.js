@@ -3,6 +3,44 @@ const bcrypt = require("bcrypt");
 const emailvalidator = require("email-validator");
 const { json } = require("express/lib/response");
 const jwt = require("../config/jwtAuth");
+const fs = require("fs");
+
+const crypto = require('crypto');
+
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: 'uploads/',
+    filename: function (req, file, cb) {
+        ext = {'image/png':'png', 'image/jpeg':'jpg'}
+
+        let fileExt = ext[file.mimetype];
+        let finalName = crypto.randomBytes(16).toString('hex') +'.' + fileExt
+
+        cb(null, finalName)
+    }
+})
+
+const upload = multer(
+    {
+        storage: storage,
+        limits: {
+            fileSize: 1024 * 1024 * 2 // 2MB file size limit
+        },
+        fileFilter(req, file, cb) {
+            mimes = {'image/png':'png', 'image/jpeg':'jpg'}
+
+            let ext = mimes[file.mimetype];
+
+            if(!ext){
+                // return error if mimetype is not in ext list
+                return cb("Filetype not allowed: " + file.mimetype, false);
+            }
+
+            // else return undefined error
+            cb(undefined, true);
+        }
+    }
+).single('avatar');
 
 const getAll = (req, res) => {
     user.get(function(err,dbResult){
@@ -91,10 +129,23 @@ const userInfo = (req, res) => {
     });
 }
 
+const updateAvatar = (req, res) => {
+    upload(req,res, (err) => {
+
+        // return out if multer error
+        if(err){
+            return res.json({status:"error", message:err});
+        }
+        
+        res.json({status:"success",message:"Avatar updated."});
+    })
+}
+
 module.exports = {
     getAll,
     userLogin,
     userRegister,
     getById,
-    userInfo
+    userInfo,
+    updateAvatar
 }

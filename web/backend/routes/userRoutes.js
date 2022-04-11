@@ -14,4 +14,6 @@ router.post("/login",userController.userLogin);
 
 router.post("/register",userController.userRegister);
 
+router.post("/updateAvatar", userController.updateAvatar);
+
 module.exports = router;
