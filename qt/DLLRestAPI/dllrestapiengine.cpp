@@ -237,3 +237,30 @@ void DLLRestAPIEngine::createLogSlot(QNetworkReply *reply)
     reply->deleteLater();
     manager->deleteLater();
 }
+
+void DLLRestAPIEngine::GetBalance()
+{
+    QString requestStr = QStringLiteral("api/account/%1").arg(account_id_int);
+    QNetworkRequest request(base_url+requestStr);
+    request.setRawHeader("Authorization", authByteArr);
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
+
+    reply = manager->get(request);
+}
+
+void DLLRestAPIEngine::updateBalanceSlot(QNetworkReply *reply)
+{
+    QByteArray response_data = reply->readAll();
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonArray json_array = json_doc.array();
+
+    foreach(const QJsonValue &value, json_array){
+        QJsonObject obj = value.toObject();
+        account_balance = obj["balance"].toDouble();
+    }
+
+    qDebug()<<"CURRENT BALANCE "<<account_balance<<Qt::endl;
+    reply->deleteLater();
+    manager->deleteLater();
+}

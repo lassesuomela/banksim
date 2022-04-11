@@ -20,6 +20,7 @@ public:
 
     void GetLogs();
     void CreateLog(int);
+    void GetBalance();
 
     int logs_curret_page = 1;
     int logs_total_pages;
@@ -72,6 +73,7 @@ private slots:
     void getAccountInfoSlot(QNetworkReply *reply);
     void getLogsSlot(QNetworkReply *reply);
     void createLogSlot(QNetworkReply *reply);
+    void updateBalanceSlot(QNetworkReply *reply);
 
 };
 

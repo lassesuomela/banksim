@@ -15,7 +15,7 @@ public:
     void UpdateLogs(int);
     void GetInfo();
     QString logData[10][4];
-
+    void UpdateBalance();
 private:
     DLLRestAPIEngine* engine;
 

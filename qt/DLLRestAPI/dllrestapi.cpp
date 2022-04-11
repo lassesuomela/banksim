@@ -48,3 +48,9 @@ void DLLRestAPI::GetInfo()
 {
     emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
 }
+
+void DLLRestAPI::UpdateBalance()
+{
+    engine->GetBalance();
+    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
+}
