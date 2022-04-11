@@ -11,11 +11,17 @@ public:
     DLLRestAPI(QObject *parent = nullptr);
     ~DLLRestAPI();
     void Login(QString, QString);
-    void GetUserInfo();
-    void GetCardInfo();
-    void GetAccountInfo();
+    void GetLogs10(int); //argument = 0 for getting older logs (page++), -1 when wanting new logs (page--), else page = int
+    void UpdateLogs(int);
+    void GetInfo();
+    QString logData[10][4];
+    void UpdateBalance();
 private:
     DLLRestAPIEngine* engine;
+
+
+signals:
+    void InfoSignal(double balance, QString acc_name, QString fname, QString lname, QString card_number, QString card_type);
 };
 
 #endif // DLLRESTAPI_H
