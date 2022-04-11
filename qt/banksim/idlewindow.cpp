@@ -36,7 +36,7 @@ void IdleWindow::PinSlot(QString pin){
     dllRestApi->Login("sami@sami.com",pin);
     if(CheckInfo(tries, rfid, pinCode)){
        mainWindow = new MainWindow();
-       this->close();
+       this->hide();
        emit sendCloseSignal();
        mainWindow->show();
 

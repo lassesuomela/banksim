@@ -16,6 +16,10 @@ public:
 
 private slots:
 
+    void on_nosto_clicked();
+
+    void on_takaisin_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

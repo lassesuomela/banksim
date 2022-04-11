@@ -22,12 +22,20 @@
      <height>600</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <stylestrategy>PreferAntialias</stylestrategy>
+    </font>
+   </property>
+   <property name="currentIndex">
+    <number>1</number>
+   </property>
    <widget class="QWidget" name="sivu1">
     <widget class="QToolButton" name="kirjaudu_ulos">
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>450</y>
+       <y>480</y>
        <width>371</width>
        <height>71</height>
       </rect>
@@ -35,6 +43,7 @@
      <property name="font">
       <font>
        <pointsize>22</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
       </font>
      </property>
      <property name="text">
@@ -45,7 +54,7 @@
      <property name="geometry">
       <rect>
        <x>410</x>
-       <y>450</y>
+       <y>480</y>
        <width>371</width>
        <height>71</height>
       </rect>
@@ -53,6 +62,7 @@
      <property name="font">
       <font>
        <pointsize>22</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
       </font>
      </property>
      <property name="text">
@@ -71,6 +81,7 @@
      <property name="font">
       <font>
        <pointsize>22</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
       </font>
      </property>
      <property name="text">
@@ -89,6 +100,7 @@
      <property name="font">
       <font>
        <pointsize>22</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
       </font>
      </property>
      <property name="text">
@@ -96,7 +108,162 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="sivu2"/>
+   <widget class="QWidget" name="sivu2">
+    <widget class="QToolButton" name="takaisin">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>480</y>
+       <width>371</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="text">
+      <string>takaisin</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="nostoArvo">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>200</y>
+       <width>401</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>13</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="text">
+      <string>0.0</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nosto_100">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>360</y>
+       <width>91</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>100</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nosto_20">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>360</y>
+       <width>91</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>20</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nosto_40">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>360</y>
+       <width>91</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>40</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nosto_60">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>360</y>
+       <width>91</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>60</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nosto_200">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>360</y>
+       <width>91</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>200</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="nosto_500">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>360</y>
+       <width>91</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>500</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="clear">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>200</y>
+       <width>101</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>clear</string>
+     </property>
+    </widget>
+    <widget class="QToolButton" name="nosta">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>480</y>
+       <width>371</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>22</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
+      </font>
+     </property>
+     <property name="text">
+      <string>nosta</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>
