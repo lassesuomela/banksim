@@ -3,6 +3,8 @@
 #include "dllserialport.h"
 #include "pincodedll.h"
 #include "mainwindow.h"
+#include "dllrestapi.h"
+
 #include <QMainWindow>
 #include <QString>
 #include <QDebug>
@@ -29,17 +31,18 @@ signals:
 
 private slots:
     void on_nappi_clicked();
+    void GetTries(int);
 
 private:
     Ui::IdleWindow *ui;
     DLLSerialPort *serialPort;
     PinCodeDLL *pinCodeDLL;
     MainWindow *mainWindow;
+    DLLRestAPI *dllRestApi;
     void HandleCard();
     char* rfid;
     QString pinCode;
     int tries;
-    bool CheckInfo(int, char*, QString);
 
 };
 #endif // IDLEWINDOW_H
