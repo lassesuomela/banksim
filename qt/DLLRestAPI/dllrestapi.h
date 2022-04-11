@@ -21,7 +21,7 @@ private:
 
 
 signals:
-    void InfoSignal(double balance, QString acc_name, QString fname, QString lname, QString card_number);
+    void InfoSignal(double balance, QString acc_name, QString fname, QString lname, QString card_number, QString card_type);
 };
 
 #endif // DLLRESTAPI_H

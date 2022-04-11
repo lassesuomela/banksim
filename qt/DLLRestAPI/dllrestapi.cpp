@@ -46,5 +46,5 @@ void DLLRestAPI::UpdateLogs(int i)
 
 void DLLRestAPI::GetInfo()
 {
-    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number);
+    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
 }

@@ -101,7 +101,15 @@ void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
     foreach(const QJsonValue &value, json_array){
         QJsonObject obj = value.toObject();
         account_id_int = obj["account_ID"].toInt();
+        card_type_int = obj["card_type"].toInt();
     }
+    if(card_type_int == 0)
+        card_type = "Debit";
+
+    if(card_type_int == 1)
+        card_type = "Credit";
+
+
     qDebug()<<"GET CARD INFO (account id) "<<account_id_int<<Qt::endl;
 
     reply->deleteLater();

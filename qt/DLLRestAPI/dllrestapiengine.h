@@ -29,13 +29,14 @@ public:
     QString eventSignal[10];
     QString amountSignal[10];
 
-    double account_balance;     //make a get
-    QString account_name;       //make a get
+    double account_balance;
+    QString account_name;
 
-    QString fname;              //make a get
-    QString lname;              //make a get
+    QString fname;
+    QString lname;
 
-    QString card_number;        //make a get
+    QString card_number;
+    QString card_type;
 
 private:
     void GetUserInfo();
@@ -62,6 +63,7 @@ private:
     QList<QString> logs_event_list;
     QList<QString> logs_amount_list;
     int logs_count;
+    int card_type_int;
 
 private slots:
     void loginSlot(QNetworkReply *reply);
