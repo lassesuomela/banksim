@@ -17,13 +17,11 @@ public:
     DLLRestAPIEngine(QObject*parent = nullptr);
     ~DLLRestAPIEngine();
     void Login(QString, QString);
-    void GetUserInfo();
-    void GetCardInfo();
-    void GetAccountInfo();
+
     void GetLogs();
     void CreateLog(int);
 
-    int logs_curret_page = 4;
+    int logs_curret_page = 1;
     int logs_total_pages;
     //logs for updating logs view
     QString idSignal[10];
@@ -31,9 +29,19 @@ public:
     QString eventSignal[10];
     QString amountSignal[10];
 
+    double account_balance;     //make a get
+    QString account_name;       //make a get
+
+    QString fname;              //make a get
+    QString lname;              //make a get
+
+    QString card_number;        //make a get
+
 private:
+    void GetUserInfo();
+    void GetCardInfo();
+    void GetAccountInfo();
     //network managament
-    QJsonObject jsonObj;
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     //QByteArray response_data;
@@ -42,27 +50,18 @@ private:
     QString status;
     QByteArray authByteArr;
     //user data
-    QString fname;
-    QString lname;
     QString address;
     QString email;
     QString phone;
     //card data
     int account_id_int;
     QString account_id;
-    //account data
-    double account_balance;
-    QString account_name;
     //logs
     QList<QString> logs_id_list;
     QList<QString> logs_date_list;
     QList<QString> logs_event_list;
     QList<QString> logs_amount_list;
     int logs_count;
-    QString card_number;
-
-
-
 
 private slots:
     void loginSlot(QNetworkReply *reply);
@@ -71,6 +70,7 @@ private slots:
     void getAccountInfoSlot(QNetworkReply *reply);
     void getLogsSlot(QNetworkReply *reply);
     void createLogSlot(QNetworkReply *reply);
+
 };
 
 #endif // DLLRESTAPIENGINE_H

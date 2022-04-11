@@ -14,25 +14,10 @@ DLLRestAPI::~DLLRestAPI()
 
 void DLLRestAPI::Login(QString email, QString password)
 {
-    engine->Login(email, password);
+    engine->Login(email, password); //bad function names, use card_number and pin
 }
 
-void DLLRestAPI::GetUserInfo()
-{
-    engine->GetUserInfo();
-}
-
-void DLLRestAPI::GetCardInfo()
-{
-    engine->GetCardInfo();
-}
-
-void DLLRestAPI::GetAccountInfo()
-{
-    engine->GetAccountInfo();
-}
-
-void DLLRestAPI::GetLogs1(int page)
+void DLLRestAPI::GetLogs10(int page)
 {
     switch (page) {
         case 0:
@@ -52,8 +37,6 @@ void DLLRestAPI::GetLogs1(int page)
         logData[i][2] = engine->eventSignal[i];
         logData[i][3] = engine->amountSignal[i];
     }
-
-    qDebug()<<"ran GetLogs";
 }
 
 void DLLRestAPI::UpdateLogs(int i)
@@ -61,22 +44,7 @@ void DLLRestAPI::UpdateLogs(int i)
     engine->CreateLog(i);
 }
 
-/*
-void DLLRestAPI::BrowseLogs(bool wantOlder)
+void DLLRestAPI::GetInfo()
 {
-    if(wantOlder){
-        if(gotLast != 0)
-            if(engine->logs_curret_page < engine->logs_total_pages)
-                engine->logs_curret_page++;
-        engine->GetNextLogs();
-        gotLast = 1;
-    }else{
-        if(gotLast != 0)
-            if(engine->logs_curret_page > 0)
-                engine->logs_curret_page--;
-        engine->GetNextLogs();
-        gotLast = 1;
-    }
-
+    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number);
 }
-*/

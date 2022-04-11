@@ -1,6 +1,5 @@
 #include "dllrestapiengine.h"
-//get in order
-//login->userinfo->card info->account info->logs
+
 DLLRestAPIEngine::DLLRestAPIEngine(QObject * parent) : QObject(parent)
 {
 
@@ -10,7 +9,7 @@ DLLRestAPIEngine::~DLLRestAPIEngine()
 {
 
 }
-
+//-----------------START OF INFO GATHERING--------------------------------------------------------
 void DLLRestAPIEngine::Login(QString email, QString password)
 {
     qDebug()<<"login kutsuttu";
@@ -37,20 +36,24 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
     auth =json_obj["token"].toString();
     auth = "Bearer "+auth;
     authByteArr = auth.toUtf8();
-    qDebug()<<status<<auth<<Qt::endl;
-    }else if(status==NULL){
-        qDebug()<<"express offline";
-    }else{
-        qDebug()<<"Wrong pin code"<<json_obj;
-    }
+    qDebug()<<"LOG IN "<<status<<Qt::endl;
     reply->deleteLater();
     manager->deleteLater();
+    GetUserInfo();
+    }else if(status==NULL){
+        qDebug()<<"express offline";
+        reply->deleteLater();
+        manager->deleteLater();
+    }else{
+        qDebug()<<"Wrong pin code"<<json_obj;
+        reply->deleteLater();
+        manager->deleteLater();
+    }
 }
 
 
 void DLLRestAPIEngine::GetUserInfo()
 {
-    QJsonObject jsonObj;
     QNetworkRequest request(base_url+"api/user/info");
 
     manager = new QNetworkAccessManager(this);
@@ -72,15 +75,15 @@ void DLLRestAPIEngine::getUserInfoSlot(QNetworkReply *reply)
     email = json_obj["email"].toString();
     phone = json_obj["phone"].toString();
 
-    qDebug()<<fname<<lname<<address<<email<<phone;
+    qDebug()<<"GET USERINFO "<<fname<<lname<<address<<email<<phone<<Qt::endl;
     reply->deleteLater();
     manager->deleteLater();
+    GetCardInfo();
 }
 
 
 void DLLRestAPIEngine::GetCardInfo()
 {
-    QJsonObject jsonObj;
     QNetworkRequest request(base_url+"api/card/"+card_number);
     manager = new QNetworkAccessManager(this);
     request.setRawHeader("Authorization", authByteArr);
@@ -94,17 +97,16 @@ void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
     QByteArray response_data = reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
-    //qDebug()<< json_array[].toString()<<"account id from asfka";
-    qDebug()<<json_array<<"json"<<Qt::endl;
 
     foreach(const QJsonValue &value, json_array){
         QJsonObject obj = value.toObject();
         account_id_int = obj["account_ID"].toInt();
     }
-    qDebug()<<account_id_int<<"got card info"<<Qt::endl;
+    qDebug()<<"GET CARD INFO (account id) "<<account_id_int<<Qt::endl;
 
     reply->deleteLater();
     manager->deleteLater();
+    GetAccountInfo();
 }
 
 
@@ -112,7 +114,6 @@ void DLLRestAPIEngine::GetAccountInfo()
 {
 
     QString requestStr = QStringLiteral("api/account/%1").arg(account_id_int);
-    qDebug()<<requestStr<<"req str"<<Qt::endl;
     QNetworkRequest request(base_url+requestStr);
     request.setRawHeader("Authorization", authByteArr);
     manager = new QNetworkAccessManager(this);
@@ -126,7 +127,6 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
     QByteArray response_data = reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonArray json_array = json_doc.array();
-    qDebug()<<json_array<<"json"<<Qt::endl;
 
     foreach(const QJsonValue &value, json_array){
         QJsonObject obj = value.toObject();
@@ -134,9 +134,10 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
         account_balance = obj["balance"].toDouble();
     }
 
-    qDebug()<<account_balance<<account_name<<"parsed data";
+    qDebug()<<"GET ACCOUNT INFO"<<account_balance<<account_name<<Qt::endl;
     reply->deleteLater();
     manager->deleteLater();
+    GetLogs();
 }
 
 
@@ -147,7 +148,6 @@ void DLLRestAPIEngine::GetLogs()
     if(logs_curret_page > logs_total_pages)
         logs_curret_page = logs_total_pages;
 
-    QJsonObject jsonObj;
     QString requestUrl = "api/logs/getByCardNumber/"+card_number + "/" + QString::number(logs_curret_page);
     QNetworkRequest request(base_url+ requestUrl);
     manager = new QNetworkAccessManager(this);
@@ -192,12 +192,12 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
 
 
     for(int i = 0; i < 10; i++)
-        qDebug()<<idSignal[i]<<"arr"<<i;
+        qDebug()<<"GET LOGS WITH ID: "<<idSignal[i];
 
     reply->deleteLater();
     manager->deleteLater();
 }
-
+//-----------------END OF INFO GATHERING--------------------------------------------------------
 void DLLRestAPIEngine::CreateLog(int amount)
 {
     QJsonObject jsonObj;
