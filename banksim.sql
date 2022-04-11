@@ -152,8 +152,8 @@ CREATE TABLE `user_account` (
   PRIMARY KEY (`user_ID`,`account_ID`),
   KEY `fk_user_has_account_account1_idx` (`account_ID`),
   KEY `fk_user_has_account_user1_idx` (`user_ID`),
-  CONSTRAINT `fk_user_account_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`),
-  CONSTRAINT `fk_user_account_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`)
+  CONSTRAINT `fk_user_account_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`) ON DELETE CASCADE,
+  CONSTRAINT `fk_user_account_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
