@@ -9,6 +9,8 @@ router.get('/getAllCards', jwtAuth.verifyToken, cardController.getAll)
 
 router.get("/info", jwtAuth.verifyToken, cardController.getCardAccountInfo);
 
+router.get("/tries/:card_number", cardController.getTries);
+
 router.get('/:card_number', jwtAuth.verifyToken, cardController.getByCardNumber);
 
 router.get('/', jwtAuth.verifyToken, cardController.getByUserID);
