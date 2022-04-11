@@ -50,24 +50,47 @@ const addAccount = (req, res) => {
 }
 
 const addUserToAccount = (req, res) => {
-    if(emailvalidator.validate(req.body.email) && req.body.account){
+    if(emailvalidator.validate(req.body.email) && req.body.id){
         user.getByEmail(req.body.email,function(err, dbResult){
-            if(err){
-                return res.json(err);
+            if(dbResult.length === 0){
+                return res.json({status:"error",message:"No users found with the matching email."});
             }
-            if(dbResult.length > 0){
-                account.addUser(dbResult[0].user_ID,req.body.account,function(err, dbResult){
-                    if(err){
-                        return res.json(err);
-                    }else{
-                        return res.json({status:"success",message:req.body.email+" now has access to account "+req.body.account+"."});
+            let hasAccessToAccount = false;
+            let uid = dbResult[0].user_ID;
+            account.getOwnerById(req.userId, req.body.id, function(err, dbResult){
+                if(err){
+                    return res.json(err);
+                }
+                for(let i=0;i<dbResult.length;i++){
+                    if(dbResult[i].account_ID === req.body.id && dbResult[i].owner === req.userId){
+                        hasAccessToAccount = true;
+                        console.log("TEST");
                     }
+                }
+                if(!hasAccessToAccount){
+                    return res.json({status:"error",message:"You do not have access to this account."});
+                }
+                console.log(dbResult[0]);
+                account.getExact(uid, req.body.id, function(err, dbResult){
+                    if(err){
+                        return res.json({status:"error",message:err});
+                    }
+                    if(dbResult.length > 0){
+                        return res.json({status:"error",message:"User already has access to this account."});
+                    }
+                    account.addUser(uid, req.body.id, function(err, dbResult){
+                        if(err){
+                            return res.json(err);
+                        }else{
+                            return res.json({status:"success",message:req.body.email+" now has access to account "+req.body.id+"."});
+                        }
+                    });
                 });
-            }else{
-                return res.json({status:"error",message:"Requested email not found."});
-            }
+            });
         });
         
+    }else{
+        return res.json({status:"error",message:"Please fill all fields"});
     }
 }
 
@@ -89,7 +112,7 @@ const deleteAccount = (req, res) => {
                 }
             }
             if(!hasAccessToAccount){
-                return res.json({status:"error",message:"User does not have access to this account."});
+                return res.json({status:"error",message:"You are not the owner of this account."});
             }
             card.disconnectByAccountId(accountId, function(err, dbResult){
                 if(err){

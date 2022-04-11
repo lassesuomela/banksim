@@ -1,19 +1,5 @@
 
 <template>
-<<<<<<< HEAD
-<div class="dashboard">
- <app-sidebar/>
- <app-cards/>
-   <v-row >
-    <v-col cols="12">
-      <v-card class="blue-grey darken-3">
-        <v-card-title class="cyan darken-1">
-          <span class="font-weight-bold text-h5 blue-grey--text text--darken-3">Add card</span>
-        </v-card-title>
-      <v-form @submit.prevent="addCard" id="addcard-form">
-      <v-col class="d-flex" >
-        <v-select v-model="selectAccount" dark color="cyan darken-1" :items="accountlist" item-value="id" item-text="name" label="Account" prepend-icon="person" ></v-select>
-=======
   <div class="dashboard">
     <app-sidebar />
     <app-cards />
@@ -81,7 +67,6 @@
           </v-form>
           <br />
         </v-card>
->>>>>>> 66f6d424859aabe6c7a01994110fa1cd30230585
       </v-col>
     </v-row>
   </div>
