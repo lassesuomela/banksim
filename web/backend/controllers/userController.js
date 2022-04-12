@@ -98,7 +98,7 @@ const userInfo = (req, res) => {
 // Profile picture upload thingy:
 const storage = multer.diskStorage({
 
-    // file destination path default is 'uploads/' if not defined
+    // file destination path defaults to 'uploads/' if not defined
     destination: process.env.DOWNLOAD_PATH || 'uploads/',
     filename: function (req, file, cb) {
 
@@ -169,11 +169,27 @@ const updateAvatar = (req, res) => {
     })
 }
 
+const avatar = (req, res) => {
+    user.getById(req.userId, function(err, dbResult) {
+        let filename = dbResult[0].picture;
+
+        let uploadPath = process.env.DOWNLOAD_PATH || 'uploads/';
+
+        let fullPath = uploadPath + filename;
+
+        res.render(fullPath)
+
+
+        //res.json({status:"success", message:fullPath})
+    })
+}
+
 module.exports = {
     getAll,
     userLogin,
     userRegister,
     getById,
     userInfo,
-    updateAvatar
+    updateAvatar,
+    avatar
 }
