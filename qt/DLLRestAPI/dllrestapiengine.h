@@ -21,6 +21,7 @@ public:
     void GetLogs();
     void CreateLog(int);
     void GetBalance();
+    void GetTries(QString card_number);
 
     int logs_curret_page = 1;
     int logs_total_pages;
@@ -38,6 +39,9 @@ public:
 
     QString card_number;
     QString card_type;
+    QString status;
+    QString resMessage;
+    int tries = 0;
 
 private:
     void GetUserInfo();
@@ -49,7 +53,6 @@ private:
     //QByteArray response_data;
     QString auth = "";
     QString base_url="http://localhost:3000/";
-    QString status;
     QByteArray authByteArr;
     //user data
     QString address;
@@ -66,6 +69,9 @@ private:
     int logs_count;
     int card_type_int;
 
+signals:
+    void SendTriesSignal(int tries);
+    void AuthStatus(QString);
 private slots:
     void loginSlot(QNetworkReply *reply);
     void getUserInfoSlot(QNetworkReply *reply);
@@ -74,6 +80,7 @@ private slots:
     void getLogsSlot(QNetworkReply *reply);
     void createLogSlot(QNetworkReply *reply);
     void updateBalanceSlot(QNetworkReply *reply);
+    void getTriesSlot(QNetworkReply *reply);
 
 };
 

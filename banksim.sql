@@ -18,6 +18,8 @@
 --
 -- Table structure for table `account`
 --
+CREATE DATABASE banksim;
+USE banksim;
 
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -121,7 +123,7 @@ CREATE TABLE `user` (
   `email` varchar(100) NOT NULL,
   `phone` varchar(45) NOT NULL,
   `password` binary(60) NOT NULL,
-  `picture` varchar(45) DEFAULT NULL,
+  `picture` VARCHAR(45) NOT NULL DEFAULT 'default.png',
   PRIMARY KEY (`user_ID`),
   UNIQUE KEY `user_ID_UNIQUE` (`user_ID`) /*!80000 INVISIBLE */,
   UNIQUE KEY `email_UNIQUE` (`email`)
