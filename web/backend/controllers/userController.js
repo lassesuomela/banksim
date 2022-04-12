@@ -169,27 +169,11 @@ const updateAvatar = (req, res) => {
     })
 }
 
-const avatar = (req, res) => {
-    user.getById(req.userId, function(err, dbResult) {
-        let filename = dbResult[0].picture;
-
-        let uploadPath = process.env.DOWNLOAD_PATH || 'uploads/';
-
-        let fullPath = uploadPath + filename;
-
-        res.render(fullPath)
-
-
-        //res.json({status:"success", message:fullPath})
-    })
-}
-
 module.exports = {
     getAll,
     userLogin,
     userRegister,
     getById,
     userInfo,
-    updateAvatar,
-    avatar
+    updateAvatar
 }
