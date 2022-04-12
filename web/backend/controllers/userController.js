@@ -103,10 +103,10 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
 
         // valid mimes that match valid extensions
-        ext = {'image/png':'png', 'image/jpeg':'jpg'};
+        let mimes = {'image/png':'png', 'image/jpeg':'jpg'};
 
         // get the file extension
-        let fileExt = ext[file.mimetype];
+        let fileExt = mimes[file.mimetype];
 
         // create filename from randombytes and add file extension to it
         let finalName = crypto.randomBytes(16).toString('hex') +'.' + fileExt;
@@ -119,15 +119,18 @@ const upload = multer(
     {
         storage: storage,
         limits: {
-            fileSize: 1024 * 1024 * 2 // 2MB file size limit
+            // 2MB file size limit
+            fileSize: 1024 * 1024 * 2
         },
         fileFilter(req, file, cb) {
             
+            // valid mimes that match valid extensions
             let mimes = {'image/png':'png', 'image/jpeg':'jpg'};
 
-            let ext = mimes[file.mimetype];
+            // get the file extension
+            let fileExt = mimes[file.mimetype];
 
-            if(!ext){
+            if(!fileExt){
                 // return error if mimetype is not in ext list
                 return cb("Filetype not allowed: " + file.mimetype, false);
             }
@@ -147,16 +150,22 @@ const updateAvatar = (req, res) => {
             return res.json({status:"error", message:err});
         }
 
+        // get file name of the file
         let filename = req.file.filename;
 
-        // file destination path default is 'uploads/' if not defined
-        let path = process.env.DOWNLOAD_PATH || 'uploads/';
+        user.updateAvatar(req.userId, filename, function(err, dbResult) {
 
-        let fullpath = path + filename;
-        
-        console.log(fullpath);
+            if(err) {
+                console.log(err);
+                return res.json({status:"error", message:err});
+            }
 
-        res.json({status:"success",message:"Avatar updated."});
+            if(dbResult.affectedRows > 0){
+                res.json({status:"success", message:"Profile picture updated."});
+            }else{
+                res.json({status:"error", message:"Profile picture was not updated."});
+            }
+        })
     })
 }
 
