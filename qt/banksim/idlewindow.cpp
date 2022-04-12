@@ -13,6 +13,7 @@ IdleWindow::IdleWindow(QWidget *parent)
     dllRestApi = new DLLRestAPI();
     connect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
     connect(pinCodeDLL, SIGNAL(pinToExe(QString)), this, SLOT(PinSlot(QString)));
+    connect(dllRestApi, SIGNAL(SendTriesToExe(int)), this, SLOT(GetTries(int)));
     connect(this, SIGNAL(SendTries(int)), pinCodeDLL, SLOT(getTriesFromEXE(int)));
     connect(this, SIGNAL(sendCloseSignal()), pinCodeDLL, SLOT(closeSignalSlot()));
 
@@ -33,18 +34,22 @@ IdleWindow::~IdleWindow(){
 void IdleWindow::PinSlot(QString pin){
     pinCode = pin;
     qDebug() << "pinReceived" << pin;
-    dllRestApi->Login("sami@sami.com",pin);
-    if(CheckInfo(tries, rfid, pinCode)){
+    if(dllRestApi->Login(rfid,pin) == "success"){
+       qDebug() << "BEFORE NEW MAINWINDOW";
        mainWindow = new MainWindow();
-       this->close();
+       qDebug() << "BEFORE HIDE";
+       this->hide();
+       qDebug() << "AFTER HIDE";
        emit sendCloseSignal();
+       qDebug() << "AFTER SIGNAL";
        mainWindow->show();
+       qDebug() << "AFTER SHOW";
 
     }
     else{
-        tries--;
-        emit SendTries(tries);
-
+        qDebug() << "ELSE XD" << Qt::endl;
+        dllRestApi->GetTries(rfid);
+        //emit SendTries(tries);
     }
 }
 
@@ -55,25 +60,23 @@ void IdleWindow::Tries(int triesAmount){
 
 void IdleWindow::HandleCard(){
     //rfid = serialPort->GetRFID(); insert real card here
-    rfid = (char*) "2";
+    rfid = (char*) "107807862962";
     if( rfid != NULL){
-    delete serialPort;
-    serialPort = nullptr;
-    emit SendTries(tries);
-    pinCodeDLL->ShowWindow();
+        delete serialPort;
+        serialPort = nullptr;
+        dllRestApi->GetTries(rfid);
+        // getTries from db here
+        qDebug() << "VITTU TRIES" << tries << Qt::endl;
     }
-}
-
-bool IdleWindow::CheckInfo(int tries, char * rfid, QString pinCode){
-    if(pinCode != "1234"){
-        return false;
-    }
-    //to-do checkinfo
-    qDebug() << tries << rfid << pinCode;
-    return true;
 }
 
 void IdleWindow::on_nappi_clicked()
 {
     pinCodeDLL->ShowWindow();
+}
+
+void IdleWindow::GetTries(int x)
+{
+    emit SendTries(x);
+    qDebug() << "IDLEWINDOW SLOT";
 }

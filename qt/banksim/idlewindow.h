@@ -31,6 +31,7 @@ signals:
 
 private slots:
     void on_nappi_clicked();
+    void GetTries(int);
 
 private:
     Ui::IdleWindow *ui;
@@ -42,7 +43,6 @@ private:
     char* rfid;
     QString pinCode;
     int tries;
-    bool CheckInfo(int, char*, QString);
 
 };
 #endif // IDLEWINDOW_H

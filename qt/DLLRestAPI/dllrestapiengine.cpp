@@ -17,6 +17,7 @@ void DLLRestAPIEngine::Login(QString email, QString password)
     QJsonObject jsonObj;
     jsonObj.insert("card_number",email);
     jsonObj.insert("pin",password);
+    this->GetTries(card_number);
     manager = new QNetworkAccessManager(this);
     QNetworkRequest request(base_url+"api/card/auth/");
     request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
@@ -32,20 +33,27 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
     QJsonObject json_obj = json_doc.object();
 
     status = json_obj["status"].toString();
+    resMessage = json_obj["message"].toString();
     if(status == "success"){
-    auth =json_obj["token"].toString();
-    auth = "Bearer "+auth;
-    authByteArr = auth.toUtf8();
-    qDebug()<<"LOG IN "<<status<<Qt::endl;
-    reply->deleteLater();
-    manager->deleteLater();
-    GetUserInfo();
+        auth = json_obj["token"].toString();
+        auth = "Bearer "+auth;
+        authByteArr = auth.toUtf8();
+        qDebug()<<"LOG IN "<<status<<Qt::endl;
+        reply->deleteLater();
+        manager->deleteLater();
+        GetUserInfo();
     }else if(status==NULL){
         qDebug()<<"express offline";
         reply->deleteLater();
         manager->deleteLater();
+    }else if(status == "error"){
+        qDebug() << this->resMessage;
+        this->GetTries(card_number);
+        reply->deleteLater();
+        manager->deleteLater();
     }else{
         qDebug()<<"Wrong pin code"<<json_obj;
+        this->GetTries(card_number);
         reply->deleteLater();
         manager->deleteLater();
     }
@@ -148,7 +156,6 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
     GetLogs();
 }
 
-
 void DLLRestAPIEngine::GetLogs()
 {
     if(logs_curret_page <= 0)
@@ -234,6 +241,33 @@ void DLLRestAPIEngine::createLogSlot(QNetworkReply *reply)
     }else{
         qDebug()<<"error adding log";
     }
+    reply->deleteLater();
+    manager->deleteLater();
+}
+
+void DLLRestAPIEngine::GetTries(QString card_number){
+    this->card_number = card_number;
+    QString requestStr = QStringLiteral("api/card/tries/%1").arg(card_number);
+    QNetworkRequest request(base_url+requestStr);
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getTriesSlot(QNetworkReply*)));
+
+    reply = manager->get(request);
+}
+
+void DLLRestAPIEngine::getTriesSlot(QNetworkReply *reply){
+    QByteArray response_data=reply->readAll();
+    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    QJsonObject json_obj = json_doc.object();
+
+    qDebug() << json_doc << Qt::endl;
+
+    tries = json_obj["tries"].toInt();
+    tries = 3 - tries;
+    qDebug() << "DB Tries: " << tries << Qt::endl;
+
+    emit SendTriesSignal(tries);
+
     reply->deleteLater();
     manager->deleteLater();
 }
