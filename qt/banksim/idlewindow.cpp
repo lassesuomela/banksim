@@ -64,7 +64,8 @@ void IdleWindow::GetLoginStatus(QString status)
     }
     else{
         qDebug() << "Login not successful";
-        dllRestApi->GetTriesFromApi(rfid);
+        tries--;
+        emit SendTries(tries);
     }
 }
 

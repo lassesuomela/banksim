@@ -31,6 +31,8 @@ void DLLRestAPIEngine::Login(QString card, QString pin)
 
 void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
 {
+
+
     QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
@@ -61,6 +63,9 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
         reply->deleteLater();
         manager->deleteLater();
     }
+
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
+
     emit AuthStatus(status);
 }
 void DLLRestAPIEngine::GetUserInfo()
@@ -260,6 +265,8 @@ void DLLRestAPIEngine::GetTries(QString card_number){
 }
 
 void DLLRestAPIEngine::getTriesSlot(QNetworkReply *reply){
+
+
     QByteArray response_data=reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
     QJsonObject json_obj = json_doc.object();
@@ -267,12 +274,14 @@ void DLLRestAPIEngine::getTriesSlot(QNetworkReply *reply){
     tries = json_obj["tries"].toInt();
     tries = 3 - tries;
 
+    //reply->deleteLater();
+    //manager->deleteLater();
+
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getTriesSlot(QNetworkReply*)));
+
     emit SendTriesSignal(tries);
 
     qDebug() << "Got tries from api" << tries;
-
-    //reply->deleteLater();
-    //manager->deleteLater();
 }
 
 void DLLRestAPIEngine::GetBalance()
