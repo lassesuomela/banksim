@@ -20,6 +20,10 @@ private slots:
 
     void on_takaisin_clicked();
 
+    void on_talletus_clicked();
+
+    void on_takaisin_talletus_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
