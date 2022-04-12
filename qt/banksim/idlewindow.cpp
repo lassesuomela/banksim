@@ -20,7 +20,7 @@ IdleWindow::IdleWindow(QWidget *parent)
     connect(this, SIGNAL(sendCloseSignal()), pinCodeDLL, SLOT(closeSignalSlot()));
     connect(dllRestApi, SIGNAL(StatusToExe(QString)), this, SLOT(GetLoginStatus(QString)));
 
-    connect(this, SIGNAL(sendAuthInfo(QString, QString)), dllRestApi, SLOT(LoginSlot(QString, QString)));
+    connect(this, SIGNAL(sendAuthInfo(QString,QString)), dllRestApi, SLOT(LoginSlot(QString,QString)));
     HandleCard();
 }
 IdleWindow::~IdleWindow(){
@@ -29,14 +29,19 @@ IdleWindow::~IdleWindow(){
     disconnect(this, SIGNAL(SendTries(int)), pinCodeDLL, SLOT(getTriesFromEXE(int)));
     disconnect(this, SIGNAL(sendCloseSignal()), pinCodeDLL, SLOT(closeSignalSlot()));
 
-    disconnect(this, SIGNAL(sendAuthInfo(QString, QString)), dllRestApi, SLOT(LoginSlot(QString, QString)));
+    disconnect(this, SIGNAL(sendAuthInfo(QString,QString)), dllRestApi, SLOT(LoginSlot(QString,QString)));
 
     delete ui;
     delete pinCodeDLL;
-    delete mainWindow;
+    delete serialPort;
+    delete dllRestApi;
     pinCodeDLL = nullptr;
-
-    qDebug() << "MAIN deconstructor";
+    serialPort = nullptr;
+    dllRestApi = nullptr;
+    if(mainWindow != nullptr){
+        delete mainWindow;
+        mainWindow = nullptr;
+    }
 }
 
 void IdleWindow::PinSlot(QString pin){
@@ -71,7 +76,7 @@ void IdleWindow::GetLoginStatus(QString status)
 
 void IdleWindow::HandleCard(){
     //rfid = serialPort->GetRFID(); insert real card here
-    rfid = (char*) "747399673461";
+    rfid = (char*) "776539278113";
     if( rfid != NULL){
         delete serialPort;
         serialPort = nullptr;
