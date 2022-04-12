@@ -261,6 +261,20 @@ const disconnectCard = (req, res) => {
     }
 }
 
+const getTries = (req, res) => {
+    if(req.params.card_number){
+        card.getTries(req.params.card_number, function(err, dbResult){
+            if(dbResult.length > 0){
+                return res.json({tries:dbResult[0].tries});
+            }else{
+                return res.json({status:"error",message:"Card was not found."});
+            }
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+}
+
 const authenticate = (req, res) => {
 
     let userID = null;
@@ -386,6 +400,7 @@ module.exports = {
     getByCardNumber,
     getByUserID,
     getCardAccountInfo,
+    getTries,
     updateCardStatus,
     addCard,
     authenticate,
