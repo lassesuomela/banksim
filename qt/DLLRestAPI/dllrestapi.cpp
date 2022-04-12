@@ -5,19 +5,14 @@ DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
     engine = new DLLRestAPIEngine;
     connect(engine, SIGNAL(SendTriesSignal(int)),
             this,SLOT(GetTriesSlot(int)));
+
+    connect(engine, SIGNAL(AuthStatus(QString)), this, SLOT(LoginStatusSlot(QString)));
 }
 
 DLLRestAPI::~DLLRestAPI()
 {
     delete engine;
     engine = nullptr;
-}
-
-QString DLLRestAPI::Login(QString email, QString password)
-{
-    engine->Login(email, password); //bad function names, use card_number and pin
-    qDebug() << "ENGINE STATUS: " << engine->status;
-    return engine->status;
 }
 
 void DLLRestAPI::GetLogs10(int page)
@@ -52,14 +47,24 @@ void DLLRestAPI::GetInfo()
     emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
 }
 
-void DLLRestAPI::GetTries(QString card_number){
+void DLLRestAPI::GetTriesFromApi(QString card_number){
     engine->GetTries(card_number);
 }
 
 void DLLRestAPI::GetTriesSlot(int tries)
 {
-    qDebug() << "DLLRestAPI -> EXE";
     emit SendTriesToExe(tries);
+}
+
+void DLLRestAPI::LoginStatusSlot(QString status)
+{
+    qDebug() << "Sending Login status info to exe";
+    emit StatusToExe(status);
+}
+
+void DLLRestAPI::LoginSlot(QString card, QString pin)
+{
+    engine->Login(card, pin);
 }
 
 void DLLRestAPI::UpdateBalance()
