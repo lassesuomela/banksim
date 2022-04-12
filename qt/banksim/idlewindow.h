@@ -38,7 +38,7 @@ private:
     Ui::IdleWindow *ui;
     DLLSerialPort *serialPort;
     PinCodeDLL *pinCodeDLL;
-    MainWindow *mainWindow;
+    MainWindow *mainWindow = nullptr;
     DLLRestAPI *dllRestApi;
     void HandleCard();
     char* rfid;
