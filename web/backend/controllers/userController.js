@@ -4,43 +4,9 @@ const emailvalidator = require("email-validator");
 const { json } = require("express/lib/response");
 const jwt = require("../config/jwtAuth");
 const fs = require("fs");
-
 const crypto = require('crypto');
-
 const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: 'uploads/',
-    filename: function (req, file, cb) {
-        ext = {'image/png':'png', 'image/jpeg':'jpg'}
-
-        let fileExt = ext[file.mimetype];
-        let finalName = crypto.randomBytes(16).toString('hex') +'.' + fileExt
-
-        cb(null, finalName)
-    }
-})
-
-const upload = multer(
-    {
-        storage: storage,
-        limits: {
-            fileSize: 1024 * 1024 * 2 // 2MB file size limit
-        },
-        fileFilter(req, file, cb) {
-            mimes = {'image/png':'png', 'image/jpeg':'jpg'}
-
-            let ext = mimes[file.mimetype];
-
-            if(!ext){
-                // return error if mimetype is not in ext list
-                return cb("Filetype not allowed: " + file.mimetype, false);
-            }
-
-            // else return undefined error
-            cb(undefined, true);
-        }
-    }
-).single('avatar');
+require("dotenv").config();
 
 const getAll = (req, res) => {
     user.get(function(err,dbResult){
@@ -129,14 +95,67 @@ const userInfo = (req, res) => {
     });
 }
 
+// Profile picture upload thingy:
+const storage = multer.diskStorage({
+
+    // file destination path default is 'uploads/' if not defined
+    destination: process.env.DOWNLOAD_PATH || 'uploads/',
+    filename: function (req, file, cb) {
+
+        // valid mimes that match valid extensions
+        ext = {'image/png':'png', 'image/jpeg':'jpg'};
+
+        // get the file extension
+        let fileExt = ext[file.mimetype];
+
+        // create filename from randombytes and add file extension to it
+        let finalName = crypto.randomBytes(16).toString('hex') +'.' + fileExt;
+
+        cb(null, finalName)
+    }
+})
+
+const upload = multer(
+    {
+        storage: storage,
+        limits: {
+            fileSize: 1024 * 1024 * 2 // 2MB file size limit
+        },
+        fileFilter(req, file, cb) {
+            
+            let mimes = {'image/png':'png', 'image/jpeg':'jpg'};
+
+            let ext = mimes[file.mimetype];
+
+            if(!ext){
+                // return error if mimetype is not in ext list
+                return cb("Filetype not allowed: " + file.mimetype, false);
+            }
+
+            // else return undefined error
+            cb(undefined, true);
+        }
+    }
+).single('avatar');
+
 const updateAvatar = (req, res) => {
+
     upload(req,res, (err) => {
 
         // return out if multer error
         if(err){
             return res.json({status:"error", message:err});
         }
+
+        let filename = req.file.filename;
+
+        // file destination path default is 'uploads/' if not defined
+        let path = process.env.DOWNLOAD_PATH || 'uploads/';
+
+        let fullpath = path + filename;
         
+        console.log(fullpath);
+
         res.json({status:"success",message:"Avatar updated."});
     })
 }
