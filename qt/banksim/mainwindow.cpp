@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 SLOT(on_amount_clicked()));
     }
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
-    connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString)));
+    connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
 }
 
 MainWindow::~MainWindow()
@@ -31,14 +31,27 @@ MainWindow::~MainWindow()
     api = nullptr;
 }
 
-void MainWindow::updateUserInfo(double,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType)
+void MainWindow::updateUserInfo(double,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType, QByteArray pictureData)
 {
     QString tempname = lname + " " + fname;
-    qDebug()<<tempname<<"tempname";
+
     ui->nameLabel->setText(tempname);
     ui->accountNameLabel->setText(acc_name);
     ui->cardNumberLabel->setText(cardNum);
     ui->cardTypeLabel->setText(cardType);
+
+    QPixmap pixmap;
+    pixmap.loadFromData(pictureData);
+
+    int h = ui->pictureLabel->height();
+    int w = ui->pictureLabel->width();
+
+    ui->pictureLabel->setPixmap(pixmap.scaled(h, w, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+
+    QRegion * region = new QRegion(0, 0, h, w, QRegion::Ellipse);
+
+    ui->pictureLabel->setMask(*region);
+    qDebug() << "Picture changed";
 }
 
 void MainWindow::on_amount_clicked(){
@@ -121,5 +134,13 @@ void MainWindow::on_next_10_clicked()
     api->getLogsByPage(-1);
 }
 
+void MainWindow::on_kirjaudu_ulos_clicked()
+{
+    api = new DLLRestAPI;
 
+    this->hide();
+
+    emit logOutSignal();
+
+}
 

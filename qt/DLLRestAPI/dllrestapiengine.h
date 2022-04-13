@@ -22,9 +22,9 @@ public:
     void CreateLog(int);
     void GetBalance();
     void GetTries(QString card_number);
-
+    void PurgeData();
     int logs_curret_page = 1;
-    int logs_total_pages;
+    int logs_total_pages = 1;
     //logs for updating logs view
     QString idSignal[10];
     QString dateSignal[10];
@@ -36,6 +36,8 @@ public:
 
     QString fname;
     QString lname;
+    QString profilePic;
+    QByteArray pictureData;
 
     QString card_number;
     QString card_type;
@@ -47,6 +49,7 @@ private:
     void GetUserInfo();
     void GetCardInfo();
     void GetAccountInfo();
+    void GetPictureData(QString);
     //network managament
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
@@ -66,7 +69,7 @@ private:
     QList<QString> logs_date_list;
     QList<QString> logs_event_list;
     QList<QString> logs_amount_list;
-    int logs_count;
+
     int card_type_int;
 
 signals:
@@ -83,7 +86,7 @@ private slots:
     void createLogSlot(QNetworkReply *reply);
     void updateBalanceSlot(QNetworkReply *reply);
     void getTriesSlot(QNetworkReply *reply);
-
+    void getPictureDataSlot(QNetworkReply *reply);
 };
 
 #endif // DLLRESTAPIENGINE_H
