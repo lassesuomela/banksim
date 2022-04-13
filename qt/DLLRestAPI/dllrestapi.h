@@ -27,7 +27,6 @@ signals:
 private slots:
     void GetTriesSlot(int tries);
     void GetInfo();
-    void LogOutSlot();
 public slots:
     void LoginSlot(QString, QString);
     void LoginStatusSlot(QString);
