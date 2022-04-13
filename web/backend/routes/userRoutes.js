@@ -14,4 +14,6 @@ router.post("/login",userController.userLogin);
 
 router.post("/register",userController.userRegister);
 
+router.put("/avatar", jwtAuth.verifyToken, userController.updateAvatar);
+
 module.exports = router;

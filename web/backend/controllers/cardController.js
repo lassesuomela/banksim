@@ -82,6 +82,40 @@ const getCardAccountInfo = (req, res) => {
     });
 }
 
+const getCardAccountInfoByNumber = (req, res) => {
+    if(req.params.card_number){
+        card.getByUserID(req.userId, (err, dbResult) =>{
+
+            if(err){
+                return res.json({status:"error",message:err});
+            }
+
+            let hasAccessToCard = false;
+        
+            for(let i = 0; i < dbResult.length; i++){
+                if(dbResult[i].card_number === req.params.card_number){
+                    hasAccessToCard = true;
+                }
+            }
+
+            if(!hasAccessToCard){
+                return res.json({status:"error",message:"User doesn't have this card"});
+            }
+
+            card.getCardAccountInfoByNumber(req.params.card_number, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+                if(dbResult.length > 0){
+                    return res.json(dbResult[0]);
+                }else{
+                    return res.json({status:"error",message:"No cards found for this user"});
+                }
+            });
+        });
+    }
+}
+
 const updateCardStatus = (req, res) => {
     if(req.body.active && req.body.card_number){
         // check if user has access to queried card
@@ -104,7 +138,8 @@ const updateCardStatus = (req, res) => {
             }
 
             // activating card, resetting tries
-            if(req.body.active == 1){
+
+            if(req.body.active === "1"){
                 card.updateTries(0, req.body.card_number, (err, dbResult) =>{
 
                     if(err){
@@ -116,7 +151,7 @@ const updateCardStatus = (req, res) => {
                     }else{
                         console.log("Error on resetting tries");
                     }
-                })
+                });
             }
 
             card.updateActiveStatus(req.body.active, req.body.card_number, function(err, dbResult){
@@ -261,6 +296,20 @@ const disconnectCard = (req, res) => {
     }
 }
 
+const getTries = (req, res) => {
+    if(req.params.card_number){
+        card.getTries(req.params.card_number, function(err, dbResult){
+            if(dbResult.length > 0){
+                return res.json({tries:dbResult[0].tries});
+            }else{
+                return res.json({status:"error",message:"Card was not found."});
+            }
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+}
+
 const authenticate = (req, res) => {
 
     let userID = null;
@@ -270,11 +319,11 @@ const authenticate = (req, res) => {
             if(err){
                 return res.json({status:"error",message:err})
             }
-            userID = dbResult[0].user_ID;
 
             // if card is found from database continue
             if(dbResult.length > 0){
 
+                userID = dbResult[0].user_ID;
                 // if card is deactivated return
                 if(dbResult[0].active === 0){
                     return res.json({status:"error",message:"Card is locked!"});
@@ -289,6 +338,17 @@ const authenticate = (req, res) => {
                     if(match){
                         const token = jwt.generateToken(userID);
                         console.log("Created token:",token);
+                        card.updateTries(0, req.body.card_number, (err, dbResult) =>{
+                            if(err){
+                                console.log("Error on resetting card tries.");
+                            }
+        
+                            if(dbResult.affectedRows > 0){
+                                console.log("Unlocking card, resetting tries");
+                            }else{
+                                console.log("Error on resetting tries");
+                            }
+                        });
                         return res.json({status:"success",message:"Successfully logged in.",token:token});
                     }else{
                         console.log("Invalid pin code or card number!");
@@ -386,6 +446,8 @@ module.exports = {
     getByCardNumber,
     getByUserID,
     getCardAccountInfo,
+    getCardAccountInfoByNumber,
+    getTries,
     updateCardStatus,
     addCard,
     authenticate,
