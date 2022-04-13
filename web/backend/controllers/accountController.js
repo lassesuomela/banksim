@@ -45,6 +45,7 @@ const addAccount = (req, res) => {
             }
         });
     }else{
+        console.log(req.body);
         return res.json({status:"error",message:"Please fill all fields."});
     }
 }
