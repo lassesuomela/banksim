@@ -73,6 +73,7 @@ signals:
     void SendTriesSignal(int tries);
     void AuthStatus(QString);
     void logsFinishedSignal();
+    void dataGatheringFinished();
 private slots:
     void loginSlot(QNetworkReply *reply);
     void getUserInfoSlot(QNetworkReply *reply);

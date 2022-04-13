@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 SLOT(on_amount_clicked()));
     }
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
+    connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString)));
 }
 
 MainWindow::~MainWindow()
@@ -28,6 +29,16 @@ MainWindow::~MainWindow()
     delete ui;
     delete api;
     api = nullptr;
+}
+
+void MainWindow::updateUserInfo(double,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType)
+{
+    QString tempname = lname + " " + fname;
+    qDebug()<<tempname<<"tempname";
+    ui->nameLabel->setText(tempname);
+    ui->accountNameLabel->setText(acc_name);
+    ui->cardNumberLabel->setText(cardNum);
+    ui->cardTypeLabel->setText(cardType);
 }
 
 void MainWindow::on_amount_clicked(){
@@ -109,4 +120,6 @@ void MainWindow::on_next_10_clicked()
 {
     api->getLogsByPage(-1);
 }
+
+
 
