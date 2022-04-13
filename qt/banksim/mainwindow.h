@@ -42,6 +42,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QString balance = "";
 };
 
 #endif // MAINWINDOW_H

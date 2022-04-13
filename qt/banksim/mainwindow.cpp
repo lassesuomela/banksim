@@ -31,10 +31,11 @@ MainWindow::~MainWindow()
     api = nullptr;
 }
 
-void MainWindow::updateUserInfo(double,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType)
+void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType)
 {
     QString tempname = lname + " " + fname;
     qDebug()<<tempname<<"tempname";
+    this->balance = QString::number(balance);
     ui->nameLabel->setText(tempname);
     ui->accountNameLabel->setText(acc_name);
     ui->cardNumberLabel->setText(cardNum);
@@ -48,6 +49,8 @@ void MainWindow::on_amount_clicked(){
 }
 
 void MainWindow::on_nosto_clicked(){
+    ui->saldoArvo->setText(this->balance);
+
     ui->stackedWidget->setCurrentIndex(3);
 }
 
