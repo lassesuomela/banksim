@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0);
     this->setFixedSize(800,600);
+    api = new DLLRestAPI;
 
     ui->nostoArvo->setText(QString::number(nostoValue));
     QPushButton *numButtons[6];
@@ -19,11 +20,14 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(numButtons[i], SIGNAL(released()), this,
                 SLOT(on_amount_clicked()));
     }
+    connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete api;
+    api = nullptr;
 }
 
 void MainWindow::on_amount_clicked(){
@@ -75,6 +79,13 @@ void MainWindow::on_close_clicked()
 
 void MainWindow::on_tilitapahtumat_clicked()
 {
+    api->UpdateLogs(1);
     ui->stackedWidget->setCurrentIndex(1);
+}
+
+//---------------------TILITAPAHTUMAT PAGE-----------------------
+void MainWindow::updateLogsView()
+{
+    //ui->listView
 }
 

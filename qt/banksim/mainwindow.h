@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
+#include <dllrestapi.h>
 
 namespace Ui {
 class MainWindow;
@@ -13,7 +14,7 @@ class MainWindow : public QWidget
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    DLLRestAPI *api;
 private slots:
 
     void on_nosto_clicked();
@@ -31,6 +32,8 @@ private slots:
     void on_close_clicked();
 
     void on_tilitapahtumat_clicked();
+
+    void updateLogsView();
 
 private:
     Ui::MainWindow *ui;
