@@ -35,6 +35,10 @@ private slots:
 
     void updateLogsView();
 
+    void on_prev_10_clicked();
+
+    void on_next_10_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

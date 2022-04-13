@@ -7,7 +7,7 @@ DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
             this,SLOT(GetTriesSlot(int)));
 
     connect(engine, SIGNAL(AuthStatus(QString)), this, SLOT(LoginStatusSlot(QString)));
-    connect(engine, SIGNAL(logsFinishedSignal), this, SLOT(GetLogs10));
+    connect(engine, SIGNAL(logsFinishedSignal()), this, SLOT(GetLogs10()));
 }
 
 DLLRestAPI::~DLLRestAPI()
@@ -16,26 +16,16 @@ DLLRestAPI::~DLLRestAPI()
     engine = nullptr;
 }
 
-void DLLRestAPI::GetLogs10(int page)
+void DLLRestAPI::GetLogs10()
 {
-    switch (page) {
-        case 0:
-            engine->logs_curret_page = engine->logs_curret_page+1;
-            break;
-        case -1:
-            engine->logs_curret_page = engine->logs_curret_page-1;
-            break;
-    default:
-        engine->logs_curret_page = page;
-    }
-    engine->GetLogs();
-
     for(int i = 0; i<10; i++){
-        logData[i][0] = engine->idSignal[i];
-        logData[i][1] = engine->dateSignal[i];
-        logData[i][2] = engine->eventSignal[i];
-        logData[i][3] = engine->amountSignal[i];
+        logData[i][0] = engine->dateSignal[i].replace(10, 1," ");
+        logData[i][0] = engine->dateSignal[i].replace(19, 10, "");
+        logData[i][1] = engine->eventSignal[i];
+        logData[i][2] = engine->amountSignal[i];
+        logData[i][3] = engine->idSignal[i];
     }
+    emit logsUpdatedSignal();
 }
 
 void DLLRestAPI::UpdateLogs(int i)
@@ -72,5 +62,20 @@ void DLLRestAPI::UpdateBalance()
 {
     engine->GetBalance();
     emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
+}
+
+void DLLRestAPI::getLogsByPage(int page)
+{
+    switch (page) {
+        case 0:
+            engine->logs_curret_page = engine->logs_curret_page+1;
+            break;
+        case -1:
+            engine->logs_curret_page = engine->logs_curret_page-1;
+            break;
+    default:
+        engine->logs_curret_page = page;
+    }
+    engine->GetLogs();
 }
 
