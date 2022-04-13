@@ -38,10 +38,14 @@ private slots:
     void on_prev_10_clicked();
 
     void on_next_10_clicked();
-    void updateUserInfo(double,QString,QString,QString,QString,QString);
+    void updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray);
 
+    void on_kirjaudu_ulos_clicked();
+signals:
+    void logOutSignal();
 private:
     Ui::MainWindow *ui;
+    void setPicture(QString);
 };
 
 #endif // MAINWINDOW_H
