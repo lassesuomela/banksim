@@ -1,13 +1,13 @@
--- MariaDB dump 10.19  Distrib 10.4.20-MariaDB, for Win64 (AMD64)
+-- MySQL dump 10.13  Distrib 8.0.23, for Win64 (x86_64)
 --
 -- Host: localhost    Database: banksim
 -- ------------------------------------------------------
--- Server version	10.4.20-MariaDB
+-- Server version	8.0.23
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -18,13 +18,12 @@
 --
 -- Table structure for table `account`
 --
-
 CREATE DATABASE banksim;
 USE banksim;
---
+
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
   `account_ID` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -51,16 +50,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `card`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `card` (
-  `card_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `card_ID` int NOT NULL AUTO_INCREMENT,
   `pin` binary(60) NOT NULL,
   `card_number` varchar(45) NOT NULL,
-  `account_ID` int(11) DEFAULT NULL,
-  `user_ID` int(11) DEFAULT NULL,
-  `card_type` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0 = debit\n1 = credit',
-  `active` tinyint(1) NOT NULL DEFAULT 1,
-  `tries` int(11) NOT NULL DEFAULT 0,
+  `account_ID` int DEFAULT NULL,
+  `user_ID` int DEFAULT NULL,
+  `card_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0 = debit\n1 = credit',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `tries` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`card_ID`),
   UNIQUE KEY `card_ID_UNIQUE` (`card_ID`),
   UNIQUE KEY `card_number_UNIQUE` (`card_number`),
@@ -86,13 +85,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `logs` (
-  `log_ID` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
+  `log_ID` int NOT NULL AUTO_INCREMENT,
+  `date` datetime NOT NULL,
   `event` varchar(45) NOT NULL,
   `amount` double(9,2) NOT NULL,
-  `account_ID` int(11) NOT NULL,
+  `account_ID` int NOT NULL,
   PRIMARY KEY (`log_ID`),
   UNIQUE KEY `log_ID_UNIQUE` (`log_ID`),
   KEY `fk_logs_account_idx` (`account_ID`),
@@ -115,7 +114,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `user_ID` int NOT NULL AUTO_INCREMENT,
   `fname` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -124,8 +123,9 @@ CREATE TABLE `user` (
   `email` varchar(100) NOT NULL,
   `phone` varchar(45) NOT NULL,
   `password` binary(60) NOT NULL,
+  `picture` VARCHAR(45) NOT NULL DEFAULT 'default.png',
   PRIMARY KEY (`user_ID`),
-  UNIQUE KEY `user_ID_UNIQUE` (`user_ID`),
+  UNIQUE KEY `user_ID_UNIQUE` (`user_ID`) /*!80000 INVISIBLE */,
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -145,15 +145,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_account` (
-  `user_ID` int(11) NOT NULL,
-  `account_ID` int(11) NOT NULL,
+  `user_ID` int NOT NULL,
+  `account_ID` int NOT NULL,
   PRIMARY KEY (`user_ID`,`account_ID`),
   KEY `fk_user_has_account_account1_idx` (`account_ID`),
   KEY `fk_user_has_account_user1_idx` (`user_ID`),
-  CONSTRAINT `fk_user_account_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`) ON DELETE CASCADE,
-  CONSTRAINT `fk_user_account_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`) ON DELETE CASCADE
+  CONSTRAINT `fk_user_account_account1` FOREIGN KEY (`account_ID`) REFERENCES `account` (`account_ID`),
+  CONSTRAINT `fk_user_account_user1` FOREIGN KEY (`user_ID`) REFERENCES `user` (`user_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -175,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-04-05 14:44:33
+-- Dump completed on 2022-04-11 18:10:36
