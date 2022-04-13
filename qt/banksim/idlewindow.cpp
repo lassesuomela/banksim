@@ -53,7 +53,6 @@ void IdleWindow::PinSlot(QString pin){
 
 void IdleWindow::Tries(int triesAmount){
     tries = triesAmount;
-    qDebug() << "triesamount" << tries;
 }
 
 void IdleWindow::GetLoginStatus(QString status)
@@ -69,8 +68,6 @@ void IdleWindow::GetLoginStatus(QString status)
     }
     else{
         qDebug() << "Login not successful";
-        tries--;
-        emit SendTries(tries);
     }
 }
 
@@ -86,7 +83,6 @@ void IdleWindow::HandleCard(){
 
 void IdleWindow::on_nappi_clicked()
 {
-    pinCodeDLL->ShowWindow();
     HandleCard();
 }
 
@@ -94,4 +90,8 @@ void IdleWindow::GetTries(int x)
 {
     emit SendTries(x);
     qDebug() << "Sent tries to pincodeui";
+
+    if(!pinCodeDLL->isVisible()){
+        pinCodeDLL->ShowWindow();
+    }
 }

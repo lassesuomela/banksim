@@ -54,7 +54,7 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
         manager->deleteLater();
     }else if(status == "error"){
         qDebug() << this->resMessage;
-        this->GetTries(card_number);
+        //this->GetTries(card_number);
         //reply->deleteLater();
         //manager->deleteLater();
     }else{
