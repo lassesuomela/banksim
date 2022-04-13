@@ -36,10 +36,8 @@ IdleWindow::~IdleWindow(){
     delete ui;
     delete pinCodeDLL;
     delete serialPort;
-    delete dllRestApi;
     pinCodeDLL = nullptr;
     serialPort = nullptr;
-    dllRestApi = nullptr;
     if(mainWindow != nullptr){
         delete mainWindow;
         mainWindow = nullptr;
@@ -75,7 +73,7 @@ void IdleWindow::GetLoginStatus(QString status)
 void IdleWindow::HandleCard(){
     //rfid = serialPort->GetRFID(); insert real card here
 
-    rfid = (char*) "496005799168";
+    rfid = (char*) "868440224833";
   
     if( rfid != NULL){
         delete serialPort;

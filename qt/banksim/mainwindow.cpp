@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 SLOT(on_amount_clicked()));
     }
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
+    connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString)));
 }
 
 MainWindow::~MainWindow()
@@ -28,6 +29,16 @@ MainWindow::~MainWindow()
     delete ui;
     delete api;
     api = nullptr;
+}
+
+void MainWindow::updateUserInfo(double,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType)
+{
+    QString tempname = lname + " " + fname;
+    qDebug()<<tempname<<"tempname";
+    ui->nameLabel->setText(tempname);
+    ui->accountNameLabel->setText(acc_name);
+    ui->cardNumberLabel->setText(cardNum);
+    ui->cardTypeLabel->setText(cardType);
 }
 
 void MainWindow::on_amount_clicked(){
@@ -79,13 +90,36 @@ void MainWindow::on_close_clicked()
 
 void MainWindow::on_tilitapahtumat_clicked()
 {
-    api->UpdateLogs(1);
+    api->getLogsByPage(1);
     ui->stackedWidget->setCurrentIndex(1);
 }
 
 //---------------------TILITAPAHTUMAT PAGE-----------------------
 void MainWindow::updateLogsView()
 {
-    //ui->listView
+    ui->listWidget->clear();
+    QString dataRow = "";
+    for(int i = 0; i<10;++i){
+        for(int j = 0; j < 3; ++j){
+            dataRow.append(api->logData[i][j]);
+            dataRow.append(" ");
+        }
+        ui->listWidget->addItem(dataRow);
+        dataRow = "";
+    }
 }
+
+
+void MainWindow::on_prev_10_clicked()
+{
+    api->getLogsByPage(0);
+}
+
+
+void MainWindow::on_next_10_clicked()
+{
+    api->getLogsByPage(-1);
+}
+
+
 
