@@ -132,6 +132,15 @@
        <height>551</height>
       </rect>
      </property>
+     <property name="gridSize">
+      <size>
+       <width>4</width>
+       <height>10</height>
+      </size>
+     </property>
+     <property name="itemAlignment">
+      <set>Qt::AlignLeading</set>
+     </property>
     </widget>
     <widget class="QLineEdit" name="account_name">
      <property name="geometry">

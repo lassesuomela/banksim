@@ -217,6 +217,8 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
     for(int i = 0; i < 10; i++)
         qDebug()<<"GET LOGS WITH ID: "<<idSignal[i];
 
+    emit logsFinishedSignal();
+
     reply->deleteLater();
     manager->deleteLater();
 }
