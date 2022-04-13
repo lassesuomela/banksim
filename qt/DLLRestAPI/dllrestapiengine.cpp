@@ -277,22 +277,6 @@ void DLLRestAPIEngine::GetTries(QString card_number){
     qDebug() << "Send tries query";
 }
 
-void DLLRestAPIEngine::PurgeData()
-{
-    auth = "";
-    authByteArr = "";
-    address = "";
-    email = "";
-    phone = "";
-    account_id = "";
-    account_id_int = 0;
-    fname = "";
-    lname = "";
-    profilePic = "";
-    pictureData = "";
-    card_number = "";
-}
-
 void DLLRestAPIEngine::getTriesSlot(QNetworkReply *reply){
 
 

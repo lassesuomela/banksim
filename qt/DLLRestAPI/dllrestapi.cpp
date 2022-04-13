@@ -40,11 +40,6 @@ void DLLRestAPI::GetInfo()
     emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type,engine->pictureData);
 }
 
-void DLLRestAPI::LogOutSlot()
-{
-    engine->PurgeData();
-}
-
 void DLLRestAPI::GetTriesFromApi(QString card_number){
     engine->GetTries(card_number);
 }

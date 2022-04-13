@@ -22,7 +22,6 @@ public:
     void CreateLog(int);
     void GetBalance();
     void GetTries(QString card_number);
-    void PurgeData();
     int logs_curret_page = 1;
     int logs_total_pages = 1;
     //logs for updating logs view

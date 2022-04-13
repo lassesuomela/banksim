@@ -136,7 +136,6 @@ void MainWindow::on_next_10_clicked()
 
 void MainWindow::on_kirjaudu_ulos_clicked()
 {
-    api = new DLLRestAPI;
 
     this->hide();
 
