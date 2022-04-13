@@ -15,6 +15,7 @@ public:
     QString logData[10][4];
     void GetTriesFromApi(QString card_number);
     void UpdateBalance();
+    void getLogsByPage(int);
 private:
     DLLRestAPIEngine* engine;
 
@@ -29,7 +30,7 @@ private slots:
 public slots:
     void LoginSlot(QString, QString);
     void LoginStatusSlot(QString);
-    void GetLogs10(int); //argument = 0 for getting older logs (page++), -1 when wanting new logs (page--), else page = int
+    void GetLogs10(); //argument = 0 for getting older logs (page++), -1 when wanting new logs (page--), else page = int
 };
 
 #endif // DLLRESTAPI_H
