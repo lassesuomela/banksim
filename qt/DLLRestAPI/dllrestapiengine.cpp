@@ -9,7 +9,8 @@ DLLRestAPIEngine::DLLRestAPIEngine(QObject * parent) : QObject(parent)
 
 DLLRestAPIEngine::~DLLRestAPIEngine()
 {
-
+    reply->deleteLater();
+    manager->deleteLater();
 }
 //-----------------START OF INFO GATHERING--------------------------------------------------------
 void DLLRestAPIEngine::Login(QString card, QString pin)
@@ -45,7 +46,7 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
         qDebug()<<"LOG IN "<<status<<Qt::endl;
         //reply->deleteLater();
         //manager->deleteLater();
-        //GetUserInfo();
+        GetUserInfo();
     }else if(status==NULL){
         qDebug()<<"express offline";
         reply->deleteLater();
@@ -60,8 +61,8 @@ void DLLRestAPIEngine::loginSlot(QNetworkReply *reply)
     }else{
         qDebug()<<"Wrong pin code"<<json_obj;
         //this->GetTries(card_number);
-        reply->deleteLater();
-        manager->deleteLater();
+        //reply->deleteLater();
+        //manager->deleteLater();
     }
 
     disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(loginSlot(QNetworkReply*)));
@@ -92,8 +93,8 @@ void DLLRestAPIEngine::getUserInfoSlot(QNetworkReply *reply)
     phone = json_obj["phone"].toString();
 
     qDebug()<<"GET USERINFO "<<fname<<lname<<address<<email<<phone<<Qt::endl;
-    reply->deleteLater();
-    manager->deleteLater();
+    //reply->deleteLater();
+    //manager->deleteLater();
     GetCardInfo();
 }
 
@@ -128,8 +129,8 @@ void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
 
     qDebug()<<"GET CARD INFO (account id) "<<account_id_int<<Qt::endl;
 
-    reply->deleteLater();
-    manager->deleteLater();
+    //reply->deleteLater();
+    //manager->deleteLater();
     GetAccountInfo();
 }
 
@@ -159,9 +160,9 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
     }
 
     qDebug()<<"GET ACCOUNT INFO"<<account_balance<<account_name<<Qt::endl;
-    reply->deleteLater();
-    manager->deleteLater();
-    GetLogs();
+    //reply->deleteLater();
+    //manager->deleteLater();
+    emit dataGatheringFinished();
 }
 
 void DLLRestAPIEngine::GetLogs()
@@ -219,8 +220,8 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
 
     emit logsFinishedSignal();
 
-    reply->deleteLater();
-    manager->deleteLater();
+    //reply->deleteLater();
+    //manager->deleteLater();
 }
 //-----------------END OF INFO GATHERING--------------------------------------------------------
 void DLLRestAPIEngine::CreateLog(int amount)

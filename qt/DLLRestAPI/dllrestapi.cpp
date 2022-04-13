@@ -8,6 +8,7 @@ DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
 
     connect(engine, SIGNAL(AuthStatus(QString)), this, SLOT(LoginStatusSlot(QString)));
     connect(engine, SIGNAL(logsFinishedSignal()), this, SLOT(GetLogs10()));
+    connect(engine, SIGNAL(dataGatheringFinished()), this, SLOT(GetInfo()));
 }
 
 DLLRestAPI::~DLLRestAPI()
@@ -35,6 +36,7 @@ void DLLRestAPI::UpdateLogs(int i)
 
 void DLLRestAPI::GetInfo()
 {
+    qDebug()<<"info signal sent";
     emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
 }
 

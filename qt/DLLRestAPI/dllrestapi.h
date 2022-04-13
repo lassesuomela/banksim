@@ -11,7 +11,6 @@ public:
     DLLRestAPI(QObject *parent = nullptr);
     ~DLLRestAPI();
     void UpdateLogs(int);
-    void GetInfo();
     QString logData[10][4];
     void GetTriesFromApi(QString card_number);
     void UpdateBalance();
@@ -27,6 +26,7 @@ signals:
     void logsUpdatedSignal();
 private slots:
     void GetTriesSlot(int tries);
+    void GetInfo();
 public slots:
     void LoginSlot(QString, QString);
     void LoginStatusSlot(QString);
