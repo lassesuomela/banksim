@@ -24,6 +24,14 @@ private slots:
 
     void on_clear_clicked();
 
+    void on_saldo_nappi_clicked();
+
+    void on_close_button_clicked();
+
+    void on_close_clicked();
+
+    void on_tilitapahtumat_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

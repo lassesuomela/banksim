@@ -33,7 +33,7 @@ void MainWindow::on_amount_clicked(){
 }
 
 void MainWindow::on_nosto_clicked(){
-    ui->stackedWidget->setCurrentIndex(1);
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_takaisin_clicked(){
@@ -41,7 +41,7 @@ void MainWindow::on_takaisin_clicked(){
 }
 
 void MainWindow::on_talletus_clicked(){
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 void MainWindow::on_takaisin_talletus_clicked(){
@@ -54,3 +54,27 @@ void MainWindow::on_clear_clicked()
     nostoValue = 0.0;
     ui->nostoArvo->setText(QString::number(nostoValue));
 }
+
+void MainWindow::on_saldo_nappi_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+
+void MainWindow::on_close_button_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_close_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_tilitapahtumat_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+
