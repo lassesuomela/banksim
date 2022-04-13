@@ -179,7 +179,7 @@
       <string>clear</string>
      </property>
     </widget>
-    <widget class="QToolButton" name="nosta">
+    <widget class="QToolButton" name="nostaNappi">
      <property name="geometry">
       <rect>
        <x>410</x>
@@ -234,7 +234,7 @@
        <number>20</number>
       </property>
       <item row="0" column="1">
-       <widget class="QPushButton" name="nosto_40">
+       <widget class="QPushButton" name="nosto1">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -256,7 +256,7 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QPushButton" name="nosto_500">
+       <widget class="QPushButton" name="nosto5">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -278,7 +278,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QPushButton" name="nosto_60">
+       <widget class="QPushButton" name="nosto2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -300,7 +300,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QPushButton" name="nosto_100">
+       <widget class="QPushButton" name="nosto3">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -322,7 +322,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QPushButton" name="nosto_200">
+       <widget class="QPushButton" name="nosto4">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -344,7 +344,7 @@
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QPushButton" name="nosto_20">
+       <widget class="QPushButton" name="nosto0">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
           <horstretch>0</horstretch>
