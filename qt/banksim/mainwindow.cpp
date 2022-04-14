@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-double nostoValue = 0.0;
-
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow)
@@ -13,13 +11,23 @@ MainWindow::MainWindow(QWidget *parent) :
     api = new DLLRestAPI;
 
     ui->nostoArvo->setText(QString::number(nostoValue));
-    QPushButton *numButtons[6];
+    QPushButton *ottoButtons[6];
     for(int i = 0; i < 6; ++i){
         QString butName = "nosto" + QString::number(i);
-        numButtons[i] = MainWindow::findChild<QPushButton *>(butName);
-        connect(numButtons[i], SIGNAL(released()), this,
+        ottoButtons[i] = MainWindow::findChild<QPushButton *>(butName);
+        connect(ottoButtons[i], SIGNAL(released()), this,
                 SLOT(on_amount_clicked()));
     }
+
+    ui->talletusArvo->setText(QString::number(nostoValue));
+    QPushButton *talletusButtons[6];
+    for(int i = 0; i < 6; ++i){
+        QString butName = "talletus" + QString::number(i);
+        talletusButtons[i] = MainWindow::findChild<QPushButton *>(butName);
+        connect(talletusButtons[i], SIGNAL(released()), this,
+                SLOT(talletusHandler()));
+    }
+
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
     connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
 }
@@ -39,6 +47,8 @@ void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QS
     ui->accountNameLabel->setText(acc_name);
     ui->cardNumberLabel->setText(cardNum);
     ui->cardTypeLabel->setText(cardType);
+    ui->account_name->setText(tempname);
+    ui->account_name1->setText(tempname);
     updateSaldoUI();
     QPixmap pixmap;
     pixmap.loadFromData(pictureData);
@@ -65,6 +75,7 @@ void MainWindow::updateSaldoUI()
     ui->saldoArvo->setText(QString::number(saldo)+"€");
     ui->saldoArvo_2->setText(QString::number(saldo)+"€");
     ui->saldoArvo_3->setText(QString::number(saldo)+"€");
+    ui->saldoArvo_4->setText(QString::number(saldo)+"€");
 }
 
 void MainWindow::on_nosto_clicked(){
@@ -90,11 +101,17 @@ void MainWindow::on_clear_clicked()
     ui->nostoArvo->setText(QString::number(nostoValue));
 }
 
+void MainWindow::talletusHandler()
+{
+    QPushButton *button = (QPushButton *)sender();
+    talletusValue=button->text().toDouble();
+    ui->talletusArvo->setText(QString::number(talletusValue));
+}
+
 void MainWindow::on_saldo_nappi_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
-
 
 void MainWindow::on_close_button_clicked()
 {
@@ -148,5 +165,12 @@ void MainWindow::on_kirjaudu_ulos_clicked()
 
     emit logOutSignal();
 
+}
+
+
+void MainWindow::on_clearTalletus_clicked()
+{
+    talletusValue = 0.0;
+    ui->talletusArvo->setText(QString::number(talletusValue));
 }
 
