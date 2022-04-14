@@ -234,7 +234,7 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
     emit logsFinishedSignal();
 }
 //-----------------END OF INFO GATHERING--------------------------------------------------------
-void DLLRestAPIEngine::CreateLog(int amount)
+void DLLRestAPIEngine::CreateLog(double amount)
 {
     QJsonObject jsonObj;
     jsonObj.insert("amount",amount);
@@ -262,8 +262,7 @@ void DLLRestAPIEngine::createLogSlot(QNetworkReply *reply)
     }else{
         qDebug()<<"error adding log";
     }
-    reply->deleteLater();
-    manager->deleteLater();
+    GetLogs();
 }
 
 void DLLRestAPIEngine::GetTries(QString card_number){
@@ -287,9 +286,6 @@ void DLLRestAPIEngine::getTriesSlot(QNetworkReply *reply){
     tries = json_obj["tries"].toInt();
     tries = 3 - tries;
 
-    //reply->deleteLater();
-    //manager->deleteLater();
-
     disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getTriesSlot(QNetworkReply*)));
 
     emit SendTriesSignal(tries);
@@ -298,29 +294,47 @@ void DLLRestAPIEngine::getTriesSlot(QNetworkReply *reply){
 }
 
 
-void DLLRestAPIEngine::GetBalance()
+void DLLRestAPIEngine::updateBalance(int action, double amount)
 {
-    QString requestStr = QStringLiteral("api/account/%1").arg(account_id_int);
+    QString requestStr = QStringLiteral("api/account/update");
+    QJsonObject jsonObj;
+    jsonObj.insert("card_number",card_number);
+    jsonObj.insert("amount",amount);
+    jsonObj.insert("action",QString::number(action));
+    lastAction = action;
+    lastTransaction = amount;
     QNetworkRequest request(base_url+requestStr);
+    qDebug()<<jsonObj;
+    request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
     request.setRawHeader("Authorization", authByteArr);
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 
-    reply = manager->get(request);
+    reply = manager->put(request, QJsonDocument(jsonObj).toJson());
 }
 
 void DLLRestAPIEngine::updateBalanceSlot(QNetworkReply *reply)
 {
     QByteArray response_data = reply->readAll();
     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonArray json_array = json_doc.array();
+    QJsonObject obj = json_doc.object();
+    QString resp;
 
-    foreach(const QJsonValue &value, json_array){
-        QJsonObject obj = value.toObject();
-        account_balance = obj["balance"].toDouble();
-    }
-
+    account_balance = obj["balance"].toDouble();
+    resp = obj["message"].toString();
+    if(resp == ""){
     qDebug()<<"CURRENT BALANCE "<<account_balance<<Qt::endl;
-    reply->deleteLater();
-    manager->deleteLater();
+    qDebug()<<"BALANCE UPDATE RESPONSE "<<resp<<Qt::endl;
+    int tempAction = 0;
+        if(lastAction == 0)
+            tempAction = -1;
+        if(lastAction == 1)
+            tempAction = 1;
+
+    emit balanceUpdated(account_balance);
+    CreateLog(lastTransaction*tempAction);
+    }else{
+        qDebug()<<"Error adding balance";
+        qDebug()<<resp;
+    }
 }

@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(talletusButtons[i], SIGNAL(released()), this,
                 SLOT(talletusHandler()));
     }
-
+    connect(api, SIGNAL(saldoUpdated(double)), this, SLOT(updateSaldoUI(double)));
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
     connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
 }
@@ -49,7 +49,7 @@ void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QS
     ui->cardTypeLabel->setText(cardType);
     ui->account_name->setText(tempname);
     ui->account_name1->setText(tempname);
-    updateSaldoUI();
+    updateSaldoUI(saldo);
     QPixmap pixmap;
     pixmap.loadFromData(pictureData);
 
@@ -70,7 +70,7 @@ void MainWindow::on_amount_clicked(){
     ui->nostoArvo->setText(QString::number(nostoValue));
 }
 
-void MainWindow::updateSaldoUI()
+void MainWindow::updateSaldoUI(double saldo)
 {
     ui->saldoArvo->setText(QString::number(saldo)+"€");
     ui->saldoArvo_2->setText(QString::number(saldo)+"€");
@@ -182,5 +182,25 @@ void MainWindow::on_clearTalletus_clicked()
 {
     talletusValue = 0.0;
     ui->talletusArvo->setText(QString::number(talletusValue));
+}
+
+
+void MainWindow::on_talletaNappi_clicked()
+{
+    double amnt = ui->talletusArvo->text().toDouble();
+    if(amnt != 0.0)
+        api->updateBalance(1, amnt);
+    talletusValue = 0.0;
+    ui->talletusArvo->setText(QString::number(talletusValue));
+}
+
+
+void MainWindow::on_nostaNappi_clicked()
+{
+    double amnt = ui->nostoArvo->text().toDouble();
+    if(amnt != 0.0)
+        api->updateBalance(0, amnt);
+    nostoValue = 0.0;
+    ui->nostoArvo->setText(QString::number(nostoValue));
 }
 
