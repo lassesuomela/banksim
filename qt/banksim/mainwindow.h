@@ -50,6 +50,7 @@ private:
     double saldo;
     double nostoValue = 0.0;
     double talletusValue = 0.0;
+    QString last5Transactions[5][3];
 };
 
 #endif // MAINWINDOW_H
