@@ -42,7 +42,7 @@ private:
     PinCodeDLL *pinCodeDLL;
     MainWindow *mainWindow = nullptr;
     void HandleCard();
-    char* rfid;
+    QString rfid;
     QString pinCode;
     int tries;
     DLLRestAPI *dllRestApi;

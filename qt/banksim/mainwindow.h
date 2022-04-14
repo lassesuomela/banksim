@@ -24,9 +24,8 @@ private slots:
     void on_amount_clicked();
     void updateSaldoUI();
     void on_clear_clicked();
-
+    void talletusHandler();
     void on_saldo_nappi_clicked();
-
     void on_close_button_clicked();
 
     void on_close_clicked();
@@ -41,12 +40,16 @@ private slots:
     void updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray);
 
     void on_kirjaudu_ulos_clicked();
+    void on_clearTalletus_clicked();
+
 signals:
     void logOutSignal();
 private:
     Ui::MainWindow *ui;
     void setPicture(QString);
     double saldo;
+    double nostoValue = 0.0;
+    double talletusValue = 0.0;
 };
 
 #endif // MAINWINDOW_H
