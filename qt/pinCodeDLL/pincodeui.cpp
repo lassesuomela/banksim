@@ -158,6 +158,7 @@ void PinCodeUI::getTries(int tries)
     timer->start(10000);
 
     qDebug() << "Got tries from exe";
+    qDebug() << tries;
     currentTries = tries;
 
     if (currentTries <= 0){
