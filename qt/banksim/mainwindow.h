@@ -22,7 +22,7 @@ private slots:
     void on_talletus_clicked();
     void on_takaisin_talletus_clicked();
     void on_amount_clicked();
-
+    void updateSaldoUI();
     void on_clear_clicked();
 
     void on_saldo_nappi_clicked();
@@ -46,6 +46,7 @@ signals:
 private:
     Ui::MainWindow *ui;
     void setPicture(QString);
+    double saldo;
 };
 
 #endif // MAINWINDOW_H
