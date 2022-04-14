@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Banksim</string>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
@@ -29,7 +29,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="etusivu">
     <widget class="QToolButton" name="kirjaudu_ulos">
@@ -48,7 +48,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Kirjaudu ulos</string>
+      <string>Log out</string>
      </property>
     </widget>
     <widget class="QToolButton" name="tilitapahtumat">
@@ -67,7 +67,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Tilitapahtumat</string>
+      <string>Transaction history</string>
      </property>
     </widget>
     <widget class="QToolButton" name="talletus">
@@ -86,7 +86,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Talletus</string>
+      <string>Deposit</string>
      </property>
     </widget>
     <widget class="QToolButton" name="nosto">
@@ -105,7 +105,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Otto</string>
+      <string>Withdrawal</string>
      </property>
     </widget>
     <widget class="QPushButton" name="saldo_nappi">
@@ -118,7 +118,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Saldo</string>
+      <string>Balance</string>
      </property>
     </widget>
     <widget class="QLabel" name="pictureLabel">
@@ -147,28 +147,28 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Nimi:</string>
+         <string>Name:</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Tili:</string>
+         <string>Account:</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Kortti:</string>
+         <string>Card:</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Kortin nro:</string>
+         <string>Card no:</string>
         </property>
        </widget>
       </item>
@@ -214,7 +214,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Edellinen sivu</string>
+      <string>Prev page</string>
      </property>
     </widget>
     <widget class="QPushButton" name="next_10">
@@ -227,7 +227,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Seuraava sivu</string>
+      <string>Next page</string>
      </property>
     </widget>
     <widget class="QPushButton" name="close">
@@ -240,7 +240,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Takaisin</string>
+      <string>Back</string>
      </property>
     </widget>
     <widget class="QListWidget" name="listWidget">
@@ -275,7 +275,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Tilin omistaja</string>
+         <string>Account owner</string>
         </property>
        </widget>
       </item>
@@ -298,7 +298,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Tilin saldo</string>
+         <string>Balance</string>
         </property>
        </widget>
       </item>
@@ -355,7 +355,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Tilin omistaja</string>
+      <string>Account owner</string>
      </property>
     </widget>
     <widget class="QLabel" name="balance_label">
@@ -368,7 +368,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Saldo</string>
+      <string>Balance</string>
      </property>
     </widget>
     <widget class="QListView" name="transaction">
@@ -384,14 +384,14 @@
     <widget class="QLabel" name="transaction_label">
      <property name="geometry">
       <rect>
-       <x>190</x>
-       <y>160</y>
-       <width>421</width>
-       <height>31</height>
+       <x>300</x>
+       <y>150</y>
+       <width>171</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
-      <string>Viimeisimmät viisi tapahtumaa</string>
+      <string>Last five logs</string>
      </property>
     </widget>
     <widget class="QPushButton" name="close_button">
@@ -404,7 +404,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Takaisin</string>
+      <string>Back</string>
      </property>
     </widget>
    </widget>
@@ -425,7 +425,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Takaisin</string>
+      <string>Back</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="nostoArvo">
@@ -475,7 +475,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Tyhjennä</string>
+      <string>Clear</string>
      </property>
     </widget>
     <widget class="QToolButton" name="nostaNappi">
@@ -494,7 +494,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Hyväksy</string>
+      <string>Accept</string>
      </property>
     </widget>
     <widget class="QLabel" name="teksti_2">
@@ -513,7 +513,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Otto</string>
+      <string>Withdrawal</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -707,7 +707,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Saldo</string>
+      <string>Balance</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -731,7 +731,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Takaisin</string>
+      <string>Back</string>
      </property>
     </widget>
     <widget class="QWidget" name="gridLayoutWidget_2">
@@ -897,7 +897,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Saldo</string>
+      <string>Balance</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -919,7 +919,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Tyhjennä</string>
+      <string>Clear</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="saldoArvo_4">
@@ -960,7 +960,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Talletus</string>
+      <string>Deposit</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -1013,7 +1013,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Hyväksy</string>
+      <string>Accept</string>
      </property>
     </widget>
    </widget>
