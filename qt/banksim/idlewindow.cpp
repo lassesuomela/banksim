@@ -6,12 +6,11 @@ IdleWindow::IdleWindow(QWidget *parent)
     , ui(new Ui::IdleWindow){
     ui->setupUi(this);
     this->setFixedSize(800,600);
-    rfid = NULL;
+    rfid = "";
     tries = 3;
-
+    this->show();
     mainWindow = new MainWindow();
     mainWindow->hide();
-    serialPort = new DLLSerialPort(1);
     pinCodeDLL = new PinCodeDLL();
     dllRestApi = mainWindow->api;
 
@@ -23,7 +22,7 @@ IdleWindow::IdleWindow(QWidget *parent)
     connect(dllRestApi, SIGNAL(StatusToExe(QString)), this, SLOT(GetLoginStatus(QString)));
     connect(mainWindow, SIGNAL(logOutSignal()), this, SLOT(LogOutSlot()));
     connect(this, SIGNAL(sendAuthInfo(QString,QString)), dllRestApi, SLOT(LoginSlot(QString,QString)));
-    HandleCard();
+    //HandleCard();
 }
 IdleWindow::~IdleWindow(){
     disconnect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
@@ -62,7 +61,7 @@ void IdleWindow::GetLoginStatus(QString status)
 
         emit sendCloseSignal();
         this->hide();
-
+        rfid = "";
         mainWindow->show();
     }
     else{
@@ -71,11 +70,12 @@ void IdleWindow::GetLoginStatus(QString status)
 }
 
 void IdleWindow::HandleCard(){
-    //rfid = serialPort->GetRFID(); insert real card here
-
-    rfid = (char*) "868440224833";
+      serialPort = new DLLSerialPort(4);
+//    rfid = serialPort->GetRFID(); //insert real card here
+//    qDebug()<<rfid<<" debuggg";
+    rfid = "00006000DA7C7000";
   
-    if( rfid != NULL){
+    if( rfid != ""){
         delete serialPort;
         serialPort = nullptr;
         dllRestApi->GetTriesFromApi(rfid);
