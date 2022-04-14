@@ -139,9 +139,12 @@ void MainWindow::updateLogsView()
     for(int i = 0; i<10;++i){
         for(int j = 0; j < 3; ++j){
             dataRow.append(api->logData[i][j]);
+            if(j == 2 && api->logData[i][j] != "")
+                dataRow.append("€");
             dataRow.append(" ");
         }
-        ui->listWidget->addItem(dataRow);
+        if(dataRow != " €")
+            ui->listWidget->addItem(dataRow);
         dataRow = "";
     }
 }
