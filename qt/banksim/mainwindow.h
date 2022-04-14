@@ -22,7 +22,7 @@ private slots:
     void on_talletus_clicked();
     void on_takaisin_talletus_clicked();
     void on_amount_clicked();
-    void updateSaldoUI();
+    void updateSaldoUI(double saldo);
     void on_clear_clicked();
     void talletusHandler();
     void on_saldo_nappi_clicked();
@@ -41,6 +41,10 @@ private slots:
 
     void on_kirjaudu_ulos_clicked();
     void on_clearTalletus_clicked();
+
+    void on_talletaNappi_clicked();
+
+    void on_nostaNappi_clicked();
 
 signals:
     void logOutSignal();

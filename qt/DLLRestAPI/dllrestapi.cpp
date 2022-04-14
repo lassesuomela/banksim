@@ -9,6 +9,7 @@ DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
     connect(engine, SIGNAL(AuthStatus(QString)), this, SLOT(LoginStatusSlot(QString)));
     connect(engine, SIGNAL(logsFinishedSignal()), this, SLOT(GetLogs10()));
     connect(engine, SIGNAL(dataGatheringFinished()), this, SLOT(GetInfo()));
+    connect(engine, SIGNAL(balanceUpdated(double)), this, SLOT(sendBalanceToExe(double)));
 }
 
 DLLRestAPI::~DLLRestAPI()
@@ -26,6 +27,7 @@ void DLLRestAPI::GetLogs10()
         logData[i][2] = engine->amountSignal[i];
         logData[i][3] = engine->idSignal[i];
     }
+
     emit logsUpdatedSignal();
 }
 
@@ -60,12 +62,15 @@ void DLLRestAPI::LoginSlot(QString card, QString pin)
     engine->Login(card, pin);
 }
 
-void DLLRestAPI::UpdateBalance()
+void DLLRestAPI::updateBalance(int action, double amount)
 {
-    engine->GetBalance();
-    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type,engine->pictureData);
+    engine->updateBalance(action, amount);
+//    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type,engine->pictureData);
 }
-
+void DLLRestAPI::sendBalanceToExe(double amount){
+    qDebug()<<"interface emitting saldo update";
+    emit saldoUpdated(amount);
+}
 void DLLRestAPI::getLogsByPage(int page)
 {
 

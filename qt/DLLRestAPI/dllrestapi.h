@@ -13,8 +13,9 @@ public:
     void UpdateLogs(int);
     QString logData[10][4];
     void GetTriesFromApi(QString card_number);
-    void UpdateBalance();
+    void updateBalance(int action, double amount);
     void getLogsByPage(int);
+
 private:
     DLLRestAPIEngine* engine;
 
@@ -23,10 +24,12 @@ signals:
     void SendTriesToExe(int tries);
     void StatusToExe(QString);
     void logsUpdatedSignal();
+    void saldoUpdated(double);
 
 private slots:
     void GetTriesSlot(int tries);
     void GetInfo();
+    void sendBalanceToExe(double amount);
 public slots:
     void LoginSlot(QString, QString);
     void LoginStatusSlot(QString);
