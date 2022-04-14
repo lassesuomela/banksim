@@ -18,12 +18,12 @@ public:
 private:
     DLLRestAPIEngine* engine;
 
-
 signals:
-    void InfoSignal(double balance, QString acc_name, QString fname, QString lname, QString card_number, QString card_type);
+    void InfoSignal(double balance, QString acc_name, QString fname, QString lname, QString card_number, QString card_type, QByteArray profileData);
     void SendTriesToExe(int tries);
     void StatusToExe(QString);
     void logsUpdatedSignal();
+
 private slots:
     void GetTriesSlot(int tries);
     void GetInfo();

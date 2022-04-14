@@ -37,7 +37,7 @@ void DLLRestAPI::UpdateLogs(int i)
 void DLLRestAPI::GetInfo()
 {
     qDebug()<<"info signal sent";
-    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
+    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type,engine->pictureData);
 }
 
 void DLLRestAPI::GetTriesFromApi(QString card_number){
@@ -63,11 +63,12 @@ void DLLRestAPI::LoginSlot(QString card, QString pin)
 void DLLRestAPI::UpdateBalance()
 {
     engine->GetBalance();
-    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type);
+    emit InfoSignal(engine->account_balance,engine->account_name,engine->fname,engine->lname,engine->card_number,engine->card_type,engine->pictureData);
 }
 
 void DLLRestAPI::getLogsByPage(int page)
 {
+
     switch (page) {
         case 0:
             engine->logs_curret_page = engine->logs_curret_page+1;
@@ -78,6 +79,8 @@ void DLLRestAPI::getLogsByPage(int page)
     default:
         engine->logs_curret_page = page;
     }
+
     engine->GetLogs();
+
 }
 
