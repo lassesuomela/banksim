@@ -162,10 +162,10 @@ void PinCodeUI::getTries(int tries)
     currentTries = tries;
 
     if (currentTries <= 0){
-        ui->infoTextBox->setText("Ei yrityksiä jäljellä");
+        ui->infoTextBox->setText("No attempts left");
 
     }else{
-        ui->infoTextBox->setText(QString::number(currentTries) + " yritystä jäljellä");
+        ui->infoTextBox->setText(QString::number(currentTries) + " attempts left");
     }
 }
 
