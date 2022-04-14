@@ -31,15 +31,15 @@ MainWindow::~MainWindow()
     api = nullptr;
 }
 
-void MainWindow::updateUserInfo(double,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType, QByteArray pictureData)
+void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType, QByteArray pictureData)
 {
     QString tempname = lname + " " + fname;
-
+    saldo = balance;
     ui->nameLabel->setText(tempname);
     ui->accountNameLabel->setText(acc_name);
     ui->cardNumberLabel->setText(cardNum);
     ui->cardTypeLabel->setText(cardType);
-
+    updateSaldoUI();
     QPixmap pixmap;
     pixmap.loadFromData(pictureData);
 
@@ -58,6 +58,13 @@ void MainWindow::on_amount_clicked(){
     QPushButton *button = (QPushButton *)sender();
     nostoValue=button->text().toDouble();
     ui->nostoArvo->setText(QString::number(nostoValue));
+}
+
+void MainWindow::updateSaldoUI()
+{
+    ui->saldoArvo->setText(QString::number(saldo)+"€");
+    ui->saldoArvo_2->setText(QString::number(saldo)+"€");
+    ui->saldoArvo_3->setText(QString::number(saldo)+"€");
 }
 
 void MainWindow::on_nosto_clicked(){

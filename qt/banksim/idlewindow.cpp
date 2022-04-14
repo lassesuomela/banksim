@@ -73,7 +73,7 @@ void IdleWindow::GetLoginStatus(QString status)
 void IdleWindow::HandleCard(){
     //rfid = serialPort->GetRFID(); insert real card here
 
-    rfid = (char*) "747399673461";
+    rfid = (char*) "868440224833";
   
     if( rfid != NULL){
         delete serialPort;

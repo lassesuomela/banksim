@@ -29,9 +29,9 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
-   <widget class="QWidget" name="sivu1">
+   <widget class="QWidget" name="etusivu">
     <widget class="QToolButton" name="kirjaudu_ulos">
      <property name="geometry">
       <rect>
@@ -203,7 +203,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="sivu2">
+   <widget class="QWidget" name="logisivu">
     <widget class="QPushButton" name="prev_10">
      <property name="geometry">
       <rect>
@@ -303,7 +303,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="balance">
+       <widget class="QLineEdit" name="saldoArvo_3">
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
@@ -315,7 +315,7 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QWidget" name="sivu3">
+   <widget class="QWidget" name="saldosivu">
     <widget class="QLineEdit" name="saldoArvo_2">
      <property name="geometry">
       <rect>
@@ -408,7 +408,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="sivu4">
+   <widget class="QWidget" name="ottosivu">
     <widget class="QToolButton" name="takaisin">
      <property name="geometry">
       <rect>
@@ -714,7 +714,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="sivu5">
+   <widget class="QWidget" name="talletussivu">
     <widget class="QToolButton" name="takaisin_talletus">
      <property name="geometry">
       <rect>
