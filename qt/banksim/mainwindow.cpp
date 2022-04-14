@@ -110,12 +110,14 @@ void MainWindow::talletusHandler()
 
 void MainWindow::on_saldo_nappi_clicked()
 {
+    api->getLogsByPage(1);
     ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::on_close_button_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
+    api->getLogsByPage(1);
 }
 
 
@@ -135,6 +137,7 @@ void MainWindow::on_tilitapahtumat_clicked()
 void MainWindow::updateLogsView()
 {
     ui->listWidget->clear();
+    ui->transaction->clear();
     QString dataRow = "";
     for(int i = 0; i<10;++i){
         for(int j = 0; j < 3; ++j){
@@ -145,8 +148,12 @@ void MainWindow::updateLogsView()
         }
         if(dataRow != " €")
             ui->listWidget->addItem(dataRow);
+        if(i<5){
+            ui->transaction->addItem(dataRow);
+        }
         dataRow = "";
     }
+
 }
 
 

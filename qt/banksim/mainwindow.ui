@@ -29,7 +29,9 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+
+    <number>0</number>
+
    </property>
    <widget class="QWidget" name="etusivu">
     <widget class="QToolButton" name="kirjaudu_ulos">
@@ -371,16 +373,6 @@
       <string>Balance</string>
      </property>
     </widget>
-    <widget class="QListView" name="transaction">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>210</y>
-       <width>751</width>
-       <height>271</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QLabel" name="transaction_label">
      <property name="geometry">
       <rect>
@@ -405,6 +397,16 @@
      </property>
      <property name="text">
       <string>Back</string>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="transaction">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>220</y>
+       <width>711</width>
+       <height>281</height>
+      </rect>
      </property>
     </widget>
    </widget>
