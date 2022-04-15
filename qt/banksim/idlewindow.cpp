@@ -73,7 +73,7 @@ void IdleWindow::HandleCard(){
       serialPort = new DLLSerialPort(4);
 //    rfid = serialPort->GetRFID(); //insert real card here
 //    qDebug()<<rfid<<" debuggg";
-    rfid = "00006000626BD000";
+    rfid = "747399673461";
   
     if( rfid != ""){
         delete serialPort;
@@ -85,15 +85,15 @@ void IdleWindow::HandleCard(){
 void IdleWindow::on_nappi_clicked()
 {
     HandleCard();
-    if(!pinCodeDLL->isVisible()){
-        pinCodeDLL->ShowWindow();
-    }
 }
 
 void IdleWindow::GetTries(int x)
 {
     emit SendTries(x);
     qDebug() << "Sent tries to pincodeui";
+    if(!pinCodeDLL->isVisible()){
+        pinCodeDLL->ShowWindow();
+    }
 }
 
 void IdleWindow::LogOutSlot()

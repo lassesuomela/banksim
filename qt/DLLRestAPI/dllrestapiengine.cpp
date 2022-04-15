@@ -334,7 +334,7 @@ void DLLRestAPIEngine::updateBalanceSlot(QNetworkReply *reply)
     emit balanceUpdated(account_balance);
     CreateLog(lastTransaction*tempAction);
     }else{
-        qDebug()<<"Error adding balance";
+        qDebug()<<"Error updating balance";
         qDebug()<<resp;
     }
 }
