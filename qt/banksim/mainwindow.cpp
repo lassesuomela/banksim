@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setFixedSize(800,600);
     api = new DLLRestAPI;
 
-    ui->nostoArvo->setText(QString::number(nostoValue));
+    ui->nostoArvo->setText(QString::number(nostoValue) + "€");
     QPushButton *ottoButtons[6];
     for(int i = 0; i < 6; ++i){
         QString butName = "nosto" + QString::number(i);
@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 SLOT(on_amount_clicked()));
     }
 
-    ui->talletusArvo->setText(QString::number(nostoValue));
+    ui->talletusArvo->setText(QString::number(nostoValue) + "€");
     QPushButton *talletusButtons[6];
     for(int i = 0; i < 6; ++i){
         QString butName = "talletus" + QString::number(i);
@@ -61,13 +61,12 @@ void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QS
     QRegion * region = new QRegion(0, 0, h, w, QRegion::Ellipse);
 
     ui->pictureLabel->setMask(*region);
-    qDebug() << "Picture changed";
 }
 
 void MainWindow::on_amount_clicked(){
     QPushButton *button = (QPushButton *)sender();
     nostoValue=button->text().toDouble();
-    ui->nostoArvo->setText(QString::number(nostoValue));
+    ui->nostoArvo->setText(QString::number(nostoValue) + "€");
 }
 
 void MainWindow::updateSaldoUI(double saldo)
@@ -98,14 +97,14 @@ void MainWindow::on_takaisin_talletus_clicked(){
 void MainWindow::on_clear_clicked()
 {
     nostoValue = 0.0;
-    ui->nostoArvo->setText(QString::number(nostoValue));
+    ui->nostoArvo->setText(QString::number(nostoValue) + "€");
 }
 
 void MainWindow::talletusHandler()
 {
     QPushButton *button = (QPushButton *)sender();
     talletusValue=button->text().toDouble();
-    ui->talletusArvo->setText(QString::number(talletusValue));
+    ui->talletusArvo->setText(QString::number(talletusValue) + "€");
 }
 
 void MainWindow::on_saldo_nappi_clicked()
@@ -181,26 +180,26 @@ void MainWindow::on_kirjaudu_ulos_clicked()
 void MainWindow::on_clearTalletus_clicked()
 {
     talletusValue = 0.0;
-    ui->talletusArvo->setText(QString::number(talletusValue));
+    ui->talletusArvo->setText(QString::number(talletusValue) + "€");
 }
 
 
 void MainWindow::on_talletaNappi_clicked()
 {
-    double amnt = ui->talletusArvo->text().toDouble();
+    double amnt = ui->talletusArvo->text().remove("€").toDouble();
     if(amnt != 0.0)
         api->updateBalance(1, amnt);
     talletusValue = 0.0;
-    ui->talletusArvo->setText(QString::number(talletusValue));
+    ui->talletusArvo->setText(QString::number(talletusValue) + "€");
 }
 
 
 void MainWindow::on_nostaNappi_clicked()
 {
-    double amnt = ui->nostoArvo->text().toDouble();
+    double amnt = ui->nostoArvo->text().remove("€").toDouble();
     if(amnt != 0.0)
         api->updateBalance(0, amnt);
     nostoValue = 0.0;
-    ui->nostoArvo->setText(QString::number(nostoValue));
+    ui->nostoArvo->setText(QString::number(nostoValue) + "€");
 }
 
