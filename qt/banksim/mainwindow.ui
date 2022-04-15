@@ -29,7 +29,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="etusivu">
     <widget class="QToolButton" name="kirjaudu_ulos">
@@ -541,6 +541,9 @@
      </property>
     </widget>
     <widget class="QToolButton" name="nostaNappi">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>410</x>
@@ -557,6 +560,12 @@
      </property>
      <property name="text">
       <string>Accept</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+     <property name="autoRaise">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QLabel" name="teksti_2">
@@ -1066,6 +1075,9 @@
      </property>
     </widget>
     <widget class="QToolButton" name="talletaNappi">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>410</x>
