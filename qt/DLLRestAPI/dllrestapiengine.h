@@ -19,11 +19,11 @@ public:
     void Login(QString, QString);
 
     void GetLogs();
-    void CreateLog(int);
-    void GetBalance();
-
+    void CreateLog(double);
+    void updateBalance(int action, double amount);            //1 for deposit, 0 for withdraw
+    void GetTries(QString card_number);
     int logs_curret_page = 1;
-    int logs_total_pages;
+    int logs_total_pages = 1;
     //logs for updating logs view
     QString idSignal[10];
     QString dateSignal[10];
@@ -35,21 +35,26 @@ public:
 
     QString fname;
     QString lname;
+    QString profilePic;
+    QByteArray pictureData;
 
     QString card_number;
     QString card_type;
+    QString status;
+    QString resMessage;
+    int tries = 0;
 
 private:
     void GetUserInfo();
     void GetCardInfo();
     void GetAccountInfo();
+    void GetPictureData(QString);
     //network managament
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     //QByteArray response_data;
     QString auth = "";
     QString base_url="http://localhost:3000/";
-    QString status;
     QByteArray authByteArr;
     //user data
     QString address;
@@ -63,9 +68,16 @@ private:
     QList<QString> logs_date_list;
     QList<QString> logs_event_list;
     QList<QString> logs_amount_list;
-    int logs_count;
+    double lastTransaction = 0;
+    int lastAction = 0;
     int card_type_int;
 
+signals:
+    void SendTriesSignal(int tries);
+    void AuthStatus(QString);
+    void logsFinishedSignal();
+    void dataGatheringFinished();
+    void balanceUpdated(double);
 private slots:
     void loginSlot(QNetworkReply *reply);
     void getUserInfoSlot(QNetworkReply *reply);
@@ -74,7 +86,8 @@ private slots:
     void getLogsSlot(QNetworkReply *reply);
     void createLogSlot(QNetworkReply *reply);
     void updateBalanceSlot(QNetworkReply *reply);
-
+    void getTriesSlot(QNetworkReply *reply);
+    void getPictureDataSlot(QNetworkReply *reply);
 };
 
 #endif // DLLRESTAPIENGINE_H

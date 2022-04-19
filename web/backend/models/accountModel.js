@@ -21,6 +21,10 @@ const account = {
         return db.query("SELECT * FROM user_account WHERE user_ID = ? AND account_ID = ?",
         [userId, accountId], callback);
     },
+    getConnectedUsers: function(accountId, userId, callback){
+        return db.query("SELECT account.account_ID, user.email, user_account.user_ID FROM account JOIN user_account ON user_account.account_ID = account.account_ID JOIN user ON user.user_ID = user_account.user_ID WHERE account.account_ID = ? AND user.user_ID != ?",
+        [accountId, userId], callback);
+    },
     getCardsById: function(accountId, callback){
         return db.query("SELECT * FROM account JOIN card on card.account_ID = account.account_ID WHERE account.account_ID = ?",
         [accountId], callback);
