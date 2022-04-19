@@ -91,6 +91,8 @@ void MainWindow::updateSaldoUI(double saldo)
 }
 
 void MainWindow::on_nosto_clicked(){
+    ui->saldoArvo->setText(this->balance);
+
     ui->stackedWidget->setCurrentIndex(3);
 }
 
