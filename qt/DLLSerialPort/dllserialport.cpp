@@ -10,7 +10,6 @@ DLLSerialPort::DLLSerialPort(int comPort)
 
 DLLSerialPort::~DLLSerialPort()
 {
-    engineClass->ClosePort();
     delete engineClass;
     engineClass = nullptr;
 }

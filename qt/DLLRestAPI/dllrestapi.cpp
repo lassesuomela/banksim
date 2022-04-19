@@ -14,6 +14,11 @@ DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
 
 DLLRestAPI::~DLLRestAPI()
 {
+    qDebug()<<"rest api dest";
+    disconnect(engine, SIGNAL(AuthStatus(QString)), this, SLOT(LoginStatusSlot(QString)));
+    disconnect(engine, SIGNAL(logsFinishedSignal()), this, SLOT(GetLogs10()));
+    disconnect(engine, SIGNAL(dataGatheringFinished()), this, SLOT(GetInfo()));
+    disconnect(engine, SIGNAL(balanceUpdated(double)), this, SLOT(sendBalanceToExe(double)));
     delete engine;
     engine = nullptr;
 }

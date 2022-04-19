@@ -50,8 +50,8 @@ private:
     void GetAccountInfo();
     void GetPictureData(QString);
     //network managament
-    QNetworkAccessManager *manager;
-    QNetworkReply *reply;
+    QNetworkAccessManager *manager = nullptr;
+    QNetworkReply *reply = nullptr;
     //QByteArray response_data;
     QString auth = "";
     QString base_url="http://localhost:3000/";

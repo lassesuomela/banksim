@@ -38,7 +38,7 @@ private slots:
 
 private:
     Ui::IdleWindow *ui;
-    DLLSerialPort *serialPort;
+    DLLSerialPort *serialPort = nullptr;
     PinCodeDLL *pinCodeDLL;
     MainWindow *mainWindow = nullptr;
     void HandleCard();
