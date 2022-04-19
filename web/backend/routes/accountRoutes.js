@@ -9,6 +9,8 @@ router.get("/",jwtAuth.verifyToken,accountController.getOwnedAccounts);
 
 router.get("/:id",jwtAuth.verifyToken,accountController.getById);
 
+router.get("/:id/users", jwtAuth.verifyToken,accountController.getConnectedUsers);
+
 router.post("/adduser",jwtAuth.verifyToken,accountController.addUserToAccount);
 
 router.post("/",jwtAuth.verifyToken,accountController.addAccount);

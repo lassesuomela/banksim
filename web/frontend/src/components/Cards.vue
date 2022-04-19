@@ -1,28 +1,25 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-card>
-        <v-card-title class="cyan darken-1">
-          <span class="font-weight-bold text-h5 blue-grey--text text--darken-3">Cards</span>
-          <v-spacer></v-spacer>
-          <v-icon color="blue-grey darken-3"> mdi-credit-card </v-icon>
-          <span class="text-subtitle-1 blue-grey--text text--darken-3">Debit</span>
-          <v-icon color="blue-grey darken-3"> mdi-credit-card-check </v-icon>
-          <span class="text-subtitle-1 blue-grey--text text--darken-3">Credit</span>
-        </v-card-title>
-        <v-list color="blue-grey darken-3" v-for="(item, index) in cardlist" :key="index">
-          <v-list-item dark>
-            <v-list-item-action>
-              <v-icon>{{ item.type }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }} | Account ID: {{ item.accountId }} | {{ item.balance }}€   | <v-icon small  @click="deleteAccount(item)">mdi-delete</v-icon></v-list-item-title>
-            </v-list-item-content>
-
-          </v-list-item>
-          <v-divider dark inset></v-divider>
-        </v-list>
-      </v-card>
+      <v-data-table
+      :headers="this.headers"
+      dark
+      :items="this.cardlist"
+      :items-per-page="5"
+      sort-by="id"
+      class="elevation-1 blue-grey darken-3">
+      <template v-slot:top>
+      <v-toolbar rounded="" class="cyan darken-1">
+        <v-toolbar-title
+          class="font-weight-bold text-h5 blue-grey--text text--darken-3">
+          Cards
+        </v-toolbar-title>
+      </v-toolbar>
+      </template>
+      <template v-slot:[`item.actions`]="{ item }">
+        <v-icon small @click="deleteCard(item)">mdi-delete</v-icon>
+    </template>
+      </v-data-table>
     </v-col>
   </v-row>
 </template>
@@ -33,6 +30,13 @@ export default {
   name: "Dashboard",
   data() {
     return {
+      headers: [
+        {text: "Number", align: "start", sortable: false, value: "number"},
+        {text: "Type", value: "type"},
+        {text: "Account ID", value: "accountid"},
+        {text: "Balance", value: "balance"},
+        {text: "Actions", value: "actions", sortable: false}
+      ],
       cardlist: [],
     };
   },
@@ -40,23 +44,30 @@ export default {
     getAccounts() {
       axios.get("/api/card/info").then((response) => {
         let ctype = null;
-        for (var i = 0; i < response.data.length; i++) {
+        for (let i = 0; i < response.data.length; i++) {
           if (response.data[i].card_type === 0) {
-            ctype = "mdi-credit-card";
+            ctype = "Debit";
           } else {
-            ctype = "mdi-credit-card-check";
+            ctype = "Credit";
           }
           this.cardlist.push({
-            title: response.data[i].card_number,
+            number: response.data[i].card_number,
             type: ctype,
-            accountId: response.data[i].account_ID,
+            accountid: response.data[i].account_ID,
             balance: response.data[i].balance,
           });
         }
       });
     },
+    deleteCard(item){
+      axios.delete("/api/card", {data:{card_number:item.number}}).then((response) => {
+        if(response.data.status === "success"){
+          this.$router.go();
+        }
+      });
+    }
   },
-  mounted() {
+  created() {
     this.getAccounts();
   },
 };
