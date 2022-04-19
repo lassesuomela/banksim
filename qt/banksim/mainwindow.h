@@ -48,6 +48,7 @@ private slots:
 
     void on_customAmount_clicked();
     void customAmountReceivedSlot(double);
+    void balanceErrorReceivedSlot(QString);
 
 signals:
     void logOutSignal();

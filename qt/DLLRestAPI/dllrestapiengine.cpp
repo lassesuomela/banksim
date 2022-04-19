@@ -330,19 +330,22 @@ void DLLRestAPIEngine::updateBalanceSlot(QNetworkReply *reply)
     account_balance = obj["balance"].toDouble();
     resp = obj["message"].toString();
     if(resp == ""){
-    qDebug()<<"CURRENT BALANCE "<<account_balance<<Qt::endl;
-    qDebug()<<"BALANCE UPDATE RESPONSE "<<resp<<Qt::endl;
-    int tempAction = 0;
-        if(lastAction == 0)
-            tempAction = -1;
-        if(lastAction == 1)
-            tempAction = 1;
+        qDebug()<<"CURRENT BALANCE "<<account_balance<<Qt::endl;
+        qDebug()<<"BALANCE UPDATE RESPONSE "<<resp<<Qt::endl;
+        int tempAction = 0;
+            if(lastAction == 0)
+                tempAction = -1;
+            if(lastAction == 1)
+                tempAction = 1;
 
-    emit balanceUpdated(account_balance);
-    CreateLog(lastTransaction*tempAction);
+        emit balanceUpdated(account_balance);
+        CreateLog(lastTransaction*tempAction);
     }else{
         qDebug()<<"Error updating balance";
         qDebug()<<resp;
+
     }
+
+    emit errorBalanceMsg(resp);
     disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 }

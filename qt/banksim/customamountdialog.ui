@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string/>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -72,7 +72,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -89,7 +88,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -106,7 +104,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -123,7 +120,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -140,7 +136,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -157,7 +152,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -174,7 +168,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -191,7 +184,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -208,7 +200,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -225,7 +216,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -245,7 +235,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -262,7 +251,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>

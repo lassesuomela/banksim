@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
     connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
     connect(amntDialog, SIGNAL(amountToExe(double)), this, SLOT(customAmountReceivedSlot(double)));
+    connect(api, SIGNAL(balanceErrorToExe(QString)), this, SLOT(balanceErrorReceivedSlot(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -39,6 +40,8 @@ MainWindow::~MainWindow()
     disconnect(api, SIGNAL(saldoUpdated(double)), this, SLOT(updateSaldoUI(double)));
     disconnect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
     disconnect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
+    disconnect(api, SIGNAL(balanceErrorToExe(QString)), this, SLOT(balanceErrorReceivedSlot(QString)));
+
     delete ui;
     if(api != nullptr){
         qDebug()<<"deleting api";
@@ -84,20 +87,39 @@ void MainWindow::nostoValueUpdateSlot(){
 
 void MainWindow::updateSaldoUI(double saldo)
 {
-    ui->saldoArvo->setText(QString::number(saldo)+"€");
-    ui->saldoArvo_2->setText(QString::number(saldo)+"€");
-    ui->saldoArvo_3->setText(QString::number(saldo)+"€");
-    ui->saldoArvo_4->setText(QString::number(saldo)+"€");
+
+    QString word = QString::number(saldo, 'f',2);
+
+    /*
+    int temp = word.length() / 3 - 1;
+    int count = word.length();
+    qDebug() << temp;
+
+    if(temp > 0){
+        for(int i = 0; i < count; i++){
+            if(i % 3 == 0)
+                word.insert(count, ".");
+        }
+    }
+
+    qDebug() << word;
+    */
+
+    ui->saldoArvo->setText(word+"€");
+    ui->saldoArvo_2->setText(word+"€");
+    ui->saldoArvo_3->setText(word+"€");
+    ui->saldoArvo_4->setText(word+"€");
 }
 
 void MainWindow::on_nosto_clicked(){
-    ui->saldoArvo->setText(this->balance);
+
 
     ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_takaisin_clicked(){
     on_clear_clicked();
+    ui->balanceErrorText->setText("");
     ui->stackedWidget->setCurrentIndex(0);
 }
 
@@ -115,6 +137,7 @@ void MainWindow::on_clear_clicked()
     nostoValue = 0.0;
     ui->nostoArvo->setText(QString::number(nostoValue) + "€");
     ui->nostaNappi->setEnabled(false);
+    ui->balanceErrorText->setText("");
 }
 
 void MainWindow::talletusHandler()
@@ -229,3 +252,7 @@ void MainWindow::customAmountReceivedSlot(double amount)
         ui->nostaNappi->setEnabled(true);
 }
 
+void MainWindow::balanceErrorReceivedSlot(QString err)
+{
+    ui->balanceErrorText->setText(err);
+}
