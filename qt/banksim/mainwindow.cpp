@@ -9,14 +9,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(0);
     this->setFixedSize(800,600);
     api = new DLLRestAPI;
-
+    amntDialog = new CustomAmountDialog;
     ui->nostoArvo->setText(QString::number(nostoValue) + "€");
     QPushButton *ottoButtons[6];
     for(int i = 0; i < 6; ++i){
         QString butName = "nosto" + QString::number(i);
         ottoButtons[i] = MainWindow::findChild<QPushButton *>(butName);
         connect(ottoButtons[i], SIGNAL(released()), this,
-                SLOT(on_amount_clicked()));
+                SLOT(nostoValueUpdateSlot()));
     }
 
     ui->talletusArvo->setText(QString::number(nostoValue) + "€");
@@ -30,13 +30,25 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(api, SIGNAL(saldoUpdated(double)), this, SLOT(updateSaldoUI(double)));
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
     connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
+    connect(amntDialog, SIGNAL(amountToExe(double)), this, SLOT(customAmountReceivedSlot(double)));
 }
 
 MainWindow::~MainWindow()
 {
+    qDebug()<<"main window dest";
+    disconnect(api, SIGNAL(saldoUpdated(double)), this, SLOT(updateSaldoUI(double)));
+    disconnect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
+    disconnect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
     delete ui;
-    delete api;
-    api = nullptr;
+    if(api != nullptr){
+        qDebug()<<"deleting api";
+        delete api;
+        api = nullptr;
+    }
+    if(amntDialog != nullptr){
+        delete amntDialog;
+        amntDialog = nullptr;
+    }
 }
 
 void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType, QByteArray pictureData)
@@ -63,7 +75,7 @@ void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QS
     ui->pictureLabel->setMask(*region);
 }
 
-void MainWindow::on_amount_clicked(){
+void MainWindow::nostoValueUpdateSlot(){
     QPushButton *button = (QPushButton *)sender();
     nostoValue=button->text().toDouble();
     ui->nostoArvo->setText(QString::number(nostoValue) + "€");
@@ -172,7 +184,7 @@ void MainWindow::on_next_10_clicked()
 void MainWindow::on_kirjaudu_ulos_clicked()
 {
     this->hide();
-
+    api = new DLLRestAPI;
     emit logOutSignal();
 }
 
@@ -201,5 +213,19 @@ void MainWindow::on_nostaNappi_clicked()
     nostoValue = 0.0;
     ui->nostoArvo->setText(QString::number(nostoValue) + "€");
     ui->nostaNappi->setEnabled(false);
+}
+
+
+void MainWindow::on_customAmount_clicked()
+{
+    amntDialog->show();
+}
+
+void MainWindow::customAmountReceivedSlot(double amount)
+{
+    nostoValue = amount;
+    ui->nostoArvo->setText(QString::number(nostoValue) + "€");
+    if(amount > 0.0)
+        ui->nostaNappi->setEnabled(true);
 }
 

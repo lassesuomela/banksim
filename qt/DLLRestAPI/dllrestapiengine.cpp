@@ -4,13 +4,18 @@ DLLRestAPIEngine::DLLRestAPIEngine(QObject * parent) : QObject(parent)
 {
 
 
-
 }
 
 DLLRestAPIEngine::~DLLRestAPIEngine()
 {
-    reply->deleteLater();
-    manager->deleteLater();
+
+    if(reply != nullptr && manager == nullptr){
+        delete reply;
+        delete manager;
+        reply = nullptr;
+        manager = nullptr;
+    }
+    qDebug()<<"engine delete";
 }
 //-----------------START OF INFO GATHERING--------------------------------------------------------
 void DLLRestAPIEngine::Login(QString card, QString pin)
@@ -105,7 +110,7 @@ void DLLRestAPIEngine::GetPictureData(QString path)
 void DLLRestAPIEngine::getPictureDataSlot(QNetworkReply *reply)
 {
     pictureData = reply->readAll();
-
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getPictureDataSlot(QNetworkReply*)));
     GetCardInfo();
 }
 
@@ -138,6 +143,7 @@ void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
 
 
     qDebug()<<"GET CARD INFO (account id) "<<account_id_int<<Qt::endl;
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getCardInfoSlot(QNetworkReply*)));
 
     GetAccountInfo();
 }
@@ -169,7 +175,7 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
     }
 
     qDebug()<<"GET ACCOUNT INFO"<<account_balance<<account_name<<Qt::endl;
-
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getAccountInfoSlot(QNetworkReply*)));
     emit dataGatheringFinished();
 }
 
@@ -230,7 +236,7 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
 
     for(int i = 0; i < 10; i++)
         qDebug()<<"GET LOGS WITH ID: "<<idSignal[i];
-
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getLogsSlot(QNetworkReply*)));
     emit logsFinishedSignal();
 }
 //-----------------END OF INFO GATHERING--------------------------------------------------------
@@ -262,6 +268,7 @@ void DLLRestAPIEngine::createLogSlot(QNetworkReply *reply)
     }else{
         qDebug()<<"error adding log";
     }
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(createLogSlot(QNetworkReply*)));
     GetLogs();
 }
 
@@ -337,4 +344,5 @@ void DLLRestAPIEngine::updateBalanceSlot(QNetworkReply *reply)
         qDebug()<<"Error updating balance";
         qDebug()<<resp;
     }
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 }

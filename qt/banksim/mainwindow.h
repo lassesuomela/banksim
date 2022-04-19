@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 #include <QMainWindow>
 #include <dllrestapi.h>
-
+#include "customamountdialog.h"
 namespace Ui {
 class MainWindow;
 }
@@ -21,7 +21,7 @@ private slots:
     void on_takaisin_clicked();
     void on_talletus_clicked();
     void on_takaisin_talletus_clicked();
-    void on_amount_clicked();
+    void nostoValueUpdateSlot();
     void updateSaldoUI(double saldo);
     void on_clear_clicked();
     void talletusHandler();
@@ -46,6 +46,9 @@ private slots:
 
     void on_nostaNappi_clicked();
 
+    void on_customAmount_clicked();
+    void customAmountReceivedSlot(double);
+
 signals:
     void logOutSignal();
 private:
@@ -55,6 +58,7 @@ private:
     double nostoValue = 0.0;
     double talletusValue = 0.0;
     QString last5Transactions[5][3];
+    CustomAmountDialog *amntDialog;
 };
 
 #endif // MAINWINDOW_H

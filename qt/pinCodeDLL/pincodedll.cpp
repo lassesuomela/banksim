@@ -39,6 +39,7 @@ void PinCodeDLL::getPinFromDLL(QString pin)
     qDebug() << "Got signal from Pin code UI, Emitting Pin code to exe";
 
     emit pinToExe(pin);
+    pin = "";
 }
 
 void PinCodeDLL::getTriesFromEXE(int tries)

@@ -490,56 +490,6 @@
       <string>Back</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="nostoArvo">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>340</y>
-       <width>261</width>
-       <height>81</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>20</pointsize>
-       <stylestrategy>PreferAntialias</stylestrategy>
-      </font>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>0.0</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="clear">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>430</y>
-       <width>261</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>22</pointsize>
-       <stylestrategy>PreferAntialias</stylestrategy>
-      </font>
-     </property>
-     <property name="text">
-      <string>Clear</string>
-     </property>
-    </widget>
     <widget class="QToolButton" name="nostaNappi">
      <property name="enabled">
       <bool>false</bool>
@@ -566,28 +516,6 @@
      </property>
      <property name="autoRaise">
       <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLabel" name="teksti_2">
-     <property name="geometry">
-      <rect>
-       <x>480</x>
-       <y>270</y>
-       <width>261</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <pointsize>36</pointsize>
-       <stylestrategy>PreferAntialias</stylestrategy>
-      </font>
-     </property>
-     <property name="text">
-      <string>Withdrawal</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
      </property>
     </widget>
     <widget class="QWidget" name="gridLayoutWidget">
@@ -789,6 +717,85 @@
      <property name="alignment">
       <set>Qt::AlignCenter</set>
      </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_5">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>234</y>
+       <width>261</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QLabel" name="teksti_2">
+        <property name="font">
+         <font>
+          <pointsize>36</pointsize>
+          <stylestrategy>PreferAntialias</stylestrategy>
+         </font>
+        </property>
+        <property name="text">
+         <string>Withdrawal</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="nostoArvo">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>20</pointsize>
+          <stylestrategy>PreferAntialias</stylestrategy>
+         </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="text">
+         <string>0.0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="customAmount">
+        <property name="font">
+         <font>
+          <pointsize>22</pointsize>
+          <stylestrategy>PreferAntialias</stylestrategy>
+         </font>
+        </property>
+        <property name="text">
+         <string>Set custom amount</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="clear">
+        <property name="font">
+         <font>
+          <pointsize>22</pointsize>
+          <stylestrategy>PreferAntialias</stylestrategy>
+         </font>
+        </property>
+        <property name="text">
+         <string>Clear</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QWidget" name="talletussivu">
