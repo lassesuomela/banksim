@@ -85,15 +85,15 @@ void IdleWindow::HandleCard(){
 void IdleWindow::on_nappi_clicked()
 {
     HandleCard();
-    if(!pinCodeDLL->isVisible()){
-        pinCodeDLL->ShowWindow();
-    }
 }
 
 void IdleWindow::GetTries(int x)
 {
     emit SendTries(x);
     qDebug() << "Sent tries to pincodeui";
+    if(!pinCodeDLL->isVisible()){
+        pinCodeDLL->ShowWindow();
+    }
 }
 
 void IdleWindow::LogOutSlot()

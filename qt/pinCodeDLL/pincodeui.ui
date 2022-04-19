@@ -19,7 +19,7 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>PIN-koodi näkymä</string>
+   <string>PIN code window</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -77,7 +77,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -94,7 +93,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -111,7 +109,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -128,7 +125,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -145,7 +141,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -162,7 +157,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -179,7 +173,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -196,7 +189,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -213,7 +205,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -230,7 +221,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -244,10 +234,12 @@
        </item>
        <item row="3" column="3">
         <widget class="QPushButton" name="btn_ok">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -264,7 +256,6 @@
          <property name="font">
           <font>
            <pointsize>14</pointsize>
-           <weight>50</weight>
            <bold>false</bold>
           </font>
          </property>
@@ -277,7 +268,7 @@
         </widget>
        </item>
        <item row="1" column="3">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="btn_cancel">
          <property name="font">
           <font>
            <pointsize>14</pointsize>
