@@ -87,27 +87,15 @@ void MainWindow::nostoValueUpdateSlot(){
 
 void MainWindow::updateSaldoUI(double saldo)
 {
-
-    QString word = QString::number(saldo, 'f',2);
-    QString editedWord = word;
-
-    int temp = word.length() / 3-1;
-
-    qDebug() << temp;
-
-    if(word.length() > 6){
-        for(int i = 0; i < temp; ++i){
-            editedWord.insert(word.lastIndexOf(".")-3-(3*i), ",");
-        }
-    }
-
-    qDebug() << word;
+    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+    QLocale locale;
+    QString word = locale.toString(saldo,'f',2);
 
 
-    ui->saldoArvo->setText(editedWord+"€");
-    ui->saldoArvo_2->setText(editedWord+"€");
-    ui->saldoArvo_3->setText(editedWord+"€");
-    ui->saldoArvo_4->setText(editedWord+"€");
+    ui->saldoArvo->setText(word+"€");
+    ui->saldoArvo_2->setText(word+"€");
+    ui->saldoArvo_3->setText(word+"€");
+    ui->saldoArvo_4->setText(word+"€");
 }
 
 void MainWindow::on_nosto_clicked(){
