@@ -89,26 +89,25 @@ void MainWindow::updateSaldoUI(double saldo)
 {
 
     QString word = QString::number(saldo, 'f',2);
+    QString editedWord = word;
 
-    /*
-    int temp = word.length() / 3 - 1;
-    int count = word.length();
+    int temp = word.length() / 3-1;
+
     qDebug() << temp;
 
-    if(temp > 0){
-        for(int i = 0; i < count; i++){
-            if(i % 3 == 0)
-                word.insert(count, ".");
+    if(word.length() > 6){
+        for(int i = 0; i < temp; ++i){
+            editedWord.insert(word.lastIndexOf(".")-3-(3*i), ",");
         }
     }
 
     qDebug() << word;
-    */
 
-    ui->saldoArvo->setText(word+"€");
-    ui->saldoArvo_2->setText(word+"€");
-    ui->saldoArvo_3->setText(word+"€");
-    ui->saldoArvo_4->setText(word+"€");
+
+    ui->saldoArvo->setText(editedWord+"€");
+    ui->saldoArvo_2->setText(editedWord+"€");
+    ui->saldoArvo_3->setText(editedWord+"€");
+    ui->saldoArvo_4->setText(editedWord+"€");
 }
 
 void MainWindow::on_nosto_clicked(){

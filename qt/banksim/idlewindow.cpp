@@ -76,7 +76,7 @@ void IdleWindow::HandleCard(){
 //    rfid = serialPort->GetRFID(); //insert real card here
 //    qDebug()<<rfid<<" debuggg";
 
-    rfid = "747399673461";
+    rfid = "00006000626BD000";
   
     if( rfid != ""){
         delete serialPort;
