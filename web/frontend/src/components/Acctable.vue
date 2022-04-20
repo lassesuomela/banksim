@@ -3,6 +3,7 @@
     :headers="headers"
     dark
     :items="Accounts"
+    :items-per-page="5"
     sort-by="id"
     class="elevation-1 blue-grey darken-3"
   >
@@ -74,10 +75,10 @@
                         v-model="deleteUserEmail"
                         dark
                         color="cyan darken-1"
-                        :items="Accounts"
-                        item-value="account_ID"
-                        item-text="name"
-                        label="Account"
+                        :items="connectedUsers"
+                        item-value="id"
+                        item-text="email"
+                        label="User email"
                         prepend-icon="mdi-credit-card"
                       ></v-select>
                     </v-col>
@@ -107,7 +108,7 @@
     </template>
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon small class="mr-2" @click="editItem(item)">mdi-account-plus</v-icon>
-      <v-icon small class="mr-2" @click="dialogop(item)">mdi-account-minus</v-icon>
+      <v-icon small class="mr-2" @click="getConnectedUsers(item)">mdi-account-minus</v-icon>
       <v-icon small @click="deleteAccount(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
@@ -125,6 +126,8 @@ export default {
     deleteUserEmail: "",
     itemdata: null,
     userAccountTrigger: false,
+    resError: "",
+    connectedUsers: [],
     Accounts: [],
     headers: [
       { text: "Name", align: "start", sortable: false, value: "name" },
@@ -142,8 +145,16 @@ export default {
       this.dialogAddUser = true;
       this.itemdata = item;
     },
-    dialogop(item) {
+    getConnectedUsers(item) {
       this.dialogDelete = true;
+      axios.get("/api/account/"+item.id+"/users").then((response) => {
+        for(let i=0;i<response.data.message.length;i++){
+          this.connectedUsers.push({
+            id: response.data.message[i].user_ID,
+            email: response.data.message[i].email,
+          });
+        }
+      });
     },
     initialize() {
       axios.get("/api/account").then((response) => {

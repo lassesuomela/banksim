@@ -2,9 +2,8 @@
 <template>
   <div class="dashboard">
     <app-sidebar />
-    <app-cardtable/>
+    <app-cards/>
     <br>
-    <app-cards />
     <v-row>
       <v-col cols="12" sm="8">
         <v-card class="blue-grey darken-3">
