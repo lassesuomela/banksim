@@ -13,7 +13,7 @@ IdleWindow::IdleWindow(QWidget *parent)
     mainWindow->hide();
     pinCodeDLL = new PinCodeDLL();
     dllRestApi = mainWindow->api;
-
+    mainWindow->move(this->pos());
     connect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
     connect(pinCodeDLL, SIGNAL(pinToExe(QString)), this, SLOT(PinSlot(QString)));
     connect(dllRestApi, SIGNAL(SendTriesToExe(int)), this, SLOT(GetTries(int)));

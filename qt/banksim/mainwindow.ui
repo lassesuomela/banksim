@@ -29,7 +29,7 @@
     </font>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="etusivu">
     <widget class="QToolButton" name="kirjaudu_ulos">
