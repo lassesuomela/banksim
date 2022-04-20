@@ -78,6 +78,7 @@ signals:
     void logsFinishedSignal();
     void dataGatheringFinished();
     void balanceUpdated(double);
+    void errorBalanceMsg(QString);
 private slots:
     void loginSlot(QNetworkReply *reply);
     void getUserInfoSlot(QNetworkReply *reply);
