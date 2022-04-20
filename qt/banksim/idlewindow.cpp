@@ -65,6 +65,7 @@ void IdleWindow::GetLoginStatus(QString status)
         this->hide();
         rfid = "";
         mainWindow->show();
+        mainWindow->startLogoutTimer();
     }
     else{
         qDebug() << "Login not successful";
@@ -76,7 +77,7 @@ void IdleWindow::HandleCard(){
 //    rfid = serialPort->GetRFID(); //insert real card here
 //    qDebug()<<rfid<<" debuggg";
 
-    rfid = "00006000626BD000";
+    rfid = "00006000DA7C7000";
   
     if( rfid != ""){
         delete serialPort;

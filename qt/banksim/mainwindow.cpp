@@ -27,6 +27,21 @@ MainWindow::MainWindow(QWidget *parent) :
         connect(talletusButtons[i], SIGNAL(released()), this,
                 SLOT(talletusHandler()));
     }
+    foreach(QPushButton *obj, this->findChildren<QPushButton *>())
+            {
+            connect(obj,SIGNAL(clicked()),this,SLOT(startTimer()));
+        }
+    foreach(QToolButton *obj, this->findChildren<QToolButton *>())
+    {
+        connect(obj,SIGNAL(clicked()),this,SLOT(startTimer()));
+    }
+    mainTimer = new QTimer(this);
+    connect(mainTimer, SIGNAL(timeout()), this, SLOT(timerSlot()));
+    logoutTimer = new QTimer(this);
+    connect(logoutTimer, SIGNAL(timeout()), this, SLOT(on_kirjaudu_ulos_clicked()));
+    errorTextTimer = new QTimer(this);
+    connect(errorTextTimer, SIGNAL(timeout()), this, SLOT(clearErrorSlot()));
+
     connect(api, SIGNAL(saldoUpdated(double)), this, SLOT(updateSaldoUI(double)));
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
     connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
@@ -52,6 +67,11 @@ MainWindow::~MainWindow()
         delete amntDialog;
         amntDialog = nullptr;
     }
+}
+
+void MainWindow::startLogoutTimer()
+{
+    logoutTimer->start(30000);
 }
 
 void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType, QByteArray pictureData)
@@ -147,6 +167,12 @@ void MainWindow::on_close_button_clicked()
     api->getLogsByPage(1);
 }
 
+void MainWindow::clearErrorSlot()
+{
+    ui->balanceErrorText->setText("");
+    errorTextTimer->stop();
+}
+
 void MainWindow::on_close_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
@@ -158,7 +184,6 @@ void MainWindow::on_tilitapahtumat_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-//---------------------TILITAPAHTUMAT PAGE-----------------------
 void MainWindow::updateLogsView()
 {
     ui->listWidget->clear();
@@ -194,6 +219,8 @@ void MainWindow::on_next_10_clicked()
 void MainWindow::on_kirjaudu_ulos_clicked()
 {
     this->hide();
+    logoutTimer->stop();
+    mainTimer->stop();
     api = new DLLRestAPI;
     emit logOutSignal();
 }
@@ -215,6 +242,14 @@ void MainWindow::on_talletaNappi_clicked()
     ui->talletaNappi->setEnabled(false);
 }
 
+void MainWindow::timerSlot()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+    mainTimer->stop();
+    logoutTimer->start(30000);
+    qDebug()<<"stopped main timer and started logout";
+}
+
 void MainWindow::on_nostaNappi_clicked()
 {
     double amnt = ui->nostoArvo->text().remove("€").toDouble();
@@ -223,6 +258,13 @@ void MainWindow::on_nostaNappi_clicked()
     nostoValue = 0.0;
     ui->nostoArvo->setText(QString::number(nostoValue) + "€");
     ui->nostaNappi->setEnabled(false);
+}
+
+void MainWindow::startTimer()
+{
+    qDebug()<<"started main timer and stopped logout";
+    mainTimer->start(10000);
+    logoutTimer->stop();
 }
 
 
@@ -242,4 +284,6 @@ void MainWindow::customAmountReceivedSlot(double amount)
 void MainWindow::balanceErrorReceivedSlot(QString err)
 {
     ui->balanceErrorText->setText(err);
+    errorTextTimer->start(10000);
+
 }

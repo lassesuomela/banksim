@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <dllrestapi.h>
 #include "customamountdialog.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -15,6 +16,7 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     DLLRestAPI *api;
+    void startLogoutTimer();
 private slots:
 
     void on_nosto_clicked();
@@ -27,7 +29,7 @@ private slots:
     void talletusHandler();
     void on_saldo_nappi_clicked();
     void on_close_button_clicked();
-
+    void clearErrorSlot();
     void on_close_clicked();
 
     void on_tilitapahtumat_clicked();
@@ -43,9 +45,9 @@ private slots:
     void on_clearTalletus_clicked();
 
     void on_talletaNappi_clicked();
-
+    void timerSlot();
     void on_nostaNappi_clicked();
-
+    void startTimer();
     void on_customAmount_clicked();
     void customAmountReceivedSlot(double);
     void balanceErrorReceivedSlot(QString);
@@ -53,6 +55,9 @@ private slots:
 signals:
     void logOutSignal();
 private:
+    QTimer *mainTimer;
+    QTimer *logoutTimer;
+    QTimer *errorTextTimer;
     Ui::MainWindow *ui;
     void setPicture(QString);
     double saldo;
