@@ -146,13 +146,16 @@ export default {
       this.itemdata = item;
     },
     getConnectedUsers(item) {
+      this.connectedUsers = [];
       this.dialogDelete = true;
       axios.get("/api/account/"+item.id+"/users").then((response) => {
-        for(let i=0;i<response.data.message.length;i++){
-          this.connectedUsers.push({
-            id: response.data.message[i].user_ID,
-            email: response.data.message[i].email,
-          });
+        if(response.data.status === "success"){
+          for(let i=0;i<response.data.message.length;i++){
+            this.connectedUsers.push({
+              id: response.data.message[i].user_ID,
+              email: response.data.message[i].email,
+            });
+          }
         }
       });
     },
