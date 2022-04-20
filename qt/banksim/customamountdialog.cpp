@@ -51,6 +51,8 @@ void CustomAmountDialog::on_btn_clear_clicked()
 {
     withdrawAmount = 0.0;
     ui->textBox->setText("");
+    text = "";
+    ui->infoTextBox->setText("");
 }
 
 
@@ -59,6 +61,7 @@ void CustomAmountDialog::on_btn_cancel_clicked()
     withdrawAmount = 0.0;
     ui->textBox->setText("");
     text = "";
+    ui->infoTextBox->setText("");
     this->close();
 }
 
@@ -70,6 +73,7 @@ void CustomAmountDialog::on_btn_ok_clicked()
         withdrawAmount = 0.0;
         text = "";
         ui->textBox->setText("");
+        ui->infoTextBox->setText("");
         this->close();
     }else{
         ui->infoTextBox->setText("Please enter a value divisible by ten");

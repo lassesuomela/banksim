@@ -65,6 +65,7 @@ void IdleWindow::GetLoginStatus(QString status)
         this->hide();
         rfid = "";
         mainWindow->show();
+        mainWindow->startLogoutTimer();
     }
     else{
         qDebug() << "Login not successful";
