@@ -10,10 +10,17 @@ DLLRestAPI::DLLRestAPI(QObject *parent) : QObject(parent)
     connect(engine, SIGNAL(logsFinishedSignal()), this, SLOT(GetLogs10()));
     connect(engine, SIGNAL(dataGatheringFinished()), this, SLOT(GetInfo()));
     connect(engine, SIGNAL(balanceUpdated(double)), this, SLOT(sendBalanceToExe(double)));
+    connect(engine, SIGNAL(errorBalanceMsg(QString)), this, SLOT(balanceErrorSlot(QString)));
 }
 
 DLLRestAPI::~DLLRestAPI()
 {
+    qDebug()<<"rest api dest";
+    disconnect(engine, SIGNAL(AuthStatus(QString)), this, SLOT(LoginStatusSlot(QString)));
+    disconnect(engine, SIGNAL(logsFinishedSignal()), this, SLOT(GetLogs10()));
+    disconnect(engine, SIGNAL(dataGatheringFinished()), this, SLOT(GetInfo()));
+    disconnect(engine, SIGNAL(balanceUpdated(double)), this, SLOT(sendBalanceToExe(double)));
+    disconnect(engine, SIGNAL(errorBalanceMsg(QString)), this, SLOT(balanceErrorSlot(QString)));
     delete engine;
     engine = nullptr;
 }
@@ -71,6 +78,12 @@ void DLLRestAPI::sendBalanceToExe(double amount){
     qDebug()<<"interface emitting saldo update";
     emit saldoUpdated(amount);
 }
+
+void DLLRestAPI::balanceErrorSlot(QString err)
+{
+    emit balanceErrorToExe(err);
+}
+
 void DLLRestAPI::getLogsByPage(int page)
 {
 

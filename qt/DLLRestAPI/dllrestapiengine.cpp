@@ -4,13 +4,18 @@ DLLRestAPIEngine::DLLRestAPIEngine(QObject * parent) : QObject(parent)
 {
 
 
-
 }
 
 DLLRestAPIEngine::~DLLRestAPIEngine()
 {
-    reply->deleteLater();
-    manager->deleteLater();
+
+    if(reply != nullptr && manager == nullptr){
+        delete reply;
+        delete manager;
+        reply = nullptr;
+        manager = nullptr;
+    }
+    qDebug()<<"engine delete";
 }
 //-----------------START OF INFO GATHERING--------------------------------------------------------
 void DLLRestAPIEngine::Login(QString card, QString pin)
@@ -105,7 +110,7 @@ void DLLRestAPIEngine::GetPictureData(QString path)
 void DLLRestAPIEngine::getPictureDataSlot(QNetworkReply *reply)
 {
     pictureData = reply->readAll();
-
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getPictureDataSlot(QNetworkReply*)));
     GetCardInfo();
 }
 
@@ -138,6 +143,7 @@ void DLLRestAPIEngine::getCardInfoSlot(QNetworkReply *reply)
 
 
     qDebug()<<"GET CARD INFO (account id) "<<account_id_int<<Qt::endl;
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getCardInfoSlot(QNetworkReply*)));
 
     GetAccountInfo();
 }
@@ -169,7 +175,7 @@ void DLLRestAPIEngine::getAccountInfoSlot(QNetworkReply *reply)
     }
 
     qDebug()<<"GET ACCOUNT INFO"<<account_balance<<account_name<<Qt::endl;
-
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getAccountInfoSlot(QNetworkReply*)));
     emit dataGatheringFinished();
 }
 
@@ -230,7 +236,7 @@ void DLLRestAPIEngine::getLogsSlot(QNetworkReply *reply)
 
     for(int i = 0; i < 10; i++)
         qDebug()<<"GET LOGS WITH ID: "<<idSignal[i];
-
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(getLogsSlot(QNetworkReply*)));
     emit logsFinishedSignal();
 }
 //-----------------END OF INFO GATHERING--------------------------------------------------------
@@ -262,6 +268,7 @@ void DLLRestAPIEngine::createLogSlot(QNetworkReply *reply)
     }else{
         qDebug()<<"error adding log";
     }
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(createLogSlot(QNetworkReply*)));
     GetLogs();
 }
 
@@ -323,18 +330,22 @@ void DLLRestAPIEngine::updateBalanceSlot(QNetworkReply *reply)
     account_balance = obj["balance"].toDouble();
     resp = obj["message"].toString();
     if(resp == ""){
-    qDebug()<<"CURRENT BALANCE "<<account_balance<<Qt::endl;
-    qDebug()<<"BALANCE UPDATE RESPONSE "<<resp<<Qt::endl;
-    int tempAction = 0;
-        if(lastAction == 0)
-            tempAction = -1;
-        if(lastAction == 1)
-            tempAction = 1;
+        qDebug()<<"CURRENT BALANCE "<<account_balance<<Qt::endl;
+        qDebug()<<"BALANCE UPDATE RESPONSE "<<resp<<Qt::endl;
+        int tempAction = 0;
+            if(lastAction == 0)
+                tempAction = -1;
+            if(lastAction == 1)
+                tempAction = 1;
 
-    emit balanceUpdated(account_balance);
-    CreateLog(lastTransaction*tempAction);
+        emit balanceUpdated(account_balance);
+        CreateLog(lastTransaction*tempAction);
     }else{
         qDebug()<<"Error updating balance";
         qDebug()<<resp;
+
     }
+
+    emit errorBalanceMsg(resp);
+    disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(updateBalanceSlot(QNetworkReply*)));
 }

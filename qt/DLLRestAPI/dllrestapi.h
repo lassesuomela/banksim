@@ -25,11 +25,13 @@ signals:
     void StatusToExe(QString);
     void logsUpdatedSignal();
     void saldoUpdated(double);
+    void balanceErrorToExe(QString);
 
 private slots:
     void GetTriesSlot(int tries);
     void GetInfo();
     void sendBalanceToExe(double amount);
+    void balanceErrorSlot(QString);
 public slots:
     void LoginSlot(QString, QString);
     void LoginStatusSlot(QString);

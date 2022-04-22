@@ -56,7 +56,7 @@
         </v-dialog>
         <v-dialog v-model="dialogDelete" persistent max-width="600px">
           <v-card color="blue-grey darken-3">
-            <v-form @submit.prevent="deleteFromAccount" id="deleteuseremail-form">
+            <v-form @submit.prevent="disconnectUsers" id="deleteuseremail-form">
               <v-toolbar rounded="" class="cyan darken-1">
                 <v-card-title
                   class="
@@ -127,6 +127,7 @@ export default {
     itemdata: null,
     userAccountTrigger: false,
     resError: "",
+    selectedAccount: null,
     connectedUsers: [],
     Accounts: [],
     headers: [
@@ -148,6 +149,7 @@ export default {
     getConnectedUsers(item) {
       this.connectedUsers = [];
       this.dialogDelete = true;
+      this.selectedAccount = item.id;
       axios.get("/api/account/"+item.id+"/users").then((response) => {
         if(response.data.status === "success"){
           for(let i=0;i<response.data.message.length;i++){
@@ -156,6 +158,13 @@ export default {
               email: response.data.message[i].email,
             });
           }
+        }
+      });
+    },
+    disconnectUsers(item){
+      axios.delete("/api/account/user", {data: {account: this.selectedAccount, user: this.connectedUsers.id} }).then((response) => {
+        if(response.data.status === "success"){
+          this.$router.go();
         }
       });
     },
@@ -178,9 +187,6 @@ export default {
           }
       });
       }
-    },
-    deleteFromAccount(){
-      axios.delete("/api/account/removeuser");
     },
     deleteAccount(item) {
       axios.delete("/api/account", { data: { id: item.id } }).then((response) => {
