@@ -97,7 +97,7 @@
               label="Add new profile picture"
             ></v-file-input>
             <br />
-            <h5>{{ registerResponse }}</h5>
+            <h5>{{ resMessage }}</h5>
             <div class="text-center mt-n5">
               <v-btn
                 type="submit"
@@ -126,6 +126,7 @@ export default {
       phone: "",
       address: "",
       avatar: "",
+      resMessage: "",
       show1: false,
     };
   },
@@ -150,6 +151,8 @@ export default {
         }).then((response) => {
           if(response.data.status === "success"){
             this.$router.go();
+          }else{
+            this.resMessage = response.data.message;
           }
         });
       }
