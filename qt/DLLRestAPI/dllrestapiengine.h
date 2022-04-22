@@ -20,7 +20,7 @@ public:
 
     void GetLogs();
     void CreateLog(double);
-    void updateBalance(int action, double amount);            //1 for deposit, 0 for withdraw
+    void updateBalance(int action, double amount, int type);            //1 for deposit, 0 for withdraw
     void GetTries(QString card_number);
     int logs_curret_page = 1;
     int logs_total_pages = 1;

@@ -71,7 +71,7 @@ private:
     QString last5Transactions[5][3];
     CustomAmountDialog *amntDialog;
     void checkcardtype();
-    int cardtype;
+    int cardtype = 9;
 };
 
 #endif // MAINWINDOW_H
