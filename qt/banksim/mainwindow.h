@@ -52,6 +52,11 @@ private slots:
     void customAmountReceivedSlot(double);
     void balanceErrorReceivedSlot(QString);
 
+    void on_credit_button_clicked();
+    void on_debit_button_clicked();
+
+
+
 signals:
     void logOutSignal();
 private:
@@ -65,6 +70,8 @@ private:
     double talletusValue = 0.0;
     QString last5Transactions[5][3];
     CustomAmountDialog *amntDialog;
+    void checkcardtype();
+    int cardtype;
 };
 
 #endif // MAINWINDOW_H

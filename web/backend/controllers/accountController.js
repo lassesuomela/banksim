@@ -65,13 +65,11 @@ const addUserToAccount = (req, res) => {
                 for(let i=0;i<dbResult.length;i++){
                     if(dbResult[i].account_ID === req.body.id && dbResult[i].owner === req.userId){
                         hasAccessToAccount = true;
-                        console.log("TEST");
                     }
                 }
                 if(!hasAccessToAccount){
                     return res.json({status:"error",message:"You do not have access to this account."});
                 }
-                console.log(dbResult[0]);
                 account.getExact(uid, req.body.id, function(err, dbResult){
                     if(err){
                         return res.json({status:"error",message:err});
@@ -92,6 +90,39 @@ const addUserToAccount = (req, res) => {
         
     }else{
         return res.json({status:"error",message:"Please fill all fields"});
+    }
+}
+
+const getConnectedUsers = (req, res) => {
+    if(req.params.id){
+        account.getOwnerById(req.userId, req.params.id, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }
+            let hasAccessToAccount = false;
+            let accountId = null;
+            for(let i=0;i<dbResult.length;i++){
+                if(dbResult[i].account_ID === Number(req.params.id) && dbResult[i].owner === req.userId){
+                    hasAccessToAccount = true;
+                    accountId = dbResult[i].account_ID;
+                }
+            }
+            if(!hasAccessToAccount){
+                return res.json({status:"error",message:"You are not the owner of this account."});
+            }
+            account.getConnectedUsers(accountId, req.userId, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+                if(dbResult.length > 0){
+                    return res.json({status:"success",message:dbResult});
+                }else{
+                    return res.json({status:"error",message:"No users found."});
+                }
+            });
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
     }
 }
 
@@ -204,6 +235,7 @@ module.exports = {
     getAll,
     getById,
     getOwnedAccounts,
+    getConnectedUsers,
     addAccount,
     addUserToAccount,
     updateBalance,

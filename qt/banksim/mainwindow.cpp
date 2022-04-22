@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(0);
+    ui->stackedWidget->setCurrentIndex(2);
     this->setFixedSize(800,600);
     api = new DLLRestAPI;
     amntDialog = new CustomAmountDialog;
@@ -96,6 +96,12 @@ void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QS
     QRegion * region = new QRegion(0, 0, h, w, QRegion::Ellipse);
 
     ui->pictureLabel->setMask(*region);
+    if(cardType=="Debit")
+        this->cardtype=0;
+    if(cardType=="Credit")
+        this->cardtype=1;
+    checkcardtype();
+
 }
 
 void MainWindow::nostoValueUpdateSlot(){
@@ -121,7 +127,7 @@ void MainWindow::updateSaldoUI(double saldo)
 void MainWindow::on_nosto_clicked(){
 
 
-    ui->stackedWidget->setCurrentIndex(3);
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 void MainWindow::on_takaisin_clicked(){
@@ -131,7 +137,7 @@ void MainWindow::on_takaisin_clicked(){
 }
 
 void MainWindow::on_talletus_clicked(){
-    ui->stackedWidget->setCurrentIndex(4);
+    ui->stackedWidget->setCurrentIndex(5);
 }
 
 void MainWindow::on_takaisin_talletus_clicked(){
@@ -158,7 +164,7 @@ void MainWindow::talletusHandler()
 void MainWindow::on_saldo_nappi_clicked()
 {
     api->getLogsByPage(1);
-    ui->stackedWidget->setCurrentIndex(2);
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
 void MainWindow::on_close_button_clicked()
@@ -290,3 +296,29 @@ void MainWindow::balanceErrorReceivedSlot(QString err)
     errorTextTimer->start(10000);
 
 }
+
+
+
+void MainWindow::on_credit_button_clicked()
+{
+    this->cardtype=1;
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_debit_button_clicked()
+{
+    this->cardtype=0;
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->cardTypeLabel->setText("Credit (Debit)");
+}
+
+void MainWindow::checkcardtype()
+{
+
+    if(this->cardtype==0)
+        ui->stackedWidget->setCurrentIndex(0);
+    if(this->cardtype==1)
+        ui->stackedWidget->setCurrentIndex(2);
+}
+
