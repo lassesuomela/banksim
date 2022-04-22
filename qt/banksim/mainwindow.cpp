@@ -244,10 +244,14 @@ void MainWindow::on_talletaNappi_clicked()
 
 void MainWindow::timerSlot()
 {
-    ui->stackedWidget->setCurrentIndex(0);
-    mainTimer->stop();
-    logoutTimer->start(30000);
-    qDebug()<<"stopped main timer and started logout";
+    if(ui->stackedWidget->currentIndex() == 0){
+        mainTimer->stop();
+        logoutTimer->start(20000);
+    }else{
+        ui->stackedWidget->setCurrentIndex(0);
+        mainTimer->stop();
+        logoutTimer->start(30000);
+    }
 }
 
 void MainWindow::on_nostaNappi_clicked()
@@ -262,7 +266,6 @@ void MainWindow::on_nostaNappi_clicked()
 
 void MainWindow::startTimer()
 {
-    qDebug()<<"started main timer and stopped logout";
     mainTimer->start(10000);
     logoutTimer->stop();
 }
