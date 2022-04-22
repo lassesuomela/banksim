@@ -165,14 +165,17 @@ const updateAvatar = (req, res) => {
 
             if(dbResult.length > 0){
                 let oldPicture = dbResult[0].picture;
-                console.log(`Deleting ${oldPicture}`);
-                let path = "./uploads/"+oldPicture;
-                fs.unlink(path, (err) => {
-                    if(err != null){
-                        console.log("Error on deleting old picture");
-                        console.log(err);
-                    }
-                });
+
+                if(oldPicture != "default.png"){
+                    console.log(`Deleting ${oldPicture}`);
+                    let path = "./uploads/"+oldPicture;
+                    fs.unlink(path, (err) => {
+                        if(err != null){
+                            console.log("Error on deleting old picture");
+                            console.log(err);
+                        }
+                    });
+                }
             }
         })
 
