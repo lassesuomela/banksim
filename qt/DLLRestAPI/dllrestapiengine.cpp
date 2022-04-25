@@ -301,13 +301,14 @@ void DLLRestAPIEngine::getTriesSlot(QNetworkReply *reply){
 }
 
 
-void DLLRestAPIEngine::updateBalance(int action, double amount)
+void DLLRestAPIEngine::updateBalance(int action, double amount, int type)
 {
     QString requestStr = QStringLiteral("api/account/update");
     QJsonObject jsonObj;
     jsonObj.insert("card_number",card_number);
     jsonObj.insert("amount",amount);
     jsonObj.insert("action",QString::number(action));
+    jsonObj.insert("type",QString::number(type));
     lastAction = action;
     lastTransaction = amount;
     QNetworkRequest request(base_url+requestStr);

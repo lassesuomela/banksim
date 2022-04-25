@@ -14,7 +14,7 @@ const logs = {
         return db.query("SELECT * FROM logs WHERE account_ID = (SELECT card.account_ID FROM card WHERE card_number = ?) ORDER BY log_ID DESC LIMIT ?, 10", [card_number, x], callback);
     },
     add: function(req, event, callback){
-        return db.query("INSERT INTO logs (date, event, amount, account_ID) VALUES(current_timestamp(), ?,?, (SELECT card.account_ID FROM card WHERE card_number = ?))",
+        return db.query("INSERT INTO logs (date, event, amount, account_ID) VALUES(DATE_FORMAT(current_timestamp(), '%d.%c.%Y %H:%i'), ?,?, (SELECT card.account_ID FROM card WHERE card_number = ?))",
         [event, req.body.amount, req.body.card_number], callback);
     },
     delete: function(req, callback){
