@@ -19,7 +19,9 @@ private:
 signals:
     void pinToExe(QString);
     void triesToDLL(int);
-
+    void autoTimeOutToExe();
+private slots:
+    void getAutoTimeOutSlot();
 public slots:
     void getPinFromDLL(QString);
     void getTriesFromEXE(int);
