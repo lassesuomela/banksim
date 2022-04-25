@@ -49,6 +49,8 @@ public slots:
     void getTries(int);
 signals:
     void sendPinCode(QString);
+    void autoTimeoutSignal();
+
 };
 
 #endif // PINCODEUI_H

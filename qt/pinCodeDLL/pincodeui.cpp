@@ -148,7 +148,7 @@ void PinCodeUI::autoTimeout()
         qDebug() << "Auto timeout because no action was taken in 10 s";
 
         clearPin();
-
+        emit autoTimeoutSignal();
         this->close();
     }
 }
