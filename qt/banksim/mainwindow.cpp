@@ -67,6 +67,7 @@ MainWindow::~MainWindow()
         delete amntDialog;
         amntDialog = nullptr;
     }
+
 }
 
 void MainWindow::startLogoutTimer()
@@ -339,4 +340,3 @@ void MainWindow::checkcardtype()
         ui->stackedWidget->setCurrentIndex(0);
     }
 }
-
