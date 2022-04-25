@@ -77,7 +77,8 @@ void MainWindow::startLogoutTimer()
 
 void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType, QByteArray pictureData)
 {
-    qDebug()<<"update usser info";
+    this->startLogoutTimer();
+
     QString tempname = lname + " " + fname;
     saldo = balance;
     ui->nameLabel->setText(tempname);
@@ -289,8 +290,12 @@ void MainWindow::on_nostaNappi_clicked()
 
 void MainWindow::startTimer()
 {
-    mainTimer->start(10000);
-    logoutTimer->stop();
+    if(this->isVisible()){
+        qDebug()<<"started main timer and stopped logout";
+        mainTimer->start(10000);
+        logoutTimer->stop();
+    }
+
 }
 
 
