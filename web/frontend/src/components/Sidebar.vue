@@ -9,8 +9,8 @@
       <div class="text-center">
         <v-avatar class="mb-4" color="grey darken-1" size="64">
           <v-img
-            aspect-ratio="30"
-            src="https://images.almatalent.fi/cx0,cy1,cw1140,ch855,650x/https://assets.almatalent.fi/image/1887dfab-fdfd-3291-89a7-ad3ffa65304e"
+            :aspect-ratio="30"
+            :src= "this.profilePicture"
           />
         </v-avatar>
         <h2 class="cyan--text text--darken-1">{{fname}}</h2>
@@ -44,12 +44,15 @@ export default {
         { icon: 'mdi-door', text: 'Logout', route: '/logout' }
       ],
       fname: "",
+      profilePicture: "http://localhost:3000/uploads/",
     };
   },
   methods:{
     async getUserInfo(){
       let response = await axios.get("/api/user/info");
       this.fname = response.data.fname;
+      this.profilePicture += response.data.picture;
+
     }
   },
   mounted(){

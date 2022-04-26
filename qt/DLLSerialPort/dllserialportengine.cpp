@@ -53,7 +53,7 @@ void DLLSerialPortEngine::ReadCard(size_t bufferSize, void (*OnRead)(char *))
     DWORD dwBytesRead;
 
     reading = true;
-    do{
+    while (reading){
         if(HasOverlappedIoCompleted(&ovRead)){
             if(!ReadFile(hSerial, serialBuffer, bufferSize, &dwBytesRead, &ovRead)){
                 DWORD dwError = GetLastError();
@@ -79,7 +79,7 @@ void DLLSerialPortEngine::ReadCard(size_t bufferSize, void (*OnRead)(char *))
             CloseHandle(hReadEvent);
             reading = false;
         }
-    }while(reading);
+    }
 
     OnRead(serialBuffer);
     memset(serialBuffer, 0, bufferSize);

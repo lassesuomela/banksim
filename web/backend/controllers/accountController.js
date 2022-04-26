@@ -65,13 +65,11 @@ const addUserToAccount = (req, res) => {
                 for(let i=0;i<dbResult.length;i++){
                     if(dbResult[i].account_ID === req.body.id && dbResult[i].owner === req.userId){
                         hasAccessToAccount = true;
-                        console.log("TEST");
                     }
                 }
                 if(!hasAccessToAccount){
                     return res.json({status:"error",message:"You do not have access to this account."});
                 }
-                console.log(dbResult[0]);
                 account.getExact(uid, req.body.id, function(err, dbResult){
                     if(err){
                         return res.json({status:"error",message:err});
@@ -95,8 +93,41 @@ const addUserToAccount = (req, res) => {
     }
 }
 
+const getConnectedUsers = (req, res) => {
+    if(req.params.id){
+        account.getOwnerById(req.userId, req.params.id, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }
+            let hasAccessToAccount = false;
+            let accountId = null;
+            for(let i=0;i<dbResult.length;i++){
+                if(dbResult[i].account_ID === Number(req.params.id) && dbResult[i].owner === req.userId){
+                    hasAccessToAccount = true;
+                    accountId = dbResult[i].account_ID;
+                }
+            }
+            if(!hasAccessToAccount){
+                return res.json({status:"error",message:"You are not the owner of this account."});
+            }
+            account.getConnectedUsers(accountId, req.userId, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+                if(dbResult.length > 0){
+                    return res.json({status:"success",message:dbResult});
+                }else{
+                    return res.json({status:"error",message:"No users found."});
+                }
+            });
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+}
+
 const updateBalance = (req, res) => {
-    if(req.body.card_number && req.body.amount && req.body.action){
+    if(req.body.card_number && req.body.amount && req.body.action && req.body.type){
         card.getByUserID(req.userId, (err, dbResult) =>{
 
             if(err){
@@ -121,7 +152,7 @@ const updateBalance = (req, res) => {
                 }
                 if(dbResult.length > 0){
                     let curbalance = dbResult[0].balance;
-                    if(req.body.action === "0" && dbResult[0].card_type === 0){
+                    if(req.body.action === "0" && dbResult[0].card_type === 0 || req.body.action === "0" && dbResult[0].card_type === 1 && req.body.type === "0"){
                         if(dbResult[0].balance >= req.body.amount){
                             account.updateBalance(-Math.abs(req.body.amount), req.body.card_number, function(err, dbResult){
                                 curbalance += -Math.abs(req.body.amount);
@@ -130,7 +161,7 @@ const updateBalance = (req, res) => {
                         }else{
                             return res.json({status:"error",message:"Not enough balance."});
                         }
-                    }else if(req.body.action === "0" && dbResult[0].card_type === 1){
+                    }else if(req.body.action === "0" && dbResult[0].card_type === 1 || req.body.action === "0" && dbResult[0].card_type === 1 && req.body.type === "1"){
                         account.updateBalance(-Math.abs(req.body.amount), req.body.card_number, function(err, dbResult){
                             if(err){
                                 return res.json({status:"error",message:err});
@@ -204,6 +235,7 @@ module.exports = {
     getAll,
     getById,
     getOwnedAccounts,
+    getConnectedUsers,
     addAccount,
     addUserToAccount,
     updateBalance,

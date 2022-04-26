@@ -13,14 +13,14 @@ PinCodeDLL::PinCodeDLL(QWidget * parent) : QWidget (parent)
 
     connect(pinCodeUI, SIGNAL(sendPinCode(QString)), this, SLOT(getPinFromDLL(QString)));
     connect(this, SIGNAL(triesToDLL(int)), pinCodeUI, SLOT(getTries(int)));
-
+    connect(pinCodeUI, SIGNAL(autoTimeoutSignal()), this, SLOT(getAutoTimeOutSlot()));
 }
 
 PinCodeDLL::~PinCodeDLL()
 {
     disconnect(pinCodeUI, SIGNAL(sendPinCode(QString)), this, SLOT(getPinFromDLL(QString)));
     disconnect(this, SIGNAL(triesToDLL(int)), pinCodeUI, SLOT(getTries(int)));
-
+    disconnect(pinCodeUI, SIGNAL(autoTimeoutSignal()), this, SLOT(getAutoTimeOutSlot()));
     delete pinCodeUI;
     pinCodeUI = nullptr;
 
@@ -34,11 +34,17 @@ void PinCodeDLL::ShowWindow()
     qDebug() << "PinCodeDLL called pinCodeUI->show()";
 }
 
+void PinCodeDLL::getAutoTimeOutSlot()
+{
+    emit autoTimeOutToExe();
+}
+
 void PinCodeDLL::getPinFromDLL(QString pin)
 {
     qDebug() << "Got signal from Pin code UI, Emitting Pin code to exe";
 
     emit pinToExe(pin);
+    pin = "";
 }
 
 void PinCodeDLL::getTriesFromEXE(int tries)

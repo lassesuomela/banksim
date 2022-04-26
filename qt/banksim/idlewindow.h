@@ -35,10 +35,11 @@ private slots:
     void on_nappi_clicked();
     void GetTries(int);
     void LogOutSlot();
+    void TimeOutSlot();
 
 private:
     Ui::IdleWindow *ui;
-    DLLSerialPort *serialPort;
+    DLLSerialPort *serialPort = nullptr;
     PinCodeDLL *pinCodeDLL;
     MainWindow *mainWindow = nullptr;
     void HandleCard();

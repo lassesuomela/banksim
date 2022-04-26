@@ -20,7 +20,7 @@ public:
 
     void GetLogs();
     void CreateLog(double);
-    void updateBalance(int action, double amount);            //1 for deposit, 0 for withdraw
+    void updateBalance(int action, double amount, int type);            //1 for deposit, 0 for withdraw
     void GetTries(QString card_number);
     int logs_curret_page = 1;
     int logs_total_pages = 1;
@@ -50,8 +50,8 @@ private:
     void GetAccountInfo();
     void GetPictureData(QString);
     //network managament
-    QNetworkAccessManager *manager;
-    QNetworkReply *reply;
+    QNetworkAccessManager *manager = nullptr;
+    QNetworkReply *reply = nullptr;
     //QByteArray response_data;
     QString auth = "";
     QString base_url="http://localhost:3000/";
@@ -78,6 +78,7 @@ signals:
     void logsFinishedSignal();
     void dataGatheringFinished();
     void balanceUpdated(double);
+    void errorBalanceMsg(QString);
 private slots:
     void loginSlot(QNetworkReply *reply);
     void getUserInfoSlot(QNetworkReply *reply);

@@ -13,8 +13,8 @@
               >Edit profile</span
             >
           </v-card-title>
-          <v-col <v-col cols="12" sm="12" >
-          <v-form @submit.prevent="submitRegister" id="register-form">
+          <v-col cols="12" sm="12" >
+          <v-form @submit.prevent="submitUserInfo" id="userinfo-form">
             <v-row>
               <v-col cols="12" sm="5" md="5">
                 <v-text-field
@@ -42,7 +42,7 @@
                 ></v-text-field>
               </v-col>
             </v-row>
-            <v-text-field
+            <!--<v-text-field
               dark
               id="email"
               :rules="emailRules"
@@ -54,7 +54,7 @@
               color="cyan darken-1"
               autocomplete="off"
               required
-            />
+            />-->
             <v-text-field
               dark
               :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -91,6 +91,7 @@
             />
             <v-file-input
               dark
+              v-model="avatar"
               color="cyan darken-1"
               accept="image/*"
               label="Add new profile picture"
@@ -103,9 +104,7 @@
                 rounded
                 color="cyan darken-1"
                 dark
-                form="register-form"
-                >SAVE</v-btn
-              >
+                form="userinfo-form">SAVE</v-btn>
             </div>
           </v-form>
           </v-col>
@@ -122,22 +121,42 @@ export default {
   data() {
     return {
       fname: "",
+      lname: "",
+      email: "",
+      phone: "",
+      address: "",
+      avatar: "",
       show1: false,
     };
   },
     methods: {
-    async getUserData() {
-      const response = await axios.get("/api/user/info");
-      this.fname = response.data.fname;
-      this.lname = response.data.lname;
-      this.email = response.data.email;
-      this.phone = response.data.phone;
-      this.address = response.data.address;
+      async getUserData() {
+        const response = await axios.get("/api/user/info");
+        this.fname = response.data.fname;
+        this.lname = response.data.lname;
+        this.email = response.data.email;
+        this.phone = response.data.phone;
+        this.address = response.data.address;
+      },
+      submitUserInfo(){
+        console.log("SUBMIT USER INFO");
+        var formData = new FormData();
+        var img = this.avatar;
+        formData.append("avatar", img);
+        axios.put("/api/user/avatar", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }).then((response) => {
+          if(response.data.status === "success"){
+            this.$router.go();
+          }
+        });
+      }
     },
-  },
-    mounted() {
-    this.getUserData();
-  },
+      mounted() {
+      this.getUserData();
+    },
 };
 </script>
 

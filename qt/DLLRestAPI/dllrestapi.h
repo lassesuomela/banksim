@@ -13,7 +13,7 @@ public:
     void UpdateLogs(int);
     QString logData[10][4];
     void GetTriesFromApi(QString card_number);
-    void updateBalance(int action, double amount);
+    void updateBalance(int action, double amount, int type);
     void getLogsByPage(int);
 
 private:
@@ -25,11 +25,13 @@ signals:
     void StatusToExe(QString);
     void logsUpdatedSignal();
     void saldoUpdated(double);
+    void balanceErrorToExe(QString);
 
 private slots:
     void GetTriesSlot(int tries);
     void GetInfo();
     void sendBalanceToExe(double amount);
+    void balanceErrorSlot(QString);
 public slots:
     void LoginSlot(QString, QString);
     void LoginStatusSlot(QString);

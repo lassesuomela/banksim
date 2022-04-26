@@ -13,7 +13,7 @@ IdleWindow::IdleWindow(QWidget *parent)
     mainWindow->hide();
     pinCodeDLL = new PinCodeDLL();
     dllRestApi = mainWindow->api;
-
+    mainWindow->move(this->pos());
     connect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
     connect(pinCodeDLL, SIGNAL(pinToExe(QString)), this, SLOT(PinSlot(QString)));
     connect(dllRestApi, SIGNAL(SendTriesToExe(int)), this, SLOT(GetTries(int)));
@@ -22,21 +22,25 @@ IdleWindow::IdleWindow(QWidget *parent)
     connect(dllRestApi, SIGNAL(StatusToExe(QString)), this, SLOT(GetLoginStatus(QString)));
     connect(mainWindow, SIGNAL(logOutSignal()), this, SLOT(LogOutSlot()));
     connect(this, SIGNAL(sendAuthInfo(QString,QString)), dllRestApi, SLOT(LoginSlot(QString,QString)));
-    //HandleCard();
+    connect(pinCodeDLL, SIGNAL(autoTimeOutToExe()), this, SLOT(TimeOutSlot()));
+    HandleCard();
 }
 IdleWindow::~IdleWindow(){
     disconnect(pinCodeDLL, SIGNAL(triesToDLL(int)), this, SLOT(Tries(int)));
     disconnect(pinCodeDLL, SIGNAL(pinToExe(QString)), this, SLOT(PinSlot(QString)));
     disconnect(this, SIGNAL(SendTries(int)), pinCodeDLL, SLOT(getTriesFromEXE(int)));
     disconnect(this, SIGNAL(sendCloseSignal()), pinCodeDLL, SLOT(closeSignalSlot()));
-
+    disconnect(pinCodeDLL, SIGNAL(autoTimeOutToExe()), this, SLOT(TimeOutSlot()));
     disconnect(this, SIGNAL(sendAuthInfo(QString,QString)), dllRestApi, SLOT(LoginSlot(QString,QString)));
 
     delete ui;
     delete pinCodeDLL;
-    delete serialPort;
     pinCodeDLL = nullptr;
-    serialPort = nullptr;
+    if(serialPort != nullptr){
+        qDebug()<<"serial port desto";
+        delete serialPort;
+        serialPort = nullptr;
+    }
     if(mainWindow != nullptr){
         delete mainWindow;
         mainWindow = nullptr;
@@ -63,6 +67,7 @@ void IdleWindow::GetLoginStatus(QString status)
         this->hide();
         rfid = "";
         mainWindow->show();
+
     }
     else{
         qDebug() << "Login not successful";
@@ -71,13 +76,17 @@ void IdleWindow::GetLoginStatus(QString status)
 
 void IdleWindow::HandleCard(){
       serialPort = new DLLSerialPort(4);
-//    rfid = serialPort->GetRFID(); //insert real card here
-//    qDebug()<<rfid<<" debuggg";
-    rfid = "993795686002";
+
+
+      rfid = serialPort->GetRFID(); //insert real card here
+      qDebug()<<rfid<<" debuggg";
+
+//    rfid = "00006000626BD000";
   
     if( rfid != ""){
         delete serialPort;
         serialPort = nullptr;
+        qDebug()<<"rfid was not null";
         dllRestApi->GetTriesFromApi(rfid);
     }
 }
@@ -100,4 +109,13 @@ void IdleWindow::LogOutSlot()
 {
     this->show();
     dllRestApi = mainWindow->api;
+    connect(dllRestApi, SIGNAL(SendTriesToExe(int)), this, SLOT(GetTries(int)));
+    connect(dllRestApi, SIGNAL(StatusToExe(QString)), this, SLOT(GetLoginStatus(QString)));
+    connect(this, SIGNAL(sendAuthInfo(QString,QString)), dllRestApi, SLOT(LoginSlot(QString,QString)));
+    HandleCard();
+}
+
+void IdleWindow::TimeOutSlot()
+{
+    HandleCard();
 }
