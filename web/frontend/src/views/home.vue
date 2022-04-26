@@ -140,7 +140,6 @@ export default {
         this.address = response.data.address;
       },
       submitUserInfo(){
-        console.log("SUBMIT USER INFO");
         var formData = new FormData();
         var img = this.avatar;
         formData.append("avatar", img);

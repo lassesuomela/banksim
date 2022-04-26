@@ -79,7 +79,7 @@
                         item-value="id"
                         item-text="email"
                         label="User email"
-                        prepend-icon="mdi-credit-card"
+                        prepend-icon="mdi-email"
                       ></v-select>
                     </v-col>
                   </v-row>
@@ -128,6 +128,7 @@ export default {
     userAccountTrigger: false,
     resError: "",
     selectedAccount: null,
+    selectedUser: null,
     connectedUsers: [],
     Accounts: [],
     headers: [
@@ -155,14 +156,19 @@ export default {
           for(let i=0;i<response.data.message.length;i++){
             this.connectedUsers.push({
               id: response.data.message[i].user_ID,
-              email: response.data.message[i].email,
+              email: response.data.message[i].email
             });
           }
         }
       });
     },
     disconnectUsers(item){
-      axios.delete("/api/account/user", {data: {account: this.selectedAccount, user: this.connectedUsers.id} }).then((response) => {
+      for(let i=0;i<this.connectedUsers.length;i++){
+        if(this.deleteUserEmail === this.connectedUsers[i].id){
+          this.selectedUser = i;
+        }
+      }
+      axios.delete("/api/account/user", {data: {account: this.selectedAccount, user: this.connectedUsers[this.selectedUser].id} }).then((response) => {
         if(response.data.status === "success"){
           this.$router.go();
         }

@@ -194,20 +194,20 @@ const updateBalance = (req, res) => {
 
 const disconnectUser = (req, res) => {
     if(req.body.account && req.body.user){
-        account.getOwnerById(req.userId, req.body.id, function(err, dbResult){
+        account.getOwnerById(req.userId, req.body.account, function(err, dbResult){
             if(err){
                 return res.json({status:"error",message:err});
             }
             let hasAccessToAccount = false;
             for(let i=0;i<dbResult.length;i++){
-                if(dbResult[i].account_ID === req.body.account && dbResult[i].owner === req.userId){
+                if(dbResult[i].account_ID.toString() === req.body.account.toString() && dbResult[i].owner.toString() === req.userId.toString()){
                     hasAccessToAccount = true;
                 }
             }
             if(!hasAccessToAccount){
                 return res.json({status:"error",message:"You are not the owner of this account."});
             }
-            account.disconnectUser(req.body.account, req.body.user, function(err, dbResult){
+            account.deleteUserFromAccount(req.body.account, req.body.user, function(err, dbResult){
                 if(err){
                     return res.json({status:"error",message:err});
                 }
