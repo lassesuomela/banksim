@@ -45,8 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(api, SIGNAL(saldoUpdated(double)), this, SLOT(updateSaldoUI(double)));
     connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
     connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
-    connect(amntDialog, SIGNAL(amountToExe(double)), this, SLOT(customAmountReceivedSlot(double)));
     connect(api, SIGNAL(balanceErrorToExe(QString)), this, SLOT(balanceErrorReceivedSlot(QString)));
+    connect(amntDialog, SIGNAL(amountToExe(double)), this, SLOT(customAmountReceivedSlot(double)));
 }
 
 MainWindow::~MainWindow()
@@ -67,6 +67,7 @@ MainWindow::~MainWindow()
         delete amntDialog;
         amntDialog = nullptr;
     }
+
 }
 
 void MainWindow::startLogoutTimer()
@@ -76,6 +77,8 @@ void MainWindow::startLogoutTimer()
 
 void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QString lname,QString cardNum,QString cardType, QByteArray pictureData)
 {
+    this->startLogoutTimer();
+
     QString tempname = lname + " " + fname;
     saldo = balance;
     ui->nameLabel->setText(tempname);
@@ -84,7 +87,9 @@ void MainWindow::updateUserInfo(double balance,QString acc_name,QString fname,QS
     ui->cardTypeLabel->setText(cardType);
     ui->account_name->setText(tempname);
     ui->account_name1->setText(tempname);
+    ui->nostoArvo->setText(QString::number(nostoValue) + "€");
     updateSaldoUI(saldo);
+    ui->talletusArvo->setText(QString::number(talletusValue) + "€");
     QPixmap pixmap;
     pixmap.loadFromData(pictureData);
 
@@ -228,6 +233,19 @@ void MainWindow::on_kirjaudu_ulos_clicked()
     logoutTimer->stop();
     mainTimer->stop();
     api = new DLLRestAPI;
+    saldo = 0;
+    nostoValue = 0;
+    talletusValue = 0;
+    for(int i = 0; i <5; i++){
+        for(int j = 0; i<3; i++){
+            last5Transactions[i][j] = "";
+        }
+    }
+    cardtype = 9;
+    connect(api, SIGNAL(saldoUpdated(double)), this, SLOT(updateSaldoUI(double)));
+    connect(api, SIGNAL(logsUpdatedSignal()), this, SLOT(updateLogsView()));
+    connect(api, SIGNAL(InfoSignal(double,QString,QString,QString,QString,QString,QByteArray)), this, SLOT(updateUserInfo(double,QString,QString,QString,QString,QString,QByteArray)));
+    connect(api, SIGNAL(balanceErrorToExe(QString)), this, SLOT(balanceErrorReceivedSlot(QString)));
     emit logOutSignal();
 }
 
@@ -242,7 +260,7 @@ void MainWindow::on_talletaNappi_clicked()
 {
     double amnt = ui->talletusArvo->text().remove("€").toDouble();
     if(amnt != 0.0)
-        api->updateBalance(1, amnt);
+        api->updateBalance(1, amnt, this->cardtype);
     talletusValue = 0.0;
     ui->talletusArvo->setText(QString::number(talletusValue) + "€");
     ui->talletaNappi->setEnabled(false);
@@ -250,17 +268,21 @@ void MainWindow::on_talletaNappi_clicked()
 
 void MainWindow::timerSlot()
 {
-    ui->stackedWidget->setCurrentIndex(0);
-    mainTimer->stop();
-    logoutTimer->start(30000);
-    qDebug()<<"stopped main timer and started logout";
+    if(ui->stackedWidget->currentIndex() == 0){
+        mainTimer->stop();
+        logoutTimer->start(20000);
+    }else{
+        ui->stackedWidget->setCurrentIndex(0);
+        mainTimer->stop();
+        logoutTimer->start(30000);
+    }
 }
 
 void MainWindow::on_nostaNappi_clicked()
 {
     double amnt = ui->nostoArvo->text().remove("€").toDouble();
     if(amnt != 0.0)
-        api->updateBalance(0, amnt);
+        api->updateBalance(0, amnt, this->cardtype);
     nostoValue = 0.0;
     ui->nostoArvo->setText(QString::number(nostoValue) + "€");
     ui->nostaNappi->setEnabled(false);
@@ -268,9 +290,12 @@ void MainWindow::on_nostaNappi_clicked()
 
 void MainWindow::startTimer()
 {
-    qDebug()<<"started main timer and stopped logout";
-    mainTimer->start(10000);
-    logoutTimer->stop();
+    if(this->isVisible()){
+        qDebug()<<"started main timer and stopped logout";
+        mainTimer->start(10000);
+        logoutTimer->stop();
+    }
+
 }
 
 
@@ -312,10 +337,11 @@ void MainWindow::on_debit_button_clicked()
 
 void MainWindow::checkcardtype()
 {
-
-    if(this->cardtype==0)
+    if(this->cardtype==0){
         ui->stackedWidget->setCurrentIndex(0);
-    if(this->cardtype==1)
+    }else if(this->cardtype==1){
         ui->stackedWidget->setCurrentIndex(2);
+    }else{
+        ui->stackedWidget->setCurrentIndex(0);
+    }
 }
-

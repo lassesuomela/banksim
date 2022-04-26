@@ -13,7 +13,7 @@ public:
     void UpdateLogs(int);
     QString logData[10][4];
     void GetTriesFromApi(QString card_number);
-    void updateBalance(int action, double amount);
+    void updateBalance(int action, double amount, int type);
     void getLogsByPage(int);
 
 private:

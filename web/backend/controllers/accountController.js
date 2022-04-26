@@ -127,7 +127,7 @@ const getConnectedUsers = (req, res) => {
 }
 
 const updateBalance = (req, res) => {
-    if(req.body.card_number && req.body.amount && req.body.action){
+    if(req.body.card_number && req.body.amount && req.body.action && req.body.type){
         card.getByUserID(req.userId, (err, dbResult) =>{
 
             if(err){
@@ -152,7 +152,7 @@ const updateBalance = (req, res) => {
                 }
                 if(dbResult.length > 0){
                     let curbalance = dbResult[0].balance;
-                    if(req.body.action === "0" && dbResult[0].card_type === 0){
+                    if(req.body.action === "0" && dbResult[0].card_type === 0 || req.body.action === "0" && dbResult[0].card_type === 1 && req.body.type === "0"){
                         if(dbResult[0].balance >= req.body.amount){
                             account.updateBalance(-Math.abs(req.body.amount), req.body.card_number, function(err, dbResult){
                                 curbalance += -Math.abs(req.body.amount);
@@ -161,7 +161,7 @@ const updateBalance = (req, res) => {
                         }else{
                             return res.json({status:"error",message:"Not enough balance."});
                         }
-                    }else if(req.body.action === "0" && dbResult[0].card_type === 1){
+                    }else if(req.body.action === "0" && dbResult[0].card_type === 1 || req.body.action === "0" && dbResult[0].card_type === 1 && req.body.type === "1"){
                         account.updateBalance(-Math.abs(req.body.amount), req.body.card_number, function(err, dbResult){
                             if(err){
                                 return res.json({status:"error",message:err});
