@@ -192,6 +192,37 @@ const updateBalance = (req, res) => {
     }
 }
 
+const disconnectUser = (req, res) => {
+    if(req.body.account && req.body.user){
+        account.getOwnerById(req.userId, req.body.account, function(err, dbResult){
+            if(err){
+                return res.json({status:"error",message:err});
+            }
+            let hasAccessToAccount = false;
+            for(let i=0;i<dbResult.length;i++){
+                if(dbResult[i].account_ID.toString() === req.body.account.toString() && dbResult[i].owner.toString() === req.userId.toString()){
+                    hasAccessToAccount = true;
+                }
+            }
+            if(!hasAccessToAccount){
+                return res.json({status:"error",message:"You are not the owner of this account."});
+            }
+            account.deleteUserFromAccount(req.body.account, req.body.user, function(err, dbResult){
+                if(err){
+                    return res.json({status:"error",message:err});
+                }
+                if(dbResult.affectedRows > 0){
+                    return res.json({status:"success",message:"Successfully removed user from account."});
+                }else{
+                    return res.json({status:"error",message:"An unknown error has occurred."});
+                }
+            });
+        });
+    }else{
+        return res.json({status:"error",message:"Please fill all fields."});
+    }
+}
+
 const deleteAccount = (req, res) => {
     if(req.body.id){
         account.getOwnerById(req.userId, req.body.id, function(err, dbResult){
@@ -239,5 +270,6 @@ module.exports = {
     addAccount,
     addUserToAccount,
     updateBalance,
+    disconnectUser,
     deleteAccount,
 }

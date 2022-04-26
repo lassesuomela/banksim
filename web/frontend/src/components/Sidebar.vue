@@ -8,7 +8,7 @@
     >
       <div class="text-center">
         <v-avatar class="mb-4" color="grey darken-1" size="64">
-          <v-img
+          <v-img v-if="this.loaded"
             :aspect-ratio="30"
             :src= "this.profilePicture"
           />
@@ -45,6 +45,7 @@ export default {
       ],
       fname: "",
       profilePicture: "http://localhost:3000/uploads/",
+      loaded: false
     };
   },
   methods:{
@@ -53,6 +54,7 @@ export default {
       this.fname = response.data.fname;
       this.profilePicture += response.data.picture;
 
+      this.loaded = true;
     }
   },
   mounted(){

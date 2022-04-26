@@ -155,6 +155,30 @@ const updateAvatar = (req, res) => {
             return res.json({status:"error", message:err});
         }
 
+        // delete old picture
+        user.getById(req.userId, function(err, dbResult){
+
+            if(err) {
+                console.log(err);
+                return res.json({status:"error", message:err});
+            }
+
+            if(dbResult.length > 0){
+                let oldPicture = dbResult[0].picture;
+
+                if(oldPicture != "default.png"){
+                    console.log(`Deleting ${oldPicture}`);
+                    let path = "./uploads/"+oldPicture;
+                    fs.unlink(path, (err) => {
+                        if(err != null){
+                            console.log("Error on deleting old picture");
+                            console.log(err);
+                        }
+                    });
+                }
+            }
+        })
+
         // get file name of the file
         let filename = req.file.filename;
 

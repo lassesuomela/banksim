@@ -46,6 +46,9 @@ const account = {
         return db.query("UPDATE account JOIN card ON card.account_ID = account.account_ID SET balance = balance + ? WHERE card.card_number = ?",
         [amount, card_number], callback);
     },
+    deleteUserFromAccount: function(accountId, userId, callback){
+        return db.query("DELETE FROM user_account WHERE account_ID = ? AND user_ID = ?", [accountId, userId], callback);
+    },
     delete: function(accountId, callback){
         return db.query("DELETE FROM account WHERE account_ID = ?", [accountId], callback);
     }

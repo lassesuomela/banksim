@@ -17,6 +17,8 @@ router.post("/",jwtAuth.verifyToken,accountController.addAccount);
 
 router.put("/update", jwtAuth.verifyToken, accountController.updateBalance);
 
+router.delete("/user", jwtAuth.verifyToken, accountController.disconnectUser);
+
 router.delete("/", jwtAuth.verifyToken, accountController.deleteAccount);
 
 module.exports = router;
