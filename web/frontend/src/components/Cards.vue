@@ -18,6 +18,7 @@
       </template>
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon small @click="deleteCard(item)">mdi-delete</v-icon>
+        <v-icon small @click="unlockCard(item.number)">mdi-lock-open</v-icon>
     </template>
       </v-data-table>
     </v-col>
@@ -64,6 +65,12 @@ export default {
         if(response.data.status === "success"){
           this.$router.go();
         }
+      });
+    },
+    unlockCard(number){
+      axios.put("/api/card/unlock", {card_number:number}).then((response) => {
+        console.log(response.data);
+        
       });
     }
   },
