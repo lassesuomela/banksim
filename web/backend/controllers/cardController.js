@@ -116,8 +116,9 @@ const getCardAccountInfoByNumber = (req, res) => {
     }
 }
 
-const updateCardStatus = (req, res) => {
-    if(req.body.active && req.body.card_number){
+const unlock = (req, res) => {
+    if(req.body.card_number){
+
         // check if user has access to queried card
         card.getByUserID(req.userId, (err, dbResult) =>{
 
@@ -139,22 +140,21 @@ const updateCardStatus = (req, res) => {
 
             // activating card, resetting tries
 
-            if(req.body.active === "1"){
-                card.updateTries(0, req.body.card_number, (err, dbResult) =>{
 
-                    if(err){
-                        return res.json({status:"error",message:"Error on resetting card's tries"})
-                    }
+            card.updateTries(0, req.body.card_number, (err, dbResult) =>{
 
-                    if(dbResult.affectedRows > 0){
-                        console.log("Unlocking card, resetting tries");
-                    }else{
-                        console.log("Error on resetting tries");
-                    }
-                });
-            }
+                if(err){
+                    return res.json({status:"error",message:"Error on resetting card's tries"})
+                }
 
-            card.updateActiveStatus(req.body.active, req.body.card_number, function(err, dbResult){
+                if(dbResult.affectedRows > 0){
+                    console.log("Unlocking card, resetting tries");
+                }else{
+                    console.log("Error on resetting tries");
+                }
+            });
+
+            card.updateActiveStatus(1, req.body.card_number, function(err, dbResult){
 
                 if(err){
                     return res.json({status:"error",message:err})
@@ -448,7 +448,7 @@ module.exports = {
     getCardAccountInfo,
     getCardAccountInfoByNumber,
     getTries,
-    updateCardStatus,
+    unlock,
     addCard,
     authenticate,
     deleteCard,

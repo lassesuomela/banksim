@@ -17,7 +17,7 @@ router.get('/:card_number', jwtAuth.verifyToken, cardController.getByCardNumber)
 
 router.get('/', jwtAuth.verifyToken, cardController.getByUserID);
 
-router.put("/updateCard", jwtAuth.verifyToken, cardController.updateCardStatus);
+router.put("/unlock", jwtAuth.verifyToken, cardController.unlock);
 
 router.put("/connect", jwtAuth.verifyToken, cardController.connectCard);
 
