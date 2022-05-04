@@ -73,20 +73,22 @@
               id="phone"
               :label='phone'
               name="phone"
-              placeholder="New Phone"
+              placeholder="Phone"
               prepend-icon="phone"
               type="Phone"
               color="cyan darken-1"
+              autocomplete="off"
             />
             <v-text-field
               dark
               id="address"
               :label='address'
               name="address"
-              placeholder="New Addres"
+              placeholder="Address"
               prepend-icon="mdi-map-marker"
               type="Address"
               color="cyan darken-1"
+              autocomplete="off"
             />
             <v-file-input
               dark

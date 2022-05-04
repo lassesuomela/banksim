@@ -24,7 +24,7 @@
                           <v-text-field
                             dark
                             id="firstname"
-                            label="Firstname"
+                            label="First name"
                             name="firstname"
                             v-model="fname"
                             prepend-icon="person"
@@ -37,7 +37,7 @@
                           <v-text-field
                             dark
                             id="lastname"
-                            label="Lastname"
+                            label="Last name"
                             name="lastname"
                             v-model="lname"
                             type="Lastname"
@@ -81,6 +81,7 @@
                         prepend-icon="phone"
                         type="Phone"
                         color="light-green darken-1"
+                        autocomplete="off"
                       />
                       <v-text-field
                         dark
@@ -91,6 +92,7 @@
                         prepend-icon="mdi-map-marker"
                         type="Address"
                         color="light-green darken-1"
+                        autocomplete="off"
                       />
                       <br />
                       <h5>{{ registerResponse }}</h5>
