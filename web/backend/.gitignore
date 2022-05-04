@@ -1,5 +1,7 @@
 node_modules/
+!uploads/
+uploads/*
+!uploads/default.png
 .env
-*.png
 *.jpeg
 *.jpg

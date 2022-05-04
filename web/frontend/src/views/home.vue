@@ -3,7 +3,6 @@
   <div class="dashboard">
     <app-sidebar />
     <br />
-    <v-alert dense text type="success"> Welcome back {{ fname }}! </v-alert>
     <v-row>
       <v-col>
         <v-card class="blue-grey darken-3">
@@ -22,7 +21,7 @@
                   id="firstname"
                   :label='fname'
                   name="firstname"
-                  placeholder="New Name"
+                  placeholder="First name"
                   prepend-icon="person"
                   type="Firstname"
                   color="cyan darken-1"
@@ -35,7 +34,7 @@
                   id="lastname"
                   :label='lname'
                   name="lastname"
-                  placeholder="New Lastname"
+                  placeholder="Last name"
                   type="Lastname"
                   color="cyan darken-1"
                   autocomplete="off"
