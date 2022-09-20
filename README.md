@@ -1,32 +1,51 @@
-# group2
+# Ryhmän 2 pankkiautomaatti projekti
 
+Pankkiautomaatilla voi nostaa ja tallettaa rahaa sekä katsella tilitietoja. Web käyttöliittymässä voi katsella ja päivittää omia tietoja, luoda uuden tilin ja liittää kyseiseen tiliin uuden pankki- tai luottokortin sekä avata lukkiintuneen tilin.
+
+Automaatin käyttöliittymä on toteutettu C++:lla ja Qt5 framewörkillä. Backend on toteutettu Node.js:llä ja Express.js framewörkillä. Frontend on toteutettu Vue.js:llä. Tietokantana on käytetty MySQL.
+
+---
 ## Asennusohje
-```
-npm install
-```
-/web/frontend/ ja /web/backend/ kansioihin. Vue runnaa `vue serve` komennolla ja express `npm start`
 
 ### .env
-Luo backend kansioon tiedosto .env ja kirjoita sinne muuttujat nimeltään
+Luo backend kansioon tiedosto nimeltään .env ja kirjoita sinne seuraavat muuttujat
 ```
-DB_USER
-DB_PASS
-DB_HOST
-DB_DB
-SECRET_TOKEN
+DB_USER=root
+DB_PASS=root
+DB_HOST=localhost
+DB_DB=banksim
+SECRET_TOKEN=secret_token
 ```
-Aja komentoriviltä komennot
+Backend:
 ```
-node
-require('crypto').randomBytes(64).toString('hex')
+cd ./web/backend
+npm install
+npm start
 ```
-Ja kopsaa STDOUT:sta value SECRET_TOKEN muuttujaan.
-Luo myös DB_USER, DB_PASS, DB_HOST ja DB_DB muuttujat omilla valueilla.
+Frontend:
+```
+cd ./web/frontend
+npm install
+vue serve
+```
 
-### Tietokanta
-Importtaa banksim.sql omaan tietokantaan komennolla
+---
+## Tietokanta
+Importtaa banksim.sql omaan tietokantaan komennolla:
 ```
 mysql -u <user> -p < banksim.sql
 ```
 
-![db](./documents/db.png)
+## ER-kaavio
+![db](./documents/images/db.png)
+
+---
+## Muutamia Kuvia
+
+![insertCard](./documents/images/insertCard.png)
+![pinCodeDll](./documents/images/pinCodeDll.png)
+![whichCard](./documents/images/whichCard.png)
+![menu](./documents/images/menu.png)
+![transactionHistory](./documents/images/transactionHistory.png)
+![deposit](./documents/images/deposit.png)
+![withdrawl](./documents/images/withdrawl.png)
