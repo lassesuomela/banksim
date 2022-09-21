@@ -2,7 +2,7 @@
 
 Pankkiautomaatilla voi nostaa ja tallettaa rahaa sekä katsella tilitietoja. Web käyttöliittymässä voi katsella ja päivittää omia tietoja, luoda uuden tilin ja liittää kyseiseen tiliin uuden pankki- tai luottokortin sekä avata lukkiintuneen tilin.
 
-Automaatin käyttöliittymä on toteutettu C++:lla ja Qt5 framewörkillä. Backend on toteutettu Node.js:llä ja Express.js framewörkillä. Frontend on toteutettu Vue.js:llä. Tietokantana on käytetty MySQL.
+Automaatin käyttöliittymä on toteutettu C++:lla ja Qt5 frameworkillä. Backend on toteutettu Node.js:llä ja Express.js frameworkillä. Frontend on toteutettu Vue.js:llä. Tietokantana on käytetty MySQL.
 
 ---
 ## Asennusohje
