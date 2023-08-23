@@ -5,6 +5,12 @@ Pankkiautomaatilla voi nostaa ja tallettaa rahaa sekä katsella tilitietoja. Web
 Automaatin käyttöliittymä on toteutettu C++:lla ja Qt5 frameworkillä. Backend on toteutettu Node.js:llä ja Express.js frameworkillä. Frontend on toteutettu Vue.js:llä. Tietokantana on käytetty MySQL.
 
 ---
+
+## Demo
+<video src="https://youtu.be/1W5UKCmNBEo" />
+
+---
+
 ## Asennusohje
 
 ### .env
