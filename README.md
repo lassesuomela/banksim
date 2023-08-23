@@ -10,6 +10,7 @@ Automaatin käyttöliittymä on toteutettu C++:lla ja Qt5 frameworkillä. Backen
 [<img src="https://img.youtube.com/vi/1W5UKCmNBEo/maxresdefault.jpg" width="50%">](https://youtu.be/1W5UKCmNBEo)
 
 Vain C++ applikaation lyhyt demo, ei sisällä fyysisen kortinlukijan käyttöä, eikä näy nettisivuja.
+
 ---
 
 ## Asennusohje
