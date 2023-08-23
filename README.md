@@ -1,4 +1,4 @@
-# Ryhmän 2 pankkiautomaatti projekti
+# Pankkiautomaatti projekti + websivu
 
 Pankkiautomaatilla voi nostaa ja tallettaa rahaa sekä katsella tilitietoja. Web käyttöliittymässä voi katsella ja päivittää omia tietoja, luoda uuden tilin ja liittää kyseiseen tiliin uuden pankki- tai luottokortin sekä avata lukkiintuneen tilin.
 
