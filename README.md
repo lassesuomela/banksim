@@ -7,7 +7,7 @@ Automaatin käyttöliittymä on toteutettu C++:lla ja Qt5 frameworkillä. Backen
 ---
 
 ## Demo
-<video src="https://youtu.be/1W5UKCmNBEo" />
+[<img src="https://img.youtube.com/vi/1W5UKCmNBEo/maxresdefault.jpg" width="50%">](https://youtu.be/1W5UKCmNBEo)
 
 ---
 
